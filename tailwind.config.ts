@@ -22,6 +22,9 @@ export default {
         "mint-900": "#144B38",
         "mint-950": "#0A2F23",
       },
+      fontFamily: {
+        pretendard: ["pretendard"],
+      },
     },
   },
   plugins: [],
