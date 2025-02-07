@@ -3,19 +3,19 @@
 import SvgCloud from "@image/dalaemfit.svg";
 import SvgTree from "@image/workation.svg";
 
-interface TapProps {
+interface TabProps {
   title: string;
   hasIcon?: boolean;
   isSelected?: boolean;
   onClick: () => void;
 }
 
-export default function TapItem({
+export default function TabItem({
   title,
   hasIcon,
   isSelected,
   onClick,
-}: TapProps) {
+}: TabProps) {
   return (
     <button
       onClick={onClick}
@@ -49,7 +49,7 @@ export default function TapItem({
 }
 
 // defaultProps를 사용하여 기본값을 설정
-TapItem.defaultProps = {
+TabItem.defaultProps = {
   hasIcon: false,
   isSelected: false,
 };
