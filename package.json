@@ -17,6 +17,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@svgr/webpack": "^8.1.0",
     "@tanstack/react-query": "^5.66.0",
     "axios": "^1.7.9",
     "next": "15.1.6",
