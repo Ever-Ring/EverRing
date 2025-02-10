@@ -59,19 +59,17 @@ export default function Gnb() {
   const userProfileImage = "/image/img-profile-large-default.svg";
 
   return (
-    <div>
-      <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[22.5rem]">
-        <div className="flex">
-          <Link href="/list" className="rounded-md border border-black">
-            로고
-          </Link>
-          <NavLinks />
-        </div>
-        <UserProfile
-          isLoggedIn={isLoggedIn}
-          userProfileImage={userProfileImage}
-        />
-      </nav>
-    </div>
+    <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[22.5rem]">
+      <div className="flex">
+        <Link href="/list" className="rounded-md border border-black">
+          로고
+        </Link>
+        <NavLinks />
+      </div>
+      <UserProfile
+        isLoggedIn={isLoggedIn}
+        userProfileImage={userProfileImage}
+      />
+    </nav>
   );
 }
