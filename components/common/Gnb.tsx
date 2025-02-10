@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Avatar from "@components/common/Avatar";
 
 interface NavLink {
   href: string;
@@ -14,25 +14,6 @@ const navLinks: NavLink[] = [
   { href: "/liked", label: "찜한 모임" },
   { href: "/review", label: "모든 리뷰" },
 ];
-
-function UserProfile({
-  isLoggedIn,
-  userProfileImage,
-}: {
-  isLoggedIn: boolean;
-  userProfileImage: string;
-}) {
-  return isLoggedIn ? (
-    <Image
-      src={userProfileImage}
-      alt="user profile image"
-      width={40}
-      height={40}
-    />
-  ) : (
-    <Link href="auth">로그인</Link>
-  );
-}
 
 function NavLinks() {
   const pathname = usePathname();
@@ -56,7 +37,7 @@ function NavLinks() {
 
 export default function Gnb() {
   const isLoggedIn = false;
-  const userProfileImage = "/image/img-profile-large-default.svg";
+  const profileImageSrc = "/image/img-profile-large-default.svg";
 
   return (
     <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[22.5rem]">
@@ -66,10 +47,11 @@ export default function Gnb() {
         </Link>
         <NavLinks />
       </div>
-      <UserProfile
-        isLoggedIn={isLoggedIn}
-        userProfileImage={userProfileImage}
-      />
+      {isLoggedIn ? (
+        <Avatar profileImageSrc={profileImageSrc} width={40} height={40} />
+      ) : (
+        <Link href="auth">로그인</Link>
+      )}
     </nav>
   );
 }
