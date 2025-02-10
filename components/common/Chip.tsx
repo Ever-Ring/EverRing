@@ -14,7 +14,7 @@ export default function Chip({ label, selected = false, onClick }: ChipProps) {
       className={`
           inline-flex items-center justify-center rounded-[0.75rem] transition
           ${selected ? "bg-gray-900 text-white border-black" : "bg-gray-200 text-black"}
-          hover: active:scale-95
+          active:scale-95
           px-[0.75rem] py-[0.5rem] text-sm min-w-[3.0625rem] min-h-[2.25rem]
           sm:px-[1rem] sm:py-[0.625rem]
         `}
