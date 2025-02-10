@@ -17,14 +17,14 @@ const navLinks: NavLink[] = [
 
 function UserProfile({
   isLoggedIn,
-  userProfileImage,
+  profileImageSrc,
 }: {
   isLoggedIn: boolean;
-  userProfileImage: string;
+  profileImageSrc: string;
 }) {
   return isLoggedIn ? (
     <Image
-      src={userProfileImage}
+      src={profileImageSrc}
       alt="user profile image"
       width={40}
       height={40}
@@ -56,7 +56,7 @@ function NavLinks() {
 
 export default function Gnb() {
   const isLoggedIn = false;
-  const userProfileImage = "/image/img-profile-large-default.svg";
+  const profileImageSrc = "/image/img-profile-large-default.svg";
 
   return (
     <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[22.5rem]">
@@ -66,10 +66,7 @@ export default function Gnb() {
         </Link>
         <NavLinks />
       </div>
-      <UserProfile
-        isLoggedIn={isLoggedIn}
-        userProfileImage={userProfileImage}
-      />
+      <UserProfile isLoggedIn={isLoggedIn} profileImageSrc={profileImageSrc} />
     </nav>
   );
 }
