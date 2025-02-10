@@ -1,12 +1,6 @@
 /* eslint-disable react/require-default-props */
 import classNames from "classnames";
 
-// 사용법
-// <Button text="생성하기" /> --- solid (기본, 큰 사이즈)
-// <Button text="생성하기" variant="outlined" /> --- outlined
-// <Button text="생성하기" size="small" /> --- 작은 사이즈
-// <Button text="생성하기" disabled /> --- 비활성화
-
 interface ButtonProps {
   text: string;
   size?: "default" | "small";
