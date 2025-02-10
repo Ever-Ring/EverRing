@@ -3,23 +3,23 @@ import classNames from "classnames";
 
 interface ButtonProps {
   text: string;
-  size?: "Large" | "small";
+  size?: "large" | "small";
   disabled?: boolean;
   variant?: "solid" | "outlined";
 }
 
 function Button({
   text,
-  size = "Large",
+  size = "large",
   disabled = false,
   variant = "solid",
 }: ButtonProps) {
   return (
     <button
       className={classNames(
-        "group flex justify-center items-center py-2 gap-2.5 rounded-xl transition-colors whitespace-nowrap border",
+        "group flex justify-center items-center py-2 rounded-xl transition-colors whitespace-nowrap border",
         {
-          "w-[332px] px-6": size === "Large",
+          "w-[332px] px-6": size === "large",
           "w-[120px] px-4": size === "small",
 
           "bg-mint-600 hover:bg-mint-700 active:bg-mint-800 text-white":
@@ -40,7 +40,7 @@ function Button({
         className={classNames(
           "text-center font-pretendard font-semibold leading-6 transition-colors",
           {
-            "text-base": size === "Large",
+            "text-base": size === "large",
             "text-sm": size === "small",
 
             "text-white": variant === "solid",
