@@ -1,0 +1,17 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npm run dev",
+      "url": ["http://localhost:3000", "http://localhost:3000/mypage"],
+      "numberOfRuns": 1
+    },
+    "assert": {
+      "preset": "lighthouse:recommended"
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "./lhci_reports",
+      "reportFilenamePattern": "%%PATHNAME%%-%%DATETIME%%-report.%%EXTENSION%%"
+    }
+  }
+}
