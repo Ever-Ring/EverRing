@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div>initial commit</div>;
+  return <div>test commit</div>;
 }
