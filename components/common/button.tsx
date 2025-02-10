@@ -1,5 +1,4 @@
 /* eslint-disable react/require-default-props */
-import React from "react";
 import classNames from "classnames";
 
 // 사용법
@@ -7,8 +6,6 @@ import classNames from "classnames";
 // <Button text="생성하기" variant="outlined" /> --- outlined
 // <Button text="생성하기" size="small" /> --- 작은 사이즈
 // <Button text="생성하기" disabled /> --- 비활성화
-
-// padding: 10px 276px; --- 피그마 문서 상 이 수치(276px)가 잘못 된 것 같아서 임의로 수정해뒀습니다...!
 
 interface ButtonProps {
   text: string;
