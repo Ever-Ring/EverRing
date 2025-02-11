@@ -17,19 +17,19 @@ function Button({
   return (
     <button
       className={classNames(
-        "group flex justify-center items-center py-2 rounded-xl transition-colors whitespace-nowrap border",
+        "group flex items-center justify-center whitespace-nowrap rounded-xl border py-2 transition-colors",
         {
           "w-[332px] px-6": size === "large",
           "w-[120px] px-4": size === "small",
 
-          "bg-mint-600 hover:bg-mint-700 active:bg-mint-800 text-white":
+          "bg-mint-600 text-white hover:bg-mint-700 active:bg-mint-800":
             variant === "solid" && !disabled,
-          "bg-gray-400 text-white cursor-not-allowed border-gray-400":
+          "cursor-not-allowed border-gray-400 bg-gray-400 text-white":
             variant === "solid" && disabled,
 
-          "bg-white border-mint-600 hover:border-mint-500 active:border-mint-700":
+          "border-mint-600 bg-white hover:border-mint-500 active:border-mint-700":
             variant === "outlined" && !disabled,
-          "bg-white text-gray-400 border-gray-400 cursor-not-allowed":
+          "cursor-not-allowed border-gray-400 bg-white text-gray-400":
             variant === "outlined" && disabled,
         },
       )}
