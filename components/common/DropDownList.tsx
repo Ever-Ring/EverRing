@@ -6,14 +6,14 @@ interface DropDownListProps {
   item: string;
   isSelected: boolean;
   onSelect: (item: string) => void;
-  size?: "large" | "small";
+  textSize?: "large" | "small";
 }
 
 function DropDownList({
   item,
   isSelected = false,
   onSelect,
-  size = "large",
+  textSize = "large",
 }: DropDownListProps) {
   return (
     <li>
@@ -23,8 +23,8 @@ function DropDownList({
         className={classNames(
           "w-full flex items-center px-4 py-2 text-gray-800 font-medium text-left hover:bg-gray-200",
           {
-            "text-base": size === "large",
-            "text-sm": size === "small",
+            "text-base": textSize === "large",
+            "text-sm": textSize === "small",
             "bg-mint-100 rounded-xl": isSelected,
           },
         )}

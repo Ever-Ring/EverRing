@@ -4,23 +4,36 @@ import DropDownList from "@components/common/DropDownList";
 import ArrowIconDefault from "@assets/icon-arrow-default-down.svg";
 import ArrowIconInverse from "@assets/icon-arrow-inverse-down.svg";
 
-const fixedItemsList = ["을지로 3가", "홍대입구", "강남역", "건대입구"];
+const fixedItemsList = [
+  "지역 전체",
+  "을지로 3가",
+  "홍대입구",
+  "강남역",
+  "건대입구",
+];
 
 interface DropDownProps {
   onSelect: (item: string) => void;
-  size?: "large" | "small";
+  variant?: "solid" | "outlined";
+  textSize?: "large" | "small";
   iconType?: "default" | "inverse";
 }
 
 function DropDown({
   onSelect,
-  size = "large",
+  variant = "solid",
+  textSize = "large",
   iconType = "default",
 }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const ArrowIcon =
     iconType === "default" ? ArrowIconDefault : ArrowIconInverse;
+
+  const dropDownVariant =
+    variant === "solid"
+      ? "w-[472px] bg-white border border-gray-300 shadow-md"
+      : "w-[110px] bg-transparent border border-gray-500";
 
   return (
     <div className="relative">
@@ -32,11 +45,7 @@ function DropDown({
         <ArrowIcon className="w-5 h-5" />
       </button>
       {isOpen && (
-        <ul
-          className={`absolute left-0 mt-1 ${
-            size === "large" ? "w-[472px]" : "w-[110px]"
-          } bg-white rounded-md shadow-md border`}
-        >
+        <ul className={`absolute left-0 mt-1 rounded-md ${dropDownVariant}`}>
           {fixedItemsList.map((item) => (
             <DropDownList
               key={item}
@@ -47,7 +56,7 @@ function DropDown({
                 onSelect(selected);
                 setIsOpen(false);
               }}
-              size={size}
+              textSize={textSize}
             />
           ))}
         </ul>
