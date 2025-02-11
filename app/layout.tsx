@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="font-pretendard bg-gray-100 antialiased">
+      <body className="bg-gray-100 font-pretendard antialiased">
         <Gnb />
         {children}
       </body>

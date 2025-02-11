@@ -23,8 +23,9 @@
     "classnames": "^2.5.1",
     "next": "15.1.6",
     "react": "^19.0.0",
+    "react-cookie": "^7.2.2",
     "react-dom": "^19.0.0",
-    "svgr": "^1.10.0",
+    "react-hook-form": "^7.54.2",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
