@@ -41,7 +41,7 @@ function DropDown({
       </button>
       {isOpen && (
         <ul
-          className={`absolute left-0 mt-1 ${
+          className={`absolute right-0 mt-1 ${
             variant === "solid" ? "w-[472px]" : "w-[110px]"
           } bg-white rounded-md shadow-md border`}
         >
