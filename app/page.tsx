@@ -1,3 +1,5 @@
+import DropDown from "@components/common/DropDown";
+
 export default function Home() {
-  return <div>initial commit</div>;
+  return <DropDown />;
 }
