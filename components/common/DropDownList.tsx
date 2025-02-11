@@ -5,18 +5,28 @@ import classNames from "classnames";
 interface DropDownListProps {
   item: string;
   isSelected: boolean;
-  onSelect: () => void;
+  onSelect: (item: string) => void;
+  size?: "large" | "small";
 }
 
-function DropDownList({ item, isSelected, onSelect }: DropDownListProps) {
+function DropDownList({
+  item,
+  isSelected = false,
+  onSelect,
+  size = "large",
+}: DropDownListProps) {
   return (
     <li>
       <button
         type="button"
-        onClick={onSelect}
+        onClick={() => onSelect(item)}
         className={classNames(
           "w-full flex items-center px-4 py-2 text-gray-800 font-medium text-left hover:bg-gray-200",
-          { "bg-mint-100 rounded-xl": isSelected },
+          {
+            "text-base": size === "large",
+            "text-sm": size === "small",
+            "bg-mint-100 rounded-xl": isSelected,
+          },
         )}
       >
         {item}

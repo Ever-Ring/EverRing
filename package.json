@@ -24,6 +24,7 @@
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "svgr": "^1.10.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
