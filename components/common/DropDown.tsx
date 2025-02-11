@@ -30,11 +30,6 @@ function DropDown({
   const ArrowIcon =
     iconType === "default" ? ArrowIconDefault : ArrowIconInverse;
 
-  const dropDownVariant =
-    variant === "solid"
-      ? "w-[472px] bg-white border border-gray-300 shadow-md"
-      : "w-[110px] bg-transparent border border-gray-500";
-
   return (
     <div className="relative">
       <button
@@ -45,7 +40,11 @@ function DropDown({
         <ArrowIcon className="w-5 h-5" />
       </button>
       {isOpen && (
-        <ul className={`absolute left-0 mt-1 rounded-md ${dropDownVariant}`}>
+        <ul
+          className={`absolute left-0 mt-1 ${
+            variant === "solid" ? "w-[472px]" : "w-[110px]"
+          } bg-white rounded-md shadow-md border`}
+        >
           {fixedItemsList.map((item) => (
             <DropDownList
               key={item}
