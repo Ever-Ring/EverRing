@@ -42,32 +42,36 @@ export default function SigninForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-      <InputForm
-        name="email"
-        id="email"
-        type="email"
-        label="아이디"
-        placeholder="아이디를 입력하세요"
-        register={register}
-        rules={{ required: "아이디를 입력해주세요", pattern: emailPattern }}
-        errors={errors}
-        onBlur={() => trigger("email")}
-      />
-      <InputForm
-        name="password"
-        id="password"
-        label="비밀번호"
-        type="password"
-        placeholder="비밀번호를 입력하세요"
-        register={register}
-        rules={{
-          required: "비밀번호를 입력해주세요",
-        }}
-        errors={errors}
-        onBlur={() => trigger("password")}
-      />
-
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex w-full flex-col gap-10"
+    >
+      <div className="flex w-full flex-col gap-6">
+        <InputForm
+          name="email"
+          id="email"
+          type="email"
+          label="아이디"
+          placeholder="아이디를 입력하세요"
+          register={register}
+          rules={{ required: "아이디를 입력해주세요", pattern: emailPattern }}
+          errors={errors}
+          onBlur={() => trigger("email")}
+        />
+        <InputForm
+          name="password"
+          id="password"
+          label="비밀번호"
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          register={register}
+          rules={{
+            required: "비밀번호를 입력해주세요",
+          }}
+          errors={errors}
+          onBlur={() => trigger("password")}
+        />
+      </div>
       <Button
         text="로그인"
         type="submit"
