@@ -35,15 +35,15 @@ function DropDown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex·items-center·text-gray-500·hover:text-gray-700"
+        className="flex items-center text-gray-500 hover:text-gray-700"
       >
-        <ArrowIcon className="h-5·w" />
+        <ArrowIcon className="h-5 w-5" />
       </button>
       {isOpen && (
         <ul
           className={`absolute right-0 mt-1 ${
             variant === "solid" ? "w-[472px]" : "w-[110px]"
-          } rounded-md·border·bg-white·shadow-md`}
+          } rounded-md border bg-white shadow-md`}
         >
           {fixedItemsList.map((item) => (
             <DropDownList

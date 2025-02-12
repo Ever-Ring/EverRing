@@ -21,11 +21,11 @@ function DropDownList({
         type="button"
         onClick={() => onSelect(item)}
         className={classNames(
-          "flex·w-full·items-center·px-4·py-2·text-left·font-medium·text-gray-800 hover:bg-gray-200",
+          "flex w-full items-center px-4 py-2 text-left font-medium text-gray-800 hover:bg-gray-200",
           {
             "text-base": textSize === "large",
             "text-sm": textSize === "small",
-            "rounded-xl·bg-mint-100": isSelected,
+            "rounded-xl bg-mint-100": isSelected,
           },
         )}
       >
