@@ -4,7 +4,7 @@ import Button from "@components/common/Button";
 function FloatingBar() {
   return (
     <div className="fixed bottom-0 left-0 flex min-h-[64px] w-full justify-center border-t border-gray-900 bg-white">
-      <div className="mx-auto box-border flex w-full min-w-[1024px] max-w-[70%] items-center justify-between px-6 sm:px-12 lg:px-[15%]">
+      <div className="mx-auto flex w-full max-w-[70%] items-center justify-between px-6 py-5 lg:px-[15%] lg:py-5">
         <div className="flex flex-col gap-1">
           <span className="text-lg font-semibold text-gray-900">
             더 건강한 나와 팀을 위한 프로그램 🏃‍️️
