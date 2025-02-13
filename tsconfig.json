@@ -26,7 +26,9 @@
       "@components/*": ["components/*"],
       "@public/*": ["public/*"],
       "@image/*": ["public/image/*"],
-      "@types/*": ["types/*"]
+      "@types/*": ["types/*"],
+      "@customTypes/*": ["types/*"],
+      "@features/*": ["features/*"]
     }
   },
   "include": [
