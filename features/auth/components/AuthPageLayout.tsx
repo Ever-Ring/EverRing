@@ -43,7 +43,6 @@ function WelcomeTextWithImage() {
           건강을 위한 저속노화, 이제는 에버링과 함께 해보세요
         </span>
       </p>
-      {/* lg:w-[36.75rem] */}
       <MainImage className="h-auto w-[18.125rem] sm:w-96" />
     </div>
   );
@@ -56,11 +55,7 @@ export default function AuthPageLayout({
   children,
 }: FormContainerProps) {
   return (
-    <div
-      // TODO: nav 높이 때문에 min-h-screen로 했을 때, scroll이 생김.
-      // style={{ height: "calc(100vh - 3.75rem)" }} - pc사이즈 이하에서는 이상해짐...
-      className="flex h-fit min-h-screen flex-col items-center justify-center px-4 pb-14 pt-8 sm:px-[4.25rem] sm:pb-[5.25rem] sm:pt-10 lg:flex-row lg:gap-[6.38rem] lg:px-[15%] lg:pb-0 lg:pt-0"
-    >
+    <div className="flex h-fit min-h-screen flex-col items-center justify-center px-4 pb-14 pt-8 sm:px-[4.25rem] sm:pb-[5.25rem] sm:pt-10 lg:flex-row lg:gap-[6.38rem] lg:px-[15%] lg:pb-0 lg:pt-0">
       <WelcomeTextWithImage />
       <FormContainer
         title={title}

@@ -35,7 +35,6 @@ export default function SigninForm() {
         router.push("/");
       },
       onError: (error) => {
-        console.error("로그인 실패:", error);
         if (error instanceof AxiosError && error.response?.data) {
           if (error.response?.data.code === "INVALID_CREDENTIALS") {
             setError("password", {
