@@ -8,7 +8,7 @@ import { FormValues } from "@customTypes/form";
 import { emailPattern, passwordPattern } from "@constants/validationPatterns";
 // import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
-import useSignup from "@features/hooks/useSignup";
+import useSignup from "@features/auth/hooks/useSignup";
 
 export default function SignupForm() {
   const router = useRouter();
