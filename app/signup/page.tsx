@@ -1,4 +1,4 @@
-import AuthPageLayout from "@features/auth/AuthPageLayout";
+import AuthPageLayout from "@features/auth/components/AuthPageLayout";
 
 export default function Signup() {
   return (
@@ -6,7 +6,6 @@ export default function Signup() {
       title="회원가입"
       description="이미 회원이신가요?"
       linkText="로그인"
-      buttonText="회원가입"
     >
       <label htmlFor="id">
         아이디

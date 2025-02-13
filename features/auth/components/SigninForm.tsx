@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@components/Button";
+import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import { FormValues } from "@customTypes/form";
 import { useForm } from "react-hook-form";
@@ -74,7 +74,7 @@ export default function SigninForm() {
       </div>
       <Button
         text="로그인"
-        type="submit"
+        // type="submit"
         disabled={!isValid}
         size="large"
         variant="solid"
