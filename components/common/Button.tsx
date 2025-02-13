@@ -21,7 +21,7 @@ function Button({
       className={classNames(
         "group flex w-full items-center justify-center whitespace-nowrap rounded-xl border py-2 transition-colors",
         {
-          "max-w-[332px] px-6": size === "large",
+          "px-6": size === "large",
           "max-w-[120px] px-4": size === "small",
 
           "bg-mint-600 text-white hover:bg-mint-700 active:bg-mint-800":
