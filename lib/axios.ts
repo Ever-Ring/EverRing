@@ -29,12 +29,12 @@ axiosInstance.interceptors.response.use(
   (res) => res,
 
   async (error: AxiosError) => {
-    const { config } = error;
+    // const { config } = error;
 
-    if (config && error.response?.status === 401) {
-      // TODO: 로그인만료 popup 띄우기
-      window.location.href = "/login";
-    }
+    // if (config && error.response?.status === 401) {
+    //   // TODO: 로그인만료 popup 띄우기
+    //   window.location.href = "/login";
+    // }
 
     return Promise.reject(error);
   },
