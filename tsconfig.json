@@ -29,6 +29,7 @@
       "@types/*": ["types/*"],
       "@customTypes/*": ["types/*"],
       "@features/*": ["features/*"],
+      "@constants/*": ["constants/*"],
       "@providers/*": ["providers/*"]
     }
   },

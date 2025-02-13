@@ -19,7 +19,7 @@ export interface InputFormProps {
   label: string;
   placeholder: string;
   register?: UseFormRegister<FormValues>;
-  rules?: { required: string; pattern: Pattern } | undefined;
+  rules?: { required: string; pattern?: Pattern } | undefined;
   errors?: FieldErrors<FormValues> | undefined;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
