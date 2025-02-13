@@ -3,6 +3,6 @@ export const emailPattern = {
   message: "올바른 이메일 주소를 입력해주세요.",
 };
 export const passwordPattern = {
-  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,12}$/,
   message: "특수문자 포함 8~12자로 입력해주세요.",
 };
