@@ -3,7 +3,7 @@
 import axios, { AxiosError, AxiosHeaders } from "axios";
 import { Cookies } from "react-cookie";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const cookies = new Cookies();
 
 // eslint-disable-next-line import/prefer-default-export
@@ -29,12 +29,12 @@ axiosInstance.interceptors.response.use(
   (res) => res,
 
   async (error: AxiosError) => {
-    const { config } = error;
+    // const { config } = error;
 
-    if (config && error.response?.status === 401) {
-      // TODO: 로그인만료 popup 띄우기
-      window.location.href = "/login";
-    }
+    // if (config && error.response?.status === 401) {
+    //   // TODO: 로그인만료 popup 띄우기
+    //   window.location.href = "/login";
+    // }
 
     return Promise.reject(error);
   },
