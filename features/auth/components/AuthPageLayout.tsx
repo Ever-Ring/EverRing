@@ -55,7 +55,7 @@ export default function AuthPageLayout({
   children,
 }: FormContainerProps) {
   return (
-    <div className="flex h-fit min-h-screen flex-col items-center justify-center px-4 pb-14 pt-8 sm:px-[4.25rem] sm:pb-[5.25rem] sm:pt-10 lg:flex-row lg:gap-[6.38rem] lg:px-[15%] lg:pb-0 lg:pt-0">
+    <div className="flex flex-1 flex-col items-center justify-center px-4 pb-14 pt-8 sm:px-[4.25rem] sm:pb-[5.25rem] sm:pt-10 lg:flex-row lg:gap-[6.38rem] lg:px-[15%] lg:pb-0 lg:pt-0">
       <WelcomeTextWithImage />
       <FormContainer
         title={title}
