@@ -20,11 +20,11 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
         onClick={onClick}
         type="button"
         ref={ref}
-        className="flex flex-col gap-1 w-fit items-start transition-colors duration-300 ease-in-out "
+        className="flex w-fit flex-col items-start gap-1 transition-colors duration-300 ease-in-out"
       >
-        <div className="flex flex-row gap-1 items-center">
+        <div className="flex flex-row items-center gap-1">
           <div
-            className={`font-semibold text-lg transition-colors duration-300 ease-in-out ${isSelected ? "text-gray-900" : "text-gray-400"}`}
+            className={`text-lg font-semibold transition-colors duration-300 ease-in-out ${isSelected ? "text-gray-900" : "text-gray-400"}`}
           >
             {title}
           </div>
