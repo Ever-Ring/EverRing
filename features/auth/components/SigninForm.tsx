@@ -1,15 +1,19 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
+
+import { FormValues } from "@customTypes/form";
+import { emailPattern } from "@constants/validationPatterns";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
-import { FormValues } from "@customTypes/form";
-import { useForm } from "react-hook-form";
-import signinUser from "@features/auth/signinUser";
-import { emailPattern } from "@constants/validationPatterns";
-// import { useRouter } from "next/router";
+import useSignin from "@features/hooks/useSignin";
+import { Cookies } from "react-cookie";
 
 export default function SigninForm() {
-  // const router = useRouter();
+  const router = useRouter();
+  const cookies = new Cookies();
 
   const {
     register,
@@ -19,26 +23,41 @@ export default function SigninForm() {
     trigger,
   } = useForm<FormValues>();
 
+  const mutation = useSignin();
+
   const onSubmit = async (data: FormValues) => {
-    const { isSuccess, response } = await signinUser(data);
-    if (isSuccess) {
-      // 페이지 이동
-      // router.push("/");
-      console.log("로그인성공!");
-    } else {
-      if (response?.data.code === "INVALID_CREDENTIALS") {
-        setError("password", {
-          type: "password",
-          message: response.data.message,
-        });
-      }
-      if (response?.data.code === "USER_NOT_FOUND") {
-        setError("email", {
-          type: "email",
-          message: response.data.message,
-        });
-      }
-    }
+    mutation.mutate(data, {
+      onSuccess: (response) => {
+        if (response.status === 200) {
+          const { token } = response.data;
+          cookies.set("token", token, { path: "/" });
+        }
+        router.push("/");
+      },
+      onError: (error) => {
+        if (error instanceof AxiosError && error.response?.data) {
+          if (error.response?.data.code === "INVALID_CREDENTIALS") {
+            setError("password", {
+              type: "password",
+              message: error.response?.data.message,
+            });
+          }
+
+          if (error.response?.data.code === "USER_NOT_FOUND") {
+            setError("email", {
+              type: "email",
+              message: error.response.data.message,
+            });
+          }
+          if (error.response?.data.code === "VALIDATION_ERROR") {
+            setError("email", {
+              type: "email",
+              message: error.response.data.message,
+            });
+          }
+        }
+      },
+    });
   };
 
   return (
