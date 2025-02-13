@@ -3,7 +3,7 @@
 import axios, { AxiosError, AxiosHeaders } from "axios";
 import { Cookies } from "react-cookie";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const cookies = new Cookies();
 
 // eslint-disable-next-line import/prefer-default-export
