@@ -4,5 +4,5 @@ export const emailPattern = {
 };
 export const passwordPattern = {
   value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,12}$/,
-  message: "특수문자 포함 8~12자로 입력해주세요.",
+  message: "영문 대소문자, 숫자, 특수문자 포함 8~12자로 입력해주세요.",
 };

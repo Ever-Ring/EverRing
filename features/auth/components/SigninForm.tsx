@@ -8,7 +8,7 @@ import { FormValues } from "@customTypes/form";
 import { emailPattern } from "@constants/validationPatterns";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
-import useSignin from "@features/hooks/useSignin";
+import useSignin from "@features/auth/hooks/useSignin";
 import { Cookies } from "react-cookie";
 
 export default function SigninForm() {
@@ -93,7 +93,7 @@ export default function SigninForm() {
       </div>
       <Button
         text="로그인"
-        // type="submit"
+        type="submit"
         disabled={!isValid}
         size="large"
         variant="solid"

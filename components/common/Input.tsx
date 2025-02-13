@@ -44,7 +44,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             border: isInvalid ? "2px solid red" : "",
           }}
         />
-        {name === "password" && (
+        {type === "password" && (
           <button
             type="button"
             onClick={togglePasswordVisibility}

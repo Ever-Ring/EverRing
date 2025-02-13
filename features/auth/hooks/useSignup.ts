@@ -3,10 +3,8 @@
 import { useMutation } from "@tanstack/react-query";
 import AuthApi from "@features/auth/apis/AuthApi";
 
-const useSignin = () => {
+export default function useSignup() {
   return useMutation({
-    mutationFn: AuthApi.signin,
+    mutationFn: AuthApi.signup,
   });
-};
-
-export default useSignin;
+}

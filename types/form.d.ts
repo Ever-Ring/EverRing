@@ -5,6 +5,7 @@ export interface FormValues {
   companyName?: string;
   email?: string;
   password?: string;
+  passwordConfirm?: string;
 }
 
 export interface Pattern {
@@ -19,7 +20,7 @@ export interface InputFormProps {
   label: string;
   placeholder: string;
   register?: UseFormRegister<FormValues>;
-  rules?: { required: string; pattern?: Pattern } | undefined;
+  rules?: RegisterOptions;
   errors?: FieldErrors<FormValues> | undefined;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
