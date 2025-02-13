@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-gray-100 font-pretendard antialiased">
+      <body className="flex h-screen flex-col bg-gray-100 font-pretendard antialiased">
         <ReactQueryProvider>
           <Gnb />
           {children}
