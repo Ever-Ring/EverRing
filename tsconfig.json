@@ -30,6 +30,7 @@
       "@customTypes/*": ["types/*"],
       "@features/*": ["features/*"],
       "@constants/*": ["constants/*"]
+      "@providers/*": ["providers/*"]
     }
   },
   "include": [

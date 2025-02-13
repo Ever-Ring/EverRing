@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Gnb from "@components/common/Gnb";
+import ReactQueryProvider from "@providers/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="bg-gray-100 font-pretendard antialiased">
-        <Gnb />
-        {children}
+        <ReactQueryProvider>
+          <Gnb />
+          {children}
+        </ReactQueryProvider>
       </body>
     </html>
   );
