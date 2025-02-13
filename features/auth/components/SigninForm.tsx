@@ -93,7 +93,7 @@ export default function SigninForm() {
       </div>
       <Button
         text="로그인"
-        // type="submit"
+        type="submit"
         disabled={!isValid}
         size="large"
         variant="solid"

@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 
 import { FormValues } from "@customTypes/form";
 import { emailPattern, passwordPattern } from "@constants/validationPatterns";
-// import Button from "@components/common/Button";
+import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import useSignup from "@features/auth/hooks/useSignup";
 
@@ -125,21 +125,13 @@ export default function SignupForm() {
           onBlur={() => trigger("passwordConfirm")}
         />
       </div>
-      {/* <Button
+      <Button
         text="회원가입"
         type="submit"
         disabled={!isValid}
         size="large"
         variant="solid"
-      /> */}
-      {/* 버튼 수정될 때까지 임시 사용 */}
-      <button
-        type="submit"
-        disabled={!isValid}
-        className={`mt-4 rounded bg-blue-500 px-4 py-2 text-white ${isValid ? `` : "bg-gray-500"}`}
-      >
-        회원가입
-      </button>
+      />
     </form>
   );
 }
