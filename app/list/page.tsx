@@ -5,6 +5,8 @@ import TabMenu from "@components/common/TabMenu";
 import { useState } from "react";
 import HeartImage from "@assets/img-head-class.svg";
 import Chip from "@components/common/Chip";
+import DateFilter from "@components/common/DateFilter";
+import SortFilter from "@components/common/SortFilter";
 
 const tabs = [
   { label: "cloud", title: "구름링" },
@@ -14,7 +16,7 @@ const tabs = [
 export default function List() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   return (
-    <div className="flex flex-col px-4 pt-6 sm:px-6 sm:pt-8 lg:px-[102px]">
+    <div className="flex w-full flex-col px-4 pt-6 sm:px-6 sm:pt-8 lg:px-[102px]">
       {/* 헤더 */}
       <section className="justify-star mb-6 flex items-center gap-4 sm:mb-8">
         <HeartImage className="w-18 h-18" />
@@ -48,11 +50,19 @@ export default function List() {
         <Chip label="마인드폴니스" selected />
       </section>
 
+      <hr className="my-4 w-full border-t-2 border-gray-200" />
+
       {/* 정렬필터 섹션 */}
-      <section />
+      <section className="mb-4 flex justify-between sm:mb-6">
+        <div>
+          <DateFilter label="지역전체" isDefault />
+          <DateFilter label="날짜전체" isDefault />
+        </div>
+        <SortFilter label="마감임박" />
+      </section>
 
       {/* 카드섹션 */}
-      <section />
+      <section className="border border-black" />
     </div>
   );
 }

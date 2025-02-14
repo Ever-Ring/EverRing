@@ -2,7 +2,7 @@ import SortDefault from "@assets/icon-sort-default.svg";
 
 interface SortFilterProps {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function SortFilter({ label, onClick }: SortFilterProps) {
