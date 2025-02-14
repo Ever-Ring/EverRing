@@ -11,7 +11,7 @@ export default function Chip({ label, selected = false, onClick }: ChipProps) {
       onClick={onClick}
       aria-pressed={selected}
       title={label}
-      className={`inline-flex items-center justify-center rounded-lg transition ${selected ? "border-black bg-gray-900 text-white" : "bg-gray-200 text-gray-900"} min-h-[2.25rem] min-w-[3.0625rem] px-3 py-2 text-sm active:scale-95 sm:px-4 sm:py-[0.625rem]`}
+      className={`inline-flex items-center justify-center rounded-lg transition ${selected ? "border-black bg-gray-900 text-white" : "bg-gray-200 text-gray-900"} min-h-[2.25rem] min-w-[3.0625rem] px-3 py-2 text-sm sm:px-4 sm:py-[0.625rem]`}
     >
       {label}
     </button>
