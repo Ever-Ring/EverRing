@@ -1,31 +1,5 @@
 import ReviewItem from "@components/common/ReviewItem";
-
-interface Review {
-  teamId: number;
-  id: number;
-  score: number;
-  comment: string;
-  createdAt: Date;
-  Gathering: {
-    teamId: number;
-    id: number;
-    type: string;
-    name: string;
-    dateTime: Date;
-    location: string;
-    image: string;
-  };
-  User: {
-    teamId: number;
-    id: number;
-    name: string;
-    image: string;
-  };
-}
-
-interface ReviewListProps {
-  reviewData: Review[];
-}
+import { ReviewListProps } from "@customTypes/review";
 
 export default function ReviewList({ reviewData }: ReviewListProps) {
   return (
@@ -37,9 +11,6 @@ export default function ReviewList({ reviewData }: ReviewListProps) {
           comment={review.comment}
           userImage={review.User.image}
           userName={review.User.name}
-          gatheringImage={review.Gathering.image}
-          gatheringName={review.Gathering.name}
-          gatheringLocation={review.Gathering.location}
           createdAt={review.createdAt}
         />
       ))}
