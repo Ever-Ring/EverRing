@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useCookies } from "react-cookie";
+import { useState, useEffect } from "react";
 
 interface NavLink {
   href: string;
@@ -15,22 +17,30 @@ const navLinks: NavLink[] = [
   { href: "/review", label: "모든 리뷰" },
 ];
 
-function UserProfile({
-  isLoggedIn,
-  profileImageSrc,
-}: {
-  isLoggedIn: boolean;
-  profileImageSrc: string;
-}) {
+function UserProfile() {
+  const [cookies] = useCookies(["token"]);
+  const [isMounted, setIsMounted] = useState(false);
+  const isLoggedIn = !!cookies.token;
+  const profileImageSrc = "/image/img-profile-large-default.svg";
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return <div className="h-10 w-10" />;
+  }
+
   return isLoggedIn ? (
     <Image
       src={profileImageSrc}
       alt="user profile image"
       width={40}
       height={40}
+      className="rounded-full"
     />
   ) : (
-    <Link href="auth">로그인</Link>
+    <Link href="/signin">로그인</Link>
   );
 }
 
@@ -55,9 +65,6 @@ function NavLinks() {
 }
 
 export default function Gnb() {
-  const isLoggedIn = false;
-  const profileImageSrc = "/image/img-profile-large-default.svg";
-
   return (
     <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[15%]">
       <div className="flex">
@@ -66,7 +73,7 @@ export default function Gnb() {
         </Link>
         <NavLinks />
       </div>
-      <UserProfile isLoggedIn={isLoggedIn} profileImageSrc={profileImageSrc} />
+      <UserProfile />
     </nav>
   );
 }
