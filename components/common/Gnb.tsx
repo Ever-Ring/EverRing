@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 
@@ -18,27 +18,63 @@ const navLinks: NavLink[] = [
 ];
 
 function UserProfile() {
-  const [cookies] = useCookies(["token"]);
+  const [cookies, , removeCookie] = useCookies(["token"]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isLoggedIn = !!cookies.token;
   const profileImageSrc = "/image/img-profile-large-default.svg";
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  const handleLogout = () => {
+    removeCookie("token");
+    setIsDropdownOpen(false);
+    router.push("/");
+  };
+
   if (!isMounted) {
-    return <div className="h-10 w-10" />;
+    return null;
+    // TODO 데이터 로딩 표시를 추가할 지 말 지 데이터 확인 후 작업 예정
   }
 
   return isLoggedIn ? (
-    <Image
-      src={profileImageSrc}
-      alt="user profile image"
-      width={40}
-      height={40}
-      className="rounded-full"
-    />
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="flex items-center justify-center focus:outline-none"
+      >
+        <Image
+          src={profileImageSrc}
+          alt="user profile image"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      </button>
+
+      {isDropdownOpen && (
+        <div className="absolute right-0 mt-1 flex w-fit flex-col gap-y-2 whitespace-nowrap rounded-md bg-white px-3 py-2 text-base font-medium text-gray-800 shadow-md lg:left-0">
+          <Link
+            href="/mypage"
+            className="block hover:bg-gray-100"
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            마이페이지
+          </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="block w-full text-left hover:bg-gray-100"
+          >
+            로그아웃
+          </button>
+        </div>
+      )}
+    </div>
   ) : (
     <Link href="/signin">로그인</Link>
   );
