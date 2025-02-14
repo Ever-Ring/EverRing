@@ -38,7 +38,7 @@ function FloatingBar({ isTwoButtonMode = false }: FloatingBarProps) {
             </div>
           ) : (
             <div className="flex w-full flex-col items-center gap-3">
-              <div className="text-center">
+              <div>
                 <span className="text-base font-semibold text-gray-900">
                   더 건강한 나와 팀을 위한 프로그램 🏃‍️️
                 </span>
