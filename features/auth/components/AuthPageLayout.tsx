@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import Link from "next/link";
 import MainImage from "@assets/img_login.svg";
 
 interface FormContainerProps {
@@ -14,6 +15,8 @@ function FormContainer({
   description,
   children,
 }: FormContainerProps) {
+  const link = linkText === "회원가입" ? "signup" : "signin";
+
   return (
     <div className="flex h-fit w-full items-start rounded-3xl bg-white px-4 py-8 sm:px-16 lg:w-[31.875rem] lg:px-[3.375rem]">
       <div className="flex shrink-0 grow basis-0 flex-col items-center gap-6">
@@ -23,9 +26,12 @@ function FormContainer({
         {children}
         <p className="flex flex-row items-start gap-1 text-[0.9375rem] text-base font-medium">
           <span className="text-gray-800">{description}</span>
-          <span className="text-mint-600 underline decoration-solid">
+          <Link
+            href={`/${link}`}
+            className="text-mint-600 underline decoration-solid"
+          >
             {linkText}
-          </span>
+          </Link>
         </p>
       </div>
     </div>
