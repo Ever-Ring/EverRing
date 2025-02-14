@@ -4,7 +4,7 @@ import DropDefault from "@assets/icon-arrow-default-down.svg";
 interface DateFilteProps {
   label: string;
   isDefault: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function DateFilter({
