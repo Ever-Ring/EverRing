@@ -2,7 +2,7 @@
 // import MypageContent from "@features/mypage/components/MypageContent";
 import MyProfile from "@features/mypage/components/MyProfile";
 
-export default function Home() {
+export default function Mypage() {
   return (
     <div className="flex h-full flex-col gap-y-7">
       <span className="text-2xl font-semibold">마이 페이지</span>
