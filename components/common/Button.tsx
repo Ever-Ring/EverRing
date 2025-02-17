@@ -7,6 +7,7 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: "solid" | "outlined";
   type?: "button" | "submit";
+  onClick?: () => void;
 }
 
 function Button({
@@ -15,6 +16,7 @@ function Button({
   disabled = false,
   variant = "solid",
   type = "button",
+  onClick,
 }: ButtonProps) {
   return (
     <button
@@ -37,6 +39,7 @@ function Button({
       )}
       type={type === "submit" ? "submit" : "button"}
       disabled={disabled}
+      onClick={onClick}
     >
       <span
         className={classNames(
