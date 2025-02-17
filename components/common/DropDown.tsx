@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React, { useState } from "react";
-import DropDownList from "@components/common/DropDownList";
+import DropDownItems from "@components/common/DropDownItems";
 import ArrowIconDefault from "@assets/icon-arrow-default-down.svg";
 import ArrowIconInverse from "@assets/icon-arrow-inverse-down.svg";
 
@@ -46,7 +46,7 @@ function DropDown({
           } rounded-md border bg-white shadow-md`}
         >
           {fixedItemsList.map((item) => (
-            <DropDownList
+            <DropDownItems
               key={item}
               item={item}
               isSelected={selectedItem === item}
