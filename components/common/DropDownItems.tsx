@@ -2,19 +2,19 @@
 import React from "react";
 import classNames from "classnames";
 
-interface DropDownListProps {
+interface DropDownItemsProps {
   item: string;
   isSelected: boolean;
   onSelect: (item: string) => void;
   textSize?: "large" | "small";
 }
 
-function DropDownList({
+function DropDownItems({
   item,
   isSelected = false,
   onSelect,
   textSize = "large",
-}: DropDownListProps) {
+}: DropDownItemsProps) {
   return (
     <li>
       <button
@@ -35,4 +35,4 @@ function DropDownList({
   );
 }
 
-export default DropDownList;
+export default DropDownItems;
