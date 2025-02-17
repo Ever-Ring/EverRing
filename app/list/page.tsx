@@ -16,7 +16,7 @@ const tabs = [
 export default function List() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   return (
-    <div className="flex w-full flex-col px-4 pt-6 sm:px-6 sm:pt-8 lg:px-[102px]">
+    <div className="flex w-full flex-col px-4 pt-6 md:px-6 md:pt-8 lg:px-24">
       {/* 헤더 */}
       <section className="justify-star mb-6 flex items-center gap-4 sm:mb-8">
         <HeartImage className="w-18 h-18" />
