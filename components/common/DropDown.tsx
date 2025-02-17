@@ -1,59 +1,58 @@
 /* eslint-disable react/require-default-props */
-import React, { useState } from "react";
+import React, { useEffect, useRef } from "react";
 import DropDownItems from "@components/common/DropDownItems";
-import ArrowIconDefault from "@assets/icon-arrow-default-down.svg";
-import ArrowIconInverse from "@assets/icon-arrow-inverse-down.svg";
-
-const fixedItemsList = [
-  "지역 전체",
-  "을지로 3가",
-  "홍대입구",
-  "강남역",
-  "건대입구",
-];
 
 interface DropDownProps {
+  items: string[];
   onSelect: (item: string) => void;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
+  selectedItem?: string | null;
   variant?: "solid" | "outlined";
   textSize?: "large" | "small";
-  iconType?: "default" | "inverse";
 }
 
 function DropDown({
+  items,
   onSelect,
+  isOpen,
+  setIsOpen,
+  selectedItem = null,
   variant = "solid",
   textSize = "large",
-  iconType = "default",
 }: DropDownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-  const ArrowIcon =
-    iconType === "default" ? ArrowIconDefault : ArrowIconInverse;
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen, setIsOpen]);
   return (
-    <div className="relative">
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center text-gray-500 hover:text-gray-700"
-      >
-        <ArrowIcon className="h-5 w-5" />
-      </button>
-      {isOpen && (
+    <div className="relative" ref={dropdownRef}>
+      {isOpen && items.length > 0 && (
         <ul
           className={`absolute right-0 mt-1 ${
             variant === "solid" ? "w-[472px]" : "w-[110px]"
           } rounded-md border bg-white shadow-md`}
         >
-          {fixedItemsList.map((item) => (
+          {items.map((item) => (
             <DropDownItems
               key={item}
               item={item}
               isSelected={selectedItem === item}
               onSelect={(selected) => {
-                setSelectedItem(selected);
                 onSelect(selected);
-                setIsOpen(false);
+                if (isOpen) setIsOpen(false);
               }}
               textSize={textSize}
             />
