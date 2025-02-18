@@ -1,3 +1,5 @@
+import ContainerInformation from "@features/list-detail/ContainerInformation";
+
 export default function Home() {
-  return <div>initial commit</div>;
+  return <ContainerInformation currentCount={10} maxCount={20} />;
 }
