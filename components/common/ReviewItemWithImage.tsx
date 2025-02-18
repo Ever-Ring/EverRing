@@ -17,8 +17,8 @@ export default function ReviewItemWithImage({
   hasUserInfo,
 }: ReviewItemWithImageProps) {
   return (
-    <li className="flex flex-col items-start gap-6 text-gray-700 sm:flex-row">
-      <div className="relative h-[9.75rem] w-full sm:w-[17.5rem]">
+    <li className="flex flex-col items-start gap-6 text-gray-700 md:flex-row">
+      <div className="relative h-[9.75rem] w-full md:w-[17.5rem]">
         <Image
           fill
           alt="gathering-image"
@@ -26,7 +26,7 @@ export default function ReviewItemWithImage({
           className="shrink-0 rounded-3xl object-cover"
         />
       </div>
-      <div className="flex h-[10.5rem] flex-col items-start justify-between self-stretch sm:h-[9.75rem] sm:flex-1">
+      <div className="flex h-[10.5rem] flex-col items-start justify-between self-stretch md:h-[9.75rem] md:flex-1">
         <div className="flex flex-col items-start gap-2 self-stretch">
           <div className="flex flex-col items-start gap-[0.625rem] self-stretch">
             <ReviewRating score={score} />

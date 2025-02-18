@@ -26,7 +26,7 @@ function RatingBreakdownItem({
         <span className="w-[1.3125rem] text-sm font-medium text-gray-700">
           {score}점
         </span>
-        <span className="h-1 w-[5.25rem] sm:w-60">
+        <span className="h-1 w-[5.25rem] md:w-60">
           <RatingBar percentage={ratingPercentage} />
         </span>
       </div>

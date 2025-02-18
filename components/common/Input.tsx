@@ -38,7 +38,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className="relative flex w-full flex-col items-start gap-2">
-        {/* TODO: auth페이지에서만 라벨 크기 text-sm으로 바꾸기 */}
         <label
           htmlFor={id}
           className={`w-full ${textSize} font-semibold text-gray-900`}
@@ -51,7 +50,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type === "password" && isPasswordVisible ? "text" : type}
           placeholder={placeholder}
           ref={ref}
-          className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none sm:text-base"
+          className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none md:text-base"
           onBlur={onBlur}
           {...props}
           style={{
