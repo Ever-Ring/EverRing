@@ -46,7 +46,7 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
           setTempDate(appliedDate);
           setIsOpen(true);
         }}
-        className={`content-box inline-flex h-9 w-[8rem] items-center justify-between rounded-lg border-2 px-3 py-[0.375rem] text-sm transition md:h-10 md:w-[9rem] ${
+        className={`content-box inline-flex h-9 w-[8rem] items-center justify-between rounded-lg border-2 px-3 py-[0.375rem] text-sm font-medium transition md:h-10 md:w-[9rem] ${
           appliedDate
             ? "border-black bg-gray-900 text-white"
             : "border-gray-100 bg-white text-gray-900"
