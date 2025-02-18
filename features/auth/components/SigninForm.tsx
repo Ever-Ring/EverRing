@@ -71,6 +71,7 @@ export default function SigninForm() {
           id="email"
           type="email"
           label="아이디"
+          labelTextSize="sm"
           placeholder="아이디를 입력하세요"
           register={register}
           rules={{ required: "아이디를 입력해주세요", pattern: emailPattern }}
@@ -81,6 +82,7 @@ export default function SigninForm() {
           name="password"
           id="password"
           label="비밀번호"
+          labelTextSize="sm"
           type="password"
           placeholder="비밀번호를 입력하세요"
           register={register}
