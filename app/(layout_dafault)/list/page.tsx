@@ -25,7 +25,7 @@ export default function List() {
   };
 
   return (
-    <div className="flex w-full flex-col px-4 pt-6 md:px-6 md:pt-8 lg:px-24">
+    <div className="flex w-full flex-col pt-6 md:pt-8">
       {/* 헤더 */}
       <section className="justify-star mb-6 flex items-center gap-4 sm:mb-8">
         <HeartImage className="w-18 h-18" />
