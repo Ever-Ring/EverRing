@@ -23,6 +23,7 @@ function ContainerInformation({
     setIsSaved((prev) => !prev);
   };
 
+  const isConfirmed = currentCount >= 5;
   const progress = Math.min((currentCount / maxCount) * 100, 100);
 
   return (
@@ -74,28 +75,31 @@ function ContainerInformation({
                   이미지 4개 + 숫자
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                <IconCheck />
-                <span className="text-sm font-medium text-mint-500">
-                  개설확정
-                </span>
-              </div>
+              {isConfirmed && (
+                <div className="flex items-center gap-1">
+                  <IconCheck />
+                  <span className="text-sm font-medium text-mint-500">
+                    개설확정
+                  </span>
+                </div>
+              )}
             </div>
           </div>
           <div />
         </div>
-        {/* Progress Bar */}
         <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-100">
           <div
             className="absolute left-0 top-0 h-full bg-mint-500 transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
-
-        {/* 최소 & 최대 인원 표시 */}
         <div className="flex justify-between text-xs font-medium text-gray-500">
           <span>최소인원 5명</span>
-          <span className="text-mint-500">최대인원 {maxCount}명</span>
+          <span
+            className={`text-xs font-medium ${currentCount === maxCount ? "text-mint-400" : "text-gray-700"}`}
+          >
+            최대인원 {maxCount}명
+          </span>
         </div>
       </div>
     </div>
