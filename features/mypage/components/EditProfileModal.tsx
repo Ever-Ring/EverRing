@@ -70,7 +70,7 @@ export default function EditProfileModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="w-96 rounded-lg bg-white p-6">
+      <div className="mx-4 w-96 rounded-lg bg-white p-6">
         <div className="relative flex justify-between">
           <h2 className="mb-6 text-xl font-semibold">프로필 수정하기</h2>
           <button
