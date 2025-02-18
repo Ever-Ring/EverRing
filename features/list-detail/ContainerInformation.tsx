@@ -1,11 +1,21 @@
+/* eslint-disable import/no-duplicates */
+
 "use client";
 
 import { useState } from "react";
 import ChipInfo from "@components/common/ChipInfo";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
+import IconCheckDefault from "@assets/ic-check-variant.svg";
+import IconCheckVariant from "@assets/ic-check-variant.svg";
 
-function ContainerInformation() {
+interface ContainerInformationProps {
+  variant?: "default" | "variant";
+}
+
+function ContainerInformation({
+  variant = "default",
+}: ContainerInformationProps) {
   const [isSaved, setIsSaved] = useState(true);
 
   const toggleSave = () => {
@@ -42,6 +52,30 @@ function ContainerInformation() {
         <ChipInfo info="17:30" variant="mint" />
       </div>
       <div className="mt-4 w-full border-t-2 border-dashed border-gray-200" />
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <div>
+                  <span>모집 정원</span>
+                  <span>명</span>
+                </div>
+                <div>이미지 4개 + 숫자</div>
+              </div>
+              <div>
+                {variant === "variant" ? (
+                  <IconCheckVariant />
+                ) : (
+                  <IconCheckDefault />
+                )}
+                <span>개설 확정</span>
+              </div>
+            </div>
+          </div>
+          <div />
+        </div>
+      </div>
     </div>
   );
 }
