@@ -81,8 +81,9 @@ export default function EditProfileModal({
             type="button"
             className="absolute right-0 top-0"
             onClick={onClose}
+            aria-label="닫기"
           >
-            <Image src="/image/icon-x.svg" alt="close" width={13} height={13} />
+            <Image src="/image/X.svg" alt="close" width={13} height={13} />
           </button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -94,7 +95,11 @@ export default function EditProfileModal({
               ref={fileInputRef}
               onChange={handleFileChange}
             />
-            <button type="button" onClick={() => fileInputRef.current?.click()}>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="프로필 이미지 수정"
+            >
               <div className="relative h-14 w-14 rounded-full border-2 border-gray-200 bg-gray-200">
                 <Image
                   src={watch("image") ?? DEFAULT_PROFILE_IMAGE_SRC}
@@ -104,10 +109,7 @@ export default function EditProfileModal({
                   height={56}
                 />
               </div>
-              <div
-                className="absolute bottom-0 left-10 rounded-full border-2 border-white"
-                onClick={() => fileInputRef.current?.click()}
-              >
+              <div className="absolute bottom-0 left-10 rounded-full border-2 border-white">
                 <Image
                   src="/image/edit.svg"
                   alt="edit"
