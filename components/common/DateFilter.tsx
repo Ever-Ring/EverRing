@@ -1,9 +1,65 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from "date-fns";
-import "../../app/globals.css";
 import Button from "@components/common/Button";
+
+interface DatePickerModalProps {
+  tempDate: Date | null;
+  onClose: () => void;
+  onSelect: (date: Date | null) => void;
+  onApply: () => void;
+  onReset: () => void;
+}
+
+// 모달 컴포넌트
+function DatePickerModal({
+  tempDate,
+  onClose,
+  onSelect,
+  onApply,
+  onReset,
+}: DatePickerModalProps) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={modalRef}
+      className="absolute left-[-60%] z-50 mt-1 w-[340px] rounded-md border bg-white p-6 shadow-md md:left-0"
+    >
+      <div className="flex flex-col items-center">
+        <DatePicker
+          selected={tempDate}
+          onChange={onSelect}
+          dateFormat="yyyy-MM-dd"
+          inline
+        />
+      </div>
+      <div className="mt-4 flex justify-between px-2">
+        <Button
+          size="small"
+          text="초기화"
+          onClick={onReset}
+          variant="outlined"
+        />
+        <Button size="small" text="적용" onClick={onApply} />
+      </div>
+    </div>
+  );
+}
 
 interface DateFilterProps {
   onDateSelect?: (date: string | undefined) => void;
@@ -14,11 +70,8 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleSelect = (date: Date | null) => {
-    setTempDate(date);
-  };
+  const handleSelect = (date: Date | null) => setTempDate(date);
 
-  // 적용 버튼: 임시 선택 날짜를 적용하고 모달 닫기
   const handleApply = () => {
     setAppliedDate(tempDate);
     setIsOpen(false);
@@ -30,7 +83,6 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
     }
   };
 
-  // 초기화 버튼: 날짜 초기화 후 모달 닫기
   const handleReset = () => {
     setTempDate(null);
     setAppliedDate(null);
@@ -40,6 +92,7 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
 
   return (
     <div className="relative inline-block">
+      {/* 필터 버튼 */}
       <button
         type="button"
         onClick={() => {
@@ -55,27 +108,15 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
         {appliedDate ? format(appliedDate, "yyyy-MM-dd") : "날짜전체"}
       </button>
 
+      {/* 모달 렌더링 */}
       {isOpen && (
-        <div className="absolute left-[-60%] z-50 mt-1 w-[340px] rounded-md border bg-white p-6 shadow-md md:left-0">
-          <div className="flex flex-col items-center">
-            <DatePicker
-              selected={tempDate}
-              onChange={handleSelect}
-              dateFormat="yyyy-MM-dd"
-              inline
-            />
-          </div>
-
-          <div className="mt-4 flex justify-between px-2">
-            <Button
-              size="small"
-              text="초기화"
-              onClick={handleReset}
-              variant="outlined"
-            />
-            <Button size="small" text="적용" onClick={handleApply} />
-          </div>
-        </div>
+        <DatePickerModal
+          tempDate={tempDate}
+          onClose={() => setIsOpen(false)}
+          onSelect={handleSelect}
+          onApply={handleApply}
+          onReset={handleReset}
+        />
       )}
     </div>
   );
