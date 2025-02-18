@@ -3,6 +3,8 @@ import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "@components/common/Button";
+import DropDefault from "@assets/icon-arrow-default-down.svg";
+import DropInverse from "@assets/icon-arrow-inverse-down.svg";
 
 interface DatePickerModalProps {
   tempDate: Date | null;
@@ -106,6 +108,11 @@ export default function DateFilter({ onDateSelect }: DateFilterProps) {
         }`}
       >
         {appliedDate ? format(appliedDate, "yyyy-MM-dd") : "날짜전체"}
+        {appliedDate ? (
+          <DropInverse className="h-6 w-6" />
+        ) : (
+          <DropDefault className="h-6 w-6" />
+        )}
       </button>
 
       {/* 모달 렌더링 */}
