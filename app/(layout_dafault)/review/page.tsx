@@ -3,7 +3,7 @@ import ReviewContentContainer from "@features/review/components/ReviewContentCon
 
 export default function Review() {
   return (
-    <div className="flex h-full w-full flex-col items-start">
+    <div className="flex h-full w-full flex-col items-start pt-6 md:pt-8">
       <section className="flex items-center gap-4">
         <Image
           src="image/img-head-review.svg"
@@ -12,7 +12,7 @@ export default function Review() {
           height={72}
         />
         <div className="flex flex-col items-start gap-2">
-          <h1 className="text-lg font-semibold text-gray-900 sm:text-2xl">
+          <h1 className="text-lg font-semibold text-gray-900 md:text-2xl">
             모든 리뷰
           </h1>
           <h2 className="text-sm font-medium text-gray-700">
