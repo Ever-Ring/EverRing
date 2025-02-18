@@ -12,13 +12,14 @@ const tabs = [
   { label: "cloud", title: "구름링" },
   { label: "tree", title: "나무링" },
 ];
-
 export default function List() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  // const [selectedDate, setSelectedDate] = useState<string | undefined>(
+  //   undefined,
+  // );
 
   // 날짜가 변경될 때 API 요청을 보낼 수 있도록 상태 업데이트
   const handleDateChange = (date: string | undefined) => {
-    setSelectedDate(date);
     // API 요청을 보낼 때 selectedDate를 활용
     console.log("API 요청: 필터링할 날짜 =", date || "전체");
   };
