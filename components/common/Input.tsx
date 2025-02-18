@@ -15,7 +15,17 @@ import EyeOn from "@assets/visibility_on.svg";
  */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, name, type, label, placeholder, isInvalid, onBlur, ...props },
+    {
+      id,
+      name,
+      type,
+      label,
+      placeholder,
+      isInvalid,
+      onBlur,
+      labelTextSize = "base",
+      ...props
+    },
     ref,
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -23,11 +33,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const togglePasswordVisibility = () => {
       setIsPasswordVisible((prev) => !prev);
     };
+
+    const textSize = labelTextSize === "sm" ? "text-sm" : "text-base";
+
     return (
       <div className="relative flex w-full flex-col items-start gap-2">
+        {/* TODO: auth페이지에서만 라벨 크기 text-sm으로 바꾸기 */}
         <label
           htmlFor={id}
-          className="w-full text-sm font-semibold text-gray-900"
+          className={`w-full ${textSize} font-semibold text-gray-900`}
         >
           {label}
         </label>

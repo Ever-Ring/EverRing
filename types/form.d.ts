@@ -28,4 +28,5 @@ export interface InputFormProps {
 export interface InputProps extends InputFormProps {
   name: string;
   isInvalid?: boolean;
+  labelTextSize?: "sm" | "base";
 }
