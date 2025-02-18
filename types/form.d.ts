@@ -6,6 +6,7 @@ export interface FormValues {
   email?: string;
   password?: string;
   passwordConfirm?: string;
+  image?: string;
 }
 
 export interface Pattern {

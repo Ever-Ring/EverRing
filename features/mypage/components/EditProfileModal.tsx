@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Button from "@components/common/Button";
 import useUpdateUserInfo from "@features/mypage/hooks/useUpdateUserInfo";
-import Input from "@components/common/Input";
 import { useQueryClient } from "@tanstack/react-query";
-const DEFAULT_PROFILE_IMAGE_SRC = "/image/img-profile-large-default.svg";
+import { useForm } from "react-hook-form";
+import InputForm from "@components/common/InputForm";
+import { FormValues } from "@customTypes/form";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -17,54 +18,57 @@ interface EditProfileModalProps {
   } | null;
 }
 
+const DEFAULT_PROFILE_IMAGE_SRC = "/image/img-profile-large-default.svg";
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 export default function EditProfileModal({
   isOpen,
   onClose,
   currentUser,
 }: EditProfileModalProps) {
-  const [companyName, setCompanyName] = useState(
-    currentUser?.companyName ?? "",
-  );
-  const [image, setImage] = useState(currentUser?.image ?? "");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: updateUserInfo } = useUpdateUserInfo();
   const queryClient = useQueryClient();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    trigger,
+    watch,
+  } = useForm<FormValues>();
 
   useEffect(() => {
     if (currentUser) {
-      setCompanyName(currentUser.companyName);
-      setImage(currentUser.image ?? DEFAULT_PROFILE_IMAGE_SRC);
+      console.log(currentUser);
+      setValue("companyName", currentUser.companyName ?? "");
+      setValue("image", currentUser.image ?? DEFAULT_PROFILE_IMAGE_SRC);
     }
-  }, [currentUser]);
+  }, [currentUser, setValue]);
 
   if (!isOpen || !currentUser) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.size <= 5 * 1024 * 1024) {
-      setImage(URL.createObjectURL(file));
+    if (file && file.size <= MAX_FILE_SIZE) {
+      setValue("image", URL.createObjectURL(file));
     } else {
       alert("파일 크기는 5MB 이하이어야 합니다.");
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: FormValues) => {
     const file = fileInputRef.current?.files?.[0];
     const formData = new FormData();
-    formData.append("companyName", companyName);
+    formData.append("companyName", data.companyName ?? "");
+    formData.append("image", file ? file : (data.image ?? ""));
 
-    if (file) {
-      // 파일이 있는 경우
-      formData.append("image", file); // 파일 자체를 추가
-    } else {
-      formData.append("image", image);
-    }
-    await updateUserInfo(formData, {
+    updateUserInfo(formData, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["userInfo"] });
         onClose();
       },
+      // TODO: 에러 핸들링
     });
   };
 
@@ -81,7 +85,7 @@ export default function EditProfileModal({
             <Image src="/image/icon-x.svg" alt="close" width={13} height={13} />
           </button>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="relative mb-6">
             <input
               type="file"
@@ -93,7 +97,7 @@ export default function EditProfileModal({
             <button type="button" onClick={() => fileInputRef.current?.click()}>
               <div className="relative h-14 w-14 rounded-full border-2 border-gray-200 bg-gray-200">
                 <Image
-                  src={image}
+                  src={watch("image") ?? DEFAULT_PROFILE_IMAGE_SRC}
                   alt="profile image"
                   className="h-full w-full rounded-full object-cover"
                   width={56}
@@ -114,17 +118,17 @@ export default function EditProfileModal({
             </button>
           </div>
           <div className="mb-6">
-            <Input
-              id="companyName"
+            <InputForm
               name="companyName"
-              label="직업 / 소속"
+              id="companyName"
               type="text"
-              placeholder="직업 / 소속"
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              value={companyName as string}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setCompanyName(e.target.value)
-              }
+              label="직업 / 소속"
+              labelTextSize="sm"
+              placeholder="직업 / 소속을 입력해주세요"
+              register={register}
+              rules={{ required: "직업 / 소속을 입력해주세요" }}
+              errors={errors}
+              onBlur={() => trigger("companyName")}
             />
           </div>
           <div className="flex justify-end gap-x-2">
