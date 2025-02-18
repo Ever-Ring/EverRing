@@ -12,9 +12,18 @@ const tabs = [
   { label: "cloud", title: "구름링" },
   { label: "tree", title: "나무링" },
 ];
-
 export default function List() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  // const [selectedDate, setSelectedDate] = useState<string | undefined>(
+  //   undefined,
+  // );
+
+  // 날짜가 변경될 때 API 요청을 보낼 수 있도록 상태 업데이트
+  const handleDateChange = (date: string | undefined) => {
+    // API 요청을 보낼 때 selectedDate를 활용
+    console.log("API 요청: 필터링할 날짜 =", date || "전체");
+  };
+
   return (
     <div className="flex w-full flex-col px-4 pt-6 md:px-6 md:pt-8 lg:px-24">
       {/* 헤더 */}
@@ -28,7 +37,7 @@ export default function List() {
         </div>
       </section>
 
-      {/* 카테고리 달램핏 */}
+      {/* 카테고리 탭 */}
       <section className="mb-[14px] flex flex-wrap items-center justify-between">
         <div>
           <TabMenu
@@ -43,7 +52,7 @@ export default function List() {
         </div>
       </section>
 
-      {/* 카테고리 달램핏 */}
+      {/* 카테고리 필터 */}
       <section className="flex justify-start gap-2">
         <Chip label="전체" selected />
         <Chip label="오피스 스트레칭" selected />
@@ -52,17 +61,15 @@ export default function List() {
 
       <hr className="my-4 w-full border-t-2 border-gray-200" />
 
-      {/* 정렬필터 섹션 */}
+      {/* 정렬 & 필터링 섹션 */}
       <section className="mb-4 flex justify-between sm:mb-6">
-        <div>
-          <DateFilter label="지역전체" isDefault />
-          <DateFilter label="날짜전체" isDefault />
+        <div className="flex gap-2">
+          <DateFilter onDateSelect={handleDateChange} />
+
+          <DateFilter onDateSelect={handleDateChange} />
         </div>
         <SortFilter label="마감임박" />
       </section>
-
-      {/* 카드섹션 */}
-      <section className="border border-black" />
     </div>
   );
 }

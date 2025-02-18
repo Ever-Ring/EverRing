@@ -7,8 +7,8 @@ export default function FilterBar() {
     <div className="w-full border-t-2 border-gray-900 bg-white p-6">
       <div className="flex items-start justify-between self-stretch">
         <div className="flex items-start gap-2">
-          <DateFilter isDefault label="지역 선택" />
-          <DateFilter isDefault label="날짜 선택" />
+          <DateFilter />
+          <DateFilter />
         </div>
         <SortFilter label="최신 순" />
       </div>
