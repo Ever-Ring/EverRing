@@ -66,6 +66,7 @@ export default function SignupForm() {
           id="name"
           type="text"
           label="이름"
+          labelTextSize="sm"
           placeholder="이름을 입력해주세요"
           register={register}
           rules={{ required: "이름을 입력해주세요" }}
@@ -77,6 +78,7 @@ export default function SignupForm() {
           id="email"
           type="email"
           label="아이디"
+          labelTextSize="sm"
           placeholder="아이디를 입력해주세요"
           register={register}
           rules={{ required: "아이디를 입력해주세요", pattern: emailPattern }}
@@ -89,6 +91,7 @@ export default function SignupForm() {
           id="companyName"
           type="text"
           label="소속"
+          labelTextSize="sm"
           placeholder="소속을 입력해주세요(학생,회사원 등)"
           register={register}
           rules={{ required: "소속을 입력해주세요" }}
@@ -99,6 +102,7 @@ export default function SignupForm() {
           name="password"
           id="password"
           label="비밀번호"
+          labelTextSize="sm"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           register={register}
@@ -113,6 +117,7 @@ export default function SignupForm() {
           name="passwordConfirm"
           id="passwordConfirm"
           label="비밀번호 확인"
+          labelTextSize="sm"
           type="password"
           placeholder="비밀번호를 입력해주세요"
           register={register}

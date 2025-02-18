@@ -18,6 +18,7 @@ export interface InputFormProps {
   name: keyof FormValues;
   type: string;
   label: string;
+  labelTextSize?: "sm" | "base";
   placeholder: string;
   register?: UseFormRegister<FormValues>;
   rules?: RegisterOptions;
