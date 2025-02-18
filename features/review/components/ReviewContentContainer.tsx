@@ -137,7 +137,7 @@ export default function ReviewContentContainer() {
 
   return (
     <section className="flex h-full w-full flex-col gap-6">
-      <div className="sticky top-[54px] z-10 bg-gray-50 pt-6 sm:pt-8 md:top-[60px]">
+      <div className="sticky top-[54px] z-10 bg-gray-50 pt-6 md:top-[60px] md:pt-8">
         <div className="flex flex-col items-start gap-3 border-b-2 border-gray-200 pb-4 lg:gap-4">
           <TabMenu
             hasIcon
@@ -155,11 +155,11 @@ export default function ReviewContentContainer() {
 
       <RatingContainer scoreData={scores} />
       <div className="flex h-full w-full flex-col items-start bg-white">
-        <div className="sticky top-[176px] z-10 w-full sm:top-[190px] lg:top-[194px]">
+        <div className="sticky top-[176px] z-10 w-full md:top-[190px] lg:top-[194px]">
           <FilterBar />
         </div>
 
-        <div className="px-4 pb-6 sm:px-6">
+        <div className="px-4 pb-6 md:px-6">
           <ReviewListwithImage reviewData={reviews} hasUserInfo />
         </div>
       </div>
