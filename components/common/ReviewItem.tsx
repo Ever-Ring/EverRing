@@ -2,7 +2,7 @@ import ReviewRating from "@components/common/ReviewRating";
 import Image from "next/image";
 import UnderLine from "@assets/underline.svg";
 import { ReviewItemProps } from "@customTypes/review";
-import dateFormatter from "@utils/dateFormatter";
+import { formatDate } from "@utils/dateFormatter";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 
 export default function ReviewItem({ review }: ReviewItemProps) {
@@ -31,7 +31,7 @@ export default function ReviewItem({ review }: ReviewItemProps) {
             <span>|</span>
           </p>
           <span className="text-xs font-medium text-gray-500">
-            {dateFormatter(new Date(review?.createdAt))}
+            {formatDate(review?.createdAt)}
           </span>
         </div>
       </div>

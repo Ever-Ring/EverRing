@@ -3,7 +3,8 @@ import Image from "next/image";
 import UnderLine from "@assets/underline.svg";
 
 import { ReviewItemWithImageProps } from "@customTypes/review";
-import dateFormatter from "@utils/dateFormatter";
+import { formatDate } from "@utils/dateFormatter";
+
 import GATHERING_TYPE_MAP from "@constants/gatheringType";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 
@@ -57,7 +58,7 @@ export default function ReviewItemWithImage({
               </p>
             )}
             <span className="text-xs font-medium text-gray-500">
-              {dateFormatter(new Date(review?.createdAt))}
+              {formatDate(review?.createdAt)}
             </span>
           </div>
         </div>
