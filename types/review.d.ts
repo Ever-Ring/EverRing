@@ -1,15 +1,8 @@
 export interface ReviewItemProps {
-  score: number;
-  comment: string;
-  userImage: string;
-  userName: string;
-  createdAt: Date;
+  review: Review;
 }
 
 export interface ReviewItemWithImageProps extends ReviewItemProps {
-  gatheringImage: string;
-  gatheringName: string;
-  gatheringLocation: string;
   hasUserInfo?: boolean;
 }
 
