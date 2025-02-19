@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import MypageApi from "@features/mypage/apis/MypageApi";
+import AuthApi from "@apis/AuthApi";
 
 export default function useGetUserInfo() {
   return useQuery({
     queryKey: ["userInfo"],
-    queryFn: () => MypageApi.getUserInfo(),
+    queryFn: () => AuthApi.getUserInfo(),
   });
 }

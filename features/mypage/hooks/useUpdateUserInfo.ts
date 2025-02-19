@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import MypageApi from "@features/mypage/apis/MypageApi";
+import AuthApi from "@apis/AuthApi";
 
 export default function useUpdateUserInfo() {
   return useMutation({
-    mutationFn: (data: FormData) => MypageApi.updateUserInfo(data),
+    mutationFn: (data: FormData) => AuthApi.updateUserInfo(data),
   });
 }
