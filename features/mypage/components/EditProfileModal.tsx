@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import InputForm from "@components/common/InputForm";
 import { FormValues } from "@customTypes/form";
+import { AxiosError } from "axios";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -19,7 +20,7 @@ interface EditProfileModalProps {
 }
 
 const DEFAULT_PROFILE_IMAGE_SRC = "/image/img-profile-large-default.svg";
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export default function EditProfileModal({
   isOpen,
@@ -40,7 +41,6 @@ export default function EditProfileModal({
 
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
       setValue("companyName", currentUser.companyName ?? "");
       setValue("image", currentUser.image ?? DEFAULT_PROFILE_IMAGE_SRC);
     }
@@ -68,7 +68,20 @@ export default function EditProfileModal({
         queryClient.invalidateQueries({ queryKey: ["userInfo"] });
         onClose();
       },
-      // TODO: 에러 핸들링
+      onError: (error: Error) => {
+        const axiosError = error as AxiosError;
+        let errorMessage = "에러가 발생했습니다.";
+
+        if (axiosError.isAxiosError) {
+          errorMessage =
+            (axiosError.response?.data as { message?: string })?.message ||
+            errorMessage;
+        } else {
+          errorMessage = axiosError.message;
+        }
+
+        alert(errorMessage);
+      },
     });
   };
 
@@ -83,7 +96,7 @@ export default function EditProfileModal({
             onClick={onClose}
             aria-label="닫기"
           >
-            <Image src="/image/X.svg" alt="close" width={13} height={13} />
+            <Image src="/image/X.svg" alt="close" width={24} height={24} />
           </button>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
