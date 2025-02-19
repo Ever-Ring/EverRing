@@ -111,6 +111,10 @@ export default function Home() {
         id: user.id,
         image: user.image,
       }))}
+      title="달램핏 오피스 스트레칭"
+      location="을지로 3가 서울시 중구 청계천로 100"
+      date="1월 7일"
+      time="17:30"
     />
   );
 }

@@ -10,11 +10,19 @@ import Ellipse from "@assets/ellipse.svg";
 interface ContainerInformationProps {
   maxCount: number;
   userImages?: { id: number; image: string }[];
+  title: string;
+  location: string;
+  date: string;
+  time: string;
 }
 
 function ContainerInformation({
   maxCount,
   userImages = [],
+  title,
+  location,
+  date,
+  time,
 }: ContainerInformationProps) {
   const [isSaved, setIsSaved] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
@@ -39,17 +47,15 @@ function ContainerInformation({
           <div className="flex flex-col gap-3 pr-16">
             <div className="flex flex-col gap-[2px]">
               <span className="text-lg font-semibold leading-7 text-gray-900">
-                달램핏 오피스 스트레칭
+                {title}
               </span>
               <span className="text-sm font-medium leading-5 text-gray-700">
-                을지로 3가 서울시 중구 청계천로 100 을지로 3가 서울시 중구
-                청계천로 100 을지로 3가 서울시 중구 청계천로 100 을지로 3가
-                서울시 중구 청계천로 100 을지로 3가 서울시 중구 청계천로 100
+                {location}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <ChipInfo info="1월 7일" />
-              <ChipInfo info="17:30" variant="mint" />
+              <ChipInfo info={date} />
+              <ChipInfo info={time} variant="mint" />
             </div>
           </div>
           <button
