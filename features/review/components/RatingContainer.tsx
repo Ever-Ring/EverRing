@@ -1,17 +1,6 @@
 import ReviewRating from "@components/common/ReviewRating";
 import RatingBreakdown from "@features/review/components/RatingBreakdown";
-
-interface Scores {
-  teamId: number;
-  // gatheringId: 0, 얘가 무슨 역할을 하는지 아직 모르겠음..
-  type: string;
-  averageScore: number;
-  oneStar: number;
-  twoStars: number;
-  threeStars: number;
-  fourStars: number;
-  fiveStars: number;
-}
+import { Scores } from "@customTypes/review";
 
 interface RatingContainerProps {
   scoreData: Scores;
