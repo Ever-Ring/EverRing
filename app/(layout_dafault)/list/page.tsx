@@ -7,6 +7,7 @@ import HeartImage from "@assets/img-head-class.svg";
 import Chip from "@components/common/Chip";
 import DateFilter from "@components/common/DateFilter";
 import SortFilter from "@components/common/SortFilter";
+import LocationFilter from "@components/common/LocationFilter";
 
 const tabs = [
   { label: "cloud", title: "구름링" },
@@ -72,8 +73,7 @@ export default function List() {
       {/* 정렬 & 필터링 섹션 */}
       <section className="mb-4 flex justify-between sm:mb-6">
         <div className="flex gap-2">
-          <DateFilter onDateSelect={handleDateChange} />
-
+          <LocationFilter />
           <DateFilter onDateSelect={handleDateChange} />
         </div>
         <SortFilter variant="list" />
