@@ -32,7 +32,7 @@ export interface Gathering {
   id: number;
   type: string;
   name: string;
-  dateTime: Date;
+  dateTime: string;
   location: string;
   image: string;
 }
