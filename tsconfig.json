@@ -32,7 +32,8 @@
       "@constants/*": ["constants/*"],
       "@providers/*": ["providers/*"],
       "@utils/*": ["utils/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@apis/*": ["apis/*"]
     }
   },
   "include": [
