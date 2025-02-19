@@ -1,5 +1,3 @@
-/* eslint-disable import/no-duplicates */
-
 "use client";
 
 import { useState } from "react";
@@ -7,24 +5,28 @@ import ChipInfo from "@components/common/ChipInfo";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
 import IconCheck from "@assets/ic-check-variant.svg";
+import Ellipse from "@assets/ellipse.svg";
 
 interface ContainerInformationProps {
-  currentCount: number;
   maxCount: number;
+  userImages?: { id: number; image: string }[];
 }
 
 function ContainerInformation({
-  currentCount,
   maxCount,
+  userImages = [],
 }: ContainerInformationProps) {
   const [isSaved, setIsSaved] = useState(true);
-
   const toggleSave = () => {
     setIsSaved((prev) => !prev);
   };
 
+  const currentCount = Math.min(userImages.length, maxCount);
   const isConfirmed = currentCount >= 5;
   const progress = Math.min((currentCount / maxCount) * 100, 100);
+
+  const visibleUsers = userImages.slice(0, 4);
+  const hiddenCount = Math.max(userImages.length - 4, 0);
 
   return (
     <div className="mx-auto flex w-[486px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6">
@@ -45,7 +47,7 @@ function ContainerInformation({
             </div>
           </div>
           <button
-            type="submit"
+            type="button"
             onClick={toggleSave}
             className="absolute right-0 top-0 focus:outline-none"
           >
@@ -71,8 +73,27 @@ function ContainerInformation({
                     {currentCount}명
                   </span>
                 </div>
-                <div className="flex items-start -space-x-[10px]">
-                  이미지 4개 + 숫자
+                <div className="flex items-center -space-x-[10px]">
+                  {visibleUsers.map((user) => (
+                    <div
+                      key={user.id}
+                      className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
+                      style={{
+                        backgroundImage: `url(${encodeURI(user.image)})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    />
+                  ))}
+                  {hiddenCount > 0 && (
+                    <div className="relative flex h-[29px] w-[29px] items-center justify-center">
+                      <Ellipse className="h-[29px] w-[29px]" />
+                      <span className="absolute bottom-1/2 left-1/2 translate-x-[-50%] translate-y-[50%] text-sm font-semibold text-gray-800">
+                        +{hiddenCount}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
               {isConfirmed && (
@@ -85,7 +106,6 @@ function ContainerInformation({
               )}
             </div>
           </div>
-          <div />
         </div>
         <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-100">
           <div
