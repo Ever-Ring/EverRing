@@ -18,11 +18,19 @@ export default function List() {
   //   undefined,
   // );
 
+  // const [selectedSort, setSelectedSort] = useState<string>("정렬");
+
   // 날짜가 변경될 때 API 요청을 보낼 수 있도록 상태 업데이트
   const handleDateChange = (date: string | undefined) => {
     // API 요청을 보낼 때 selectedDate를 활용
     console.log("API 요청: 필터링할 날짜 =", date || "전체");
   };
+
+  // 정렬 부분 사용 예정 (에러로 주석처리)
+  // const handleSortChange = (sortValue: string) => {
+  //   setSelectedSort(sortValue);
+  //   console.log("API 요청: 정렬 기준 =", sortValue);
+  // };
 
   return (
     <div className="flex w-full flex-col pt-6 md:pt-8">
@@ -68,7 +76,7 @@ export default function List() {
 
           <DateFilter onDateSelect={handleDateChange} />
         </div>
-        <SortFilter label="마감임박" />
+        <SortFilter variant="list" />
       </section>
     </div>
   );
