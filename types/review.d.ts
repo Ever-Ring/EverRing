@@ -11,7 +11,7 @@ export interface Review {
   id: number;
   score: number;
   comment: string;
-  createdAt: Date;
+  createdAt: string;
   Gathering: Gathering;
   User: User;
 }
