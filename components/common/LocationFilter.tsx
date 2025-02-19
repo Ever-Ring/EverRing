@@ -28,10 +28,10 @@ export default function LocationFilter({
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="지역 필터"
-        className={`content-box inline-flex h-9 min-w-[6.875rem] items-center justify-between rounded-lg border-2 border-gray-100 px-3 py-[0.375rem] text-sm font-medium transition md:h-10 md:min-w-[7.5rem] ${selectedLocation === "지역 전체" ? "border-gray-100 bg-white text-gray-900" : "border-black bg-gray-900 text-white"} `}
+        className={`content-box inline-flex h-9 min-w-[6.875rem] items-center justify-between rounded-lg border-2 border-gray-100 px-3 py-[0.375rem] text-sm font-medium transition md:h-10 md:min-w-[7.5rem] ${selectedLocation === items[0] ? "border-gray-100 bg-white text-gray-900" : "border-black bg-gray-900 text-white"} `}
       >
         <div className="whitespace-nowrap">{selectedLocation}</div>
-        {selectedLocation === "지역전체" ? <DropDefault /> : <DropInverse />}
+        {selectedLocation === items[0] ? <DropDefault /> : <DropInverse />}
       </button>
       <DropDown
         items={items}
