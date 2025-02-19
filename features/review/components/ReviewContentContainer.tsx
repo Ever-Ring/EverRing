@@ -8,26 +8,17 @@ import Chip from "@components/common/Chip";
 import TabMenu from "@components/common/TabMenu";
 import { TABS } from "@constants/tab";
 import useGetReviewData from "@features/review/hooks/useGetReviewData";
-import { Review } from "@customTypes/review";
-
-const scores = {
-  teamId: 0,
-  // gatheringId: 0, 얘가 무슨 역할을 하는지 아직 모르겠음..
-  type: "DALLAEMFIT",
-  averageScore: 0,
-  oneStar: 5,
-  twoStars: 25,
-  threeStars: 2,
-  fourStars: 19,
-  fiveStars: 27,
-};
+import { Review, Scores } from "@customTypes/review";
+import useGetReviewScore from "@features/review/hooks/useGetReviewScore";
 
 export default function ReviewContentContainer({
   initialData,
   totalItemCount,
+  initialScore,
 }: {
   initialData: Review[];
   totalItemCount: number;
+  initialScore: Scores;
 }) {
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
 
@@ -41,6 +32,11 @@ export default function ReviewContentContainer({
     //     offset: 0,
   };
 
+  const scoreFilter = {
+    // gatheringId?
+    //   type?
+  };
+
   const {
     data,
     fetchNextPage,
@@ -49,6 +45,12 @@ export default function ReviewContentContainer({
     isFetching,
     isFetchingNextPage,
   } = useGetReviewData({ ...filter, initialData, totalItemCount });
+
+  const {
+    data: scoreData,
+    // isLoading: isScoreLoading,
+    // isError: isScoreError,
+  } = useGetReviewScore(scoreFilter);
 
   // TODO 에러 처리
 
@@ -72,7 +74,7 @@ export default function ReviewContentContainer({
         </div>
       </div>
 
-      <RatingContainer scoreData={scores} />
+      <RatingContainer scoreData={scoreData ?? initialScore} />
       <div className="flex h-full w-full flex-col items-start bg-white">
         <div className="sticky top-[176px] z-10 w-full md:top-[190px] lg:top-[194px]">
           <FilterBar />
