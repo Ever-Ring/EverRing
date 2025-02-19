@@ -1,18 +1,26 @@
-"use client";
-
 import axios, { AxiosError, AxiosHeaders } from "axios";
-import { Cookies } from "react-cookie";
+import { getCookie } from "@utils/cookieUtils";
+import { TOKEN } from "@constants/auth";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const cookies = new Cookies();
+const isServer = typeof window === "undefined";
 
 // eslint-disable-next-line import/prefer-default-export
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = cookies.get("token");
+axiosInstance.interceptors.request.use(async (config) => {
+  let token;
+
+  if (isServer) {
+    const { cookies } = await import("next/headers");
+    const cookiesObj = await cookies();
+    token = cookiesObj.get(TOKEN)?.value;
+  } else {
+    token = getCookie(TOKEN);
+  }
+
   if (token) {
     const updatedHeaders = new AxiosHeaders({
       ...config.headers,
@@ -29,13 +37,6 @@ axiosInstance.interceptors.response.use(
   (res) => res,
 
   async (error: AxiosError) => {
-    // const { config } = error;
-
-    // if (config && error.response?.status === 401) {
-    //   // TODO: 로그인만료 popup 띄우기
-    //   window.location.href = "/login";
-    // }
-
     return Promise.reject(error);
   },
 );

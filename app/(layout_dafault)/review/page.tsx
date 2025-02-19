@@ -1,7 +1,14 @@
 import Image from "next/image";
 import ReviewContentContainer from "@features/review/components/ReviewContentContainer";
+import ReviewApi from "@apis/ReviewApi";
 
-export default function Review() {
+export default async function Review() {
+  // TODO 아직 데이터가 많이 없어서 임시로 limit 작게 설정
+  const params = { limit: 4, offset: 0 };
+  const response = await ReviewApi.getReviewData(params);
+  const initialData = response.data?.data ?? [];
+  const totalItemCount = response.data?.totalItemCount ?? 0;
+
   return (
     <div className="flex h-full w-full flex-col items-start pt-6 md:pt-8">
       <section className="flex items-center gap-4">
@@ -20,7 +27,10 @@ export default function Review() {
           </h2>
         </div>
       </section>
-      <ReviewContentContainer />
+      <ReviewContentContainer
+        initialData={initialData}
+        totalItemCount={totalItemCount}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
 import MainImage from "@assets/img_login.svg";
+import { SIGN_UP, SIGN_IN } from "@constants/auth";
 
 interface FormContainerProps {
   title: string;
@@ -15,7 +16,7 @@ function FormContainer({
   description,
   children,
 }: FormContainerProps) {
-  const link = linkText === "회원가입" ? "signup" : "signin";
+  const link = linkText === "회원가입" ? SIGN_UP : SIGN_IN;
 
   return (
     <div className="flex h-fit w-full items-start rounded-3xl bg-white px-4 py-8 md:px-16 lg:w-[31.875rem] lg:px-[3.375rem]">
