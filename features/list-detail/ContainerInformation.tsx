@@ -9,7 +9,7 @@ import Ellipse from "@assets/ellipse.svg";
 
 interface ContainerInformationProps {
   maxCount: number;
-  userImages?: { id: number; image: string }[];
+  userImages?: { id: number; name: string; image: string }[];
   title: string;
   location: string;
   date: string;
@@ -118,21 +118,34 @@ function ContainerInformation({
                           </span>
                         </>
                       ) : (
-                        <div className="absolute left-0 top-0 z-10 flex w-[max-content] max-w-[280px] flex-wrap justify-start -space-x-[10px]">
-                          {hiddenUsers.map((user, index) => (
-                            <div
-                              key={user.id}
-                              className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
-                              style={{
-                                backgroundImage: `url(${encodeURI(user.image)})`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                backgroundRepeat: "no-repeat",
-                                flexBasis: "29px",
-                                marginLeft: index % 8 === 0 ? "10px" : "0px",
-                              }}
-                            />
-                          ))}
+                        <div
+                          className="absolute left-1/2 top-8 z-10 max-h-60 w-[180px] -translate-x-1/2 overflow-y-auto rounded-lg border border-gray-300 bg-white p-2 shadow-lg"
+                          style={{
+                            scrollbarWidth: "none",
+                            msOverflowStyle: "none",
+                          }}
+                        >
+                          <div className="grid grid-cols-2 gap-2">
+                            {hiddenCount > 0 &&
+                              [...visibleUsers, ...hiddenUsers].map((user) => (
+                                <div
+                                  key={user.id}
+                                  className="flex items-center gap-2"
+                                >
+                                  <div
+                                    className="h-8 w-8 rounded-full bg-gray-300"
+                                    style={{
+                                      backgroundImage: `url(${encodeURI(user.image)})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                    }}
+                                  />
+                                  <span className="text-xs font-medium text-gray-700">
+                                    {user.name}
+                                  </span>
+                                </div>
+                              ))}
+                          </div>
                         </div>
                       )}
                     </div>
