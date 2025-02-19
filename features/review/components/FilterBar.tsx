@@ -10,7 +10,7 @@ export default function FilterBar() {
           <DateFilter />
           <DateFilter />
         </div>
-        <SortFilter label="최신 순" />
+        <SortFilter variant="review" />
       </div>
       {/* TODO 하단에 그라데이션 넣으면 좋을듯 */}
     </div>
