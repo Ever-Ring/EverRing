@@ -1,15 +1,8 @@
 export interface ReviewItemProps {
-  score: number;
-  comment: string;
-  userImage: string;
-  userName: string;
-  createdAt: Date;
+  review: Review;
 }
 
 export interface ReviewItemWithImageProps extends ReviewItemProps {
-  gatheringImage: string;
-  gatheringName: string;
-  gatheringLocation: string;
   hasUserInfo?: boolean;
 }
 
@@ -18,7 +11,7 @@ export interface Review {
   id: number;
   score: number;
   comment: string;
-  createdAt: Date;
+  createdAt: string;
   Gathering: Gathering;
   User: User;
 }
@@ -39,7 +32,7 @@ export interface Gathering {
   id: number;
   type: string;
   name: string;
-  dateTime: Date;
+  dateTime: string;
   location: string;
   image: string;
 }
