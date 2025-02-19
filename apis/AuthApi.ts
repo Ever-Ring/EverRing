@@ -13,4 +13,13 @@ export default class AuthApi {
     companyName,
   }: FormValues): Promise<AxiosResponse> =>
     axiosInstance.post("/auths/signup", { email, password, name, companyName });
+
+  static signout = (): Promise<AxiosResponse> =>
+    axiosInstance.get("/auths/signout");
+
+  static getUserInfo = (): Promise<AxiosResponse> =>
+    axiosInstance.get("/auths/user");
+
+  static updateUserInfo = (data: FormData): Promise<AxiosResponse> =>
+    axiosInstance.put("/auths/user", data);
 }
