@@ -17,6 +17,8 @@ function ContainerInformation({
   userImages = [],
 }: ContainerInformationProps) {
   const [isSaved, setIsSaved] = useState(true);
+  const [isHovered, setIsHovered] = useState(false);
+
   const toggleSave = () => {
     setIsSaved((prev) => !prev);
   };
@@ -25,20 +27,24 @@ function ContainerInformation({
   const isConfirmed = currentCount >= 5;
   const progress = Math.min((currentCount / maxCount) * 100, 100);
 
-  const visibleUsers = userImages.slice(0, 4);
-  const hiddenCount = Math.max(userImages.length - 4, 0);
+  const visibleUsers =
+    userImages.length > 4 ? userImages.slice(0, 4) : userImages;
+  const hiddenUsers = userImages.length > 4 ? userImages.slice(4) : [];
+  const hiddenCount = Math.max(0, userImages.length - 4);
 
   return (
     <div className="mx-auto flex w-[486px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6">
       <div className="mb-11 flex w-full px-6">
         <div className="relative flex w-full items-center justify-between">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 pr-16">
             <div className="flex flex-col gap-[2px]">
               <span className="text-lg font-semibold leading-7 text-gray-900">
                 달램핏 오피스 스트레칭
               </span>
               <span className="text-sm font-medium leading-5 text-gray-700">
-                을지로 3가 서울시 중구 청계천로 100
+                을지로 3가 서울시 중구 청계천로 100 을지로 3가 서울시 중구
+                청계천로 100 을지로 3가 서울시 중구 청계천로 100 을지로 3가
+                서울시 중구 청계천로 100 을지로 3가 서울시 중구 청계천로 100
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -52,9 +58,15 @@ function ContainerInformation({
             className="absolute right-0 top-0 focus:outline-none"
           >
             {isSaved ? (
-              <HeartIconInActive className="h-12 w-12" />
+              <HeartIconInActive
+                className="h-12 w-12"
+                aria-label="찜 아이콘 해제 상태"
+              />
             ) : (
-              <HeartIconActive className="h-12 w-12" />
+              <HeartIconActive
+                className="h-12 w-12"
+                aria-label="찜 아이콘 등록 상태"
+              />
             )}
           </button>
         </div>
@@ -87,11 +99,36 @@ function ContainerInformation({
                     />
                   ))}
                   {hiddenCount > 0 && (
-                    <div className="relative flex h-[29px] w-[29px] items-center justify-center">
-                      <Ellipse className="h-[29px] w-[29px]" />
-                      <span className="absolute bottom-1/2 left-1/2 translate-x-[-50%] translate-y-[50%] text-sm font-semibold text-gray-800">
-                        +{hiddenCount}
-                      </span>
+                    <div
+                      className="relative flex h-[29px] w-[29px] items-center justify-center"
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
+                    >
+                      {!isHovered ? (
+                        <>
+                          <Ellipse className="h-[29px] w-[29px]" />
+                          <span className="absolute bottom-1/2 left-1/2 translate-x-[-50%] translate-y-[50%] text-sm font-semibold text-gray-800">
+                            +{hiddenCount}
+                          </span>
+                        </>
+                      ) : (
+                        <div className="absolute left-0 top-0 z-10 flex w-[max-content] max-w-[280px] flex-wrap justify-start -space-x-[10px]">
+                          {hiddenUsers.map((user, index) => (
+                            <div
+                              key={user.id}
+                              className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
+                              style={{
+                                backgroundImage: `url(${encodeURI(user.image)})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                                flexBasis: "29px",
+                                marginLeft: index % 8 === 0 ? "10px" : "0px",
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
