@@ -5,17 +5,16 @@ import ReviewApi from "@apis/ReviewApi";
 import { ReviewQueryParams } from "@customTypes/reviewApi";
 import { Review } from "@customTypes/review";
 
-export default function useGetReviewData({
-  type,
-  location,
-  date,
-  sortBy,
-  sortOrder,
-  limit = 1, // TODO 아직 데이터가 많이 없어서 임시로 적게 설정
-  offset = 0,
-  initialData = [],
-  totalItemCount,
-}: ReviewQueryParams & { initialData: Review[]; totalItemCount: number }) {
+export default function useGetReviewData(
+  filter: ReviewQueryParams,
+  {
+    initialData = [],
+    totalItemCount,
+  }: {
+    initialData: Review[];
+    totalItemCount: number;
+  },
+) {
   const {
     data,
     isError,
@@ -24,16 +23,10 @@ export default function useGetReviewData({
     isFetching,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    // TODO 임시 쿼리키- 수정필요
-    queryKey: ["reviews", type, location, date, sortBy, sortOrder, limit],
-    queryFn: async ({ pageParam = offset }) => {
+    queryKey: ["reviews", filter],
+    queryFn: async ({ pageParam }) => {
       const response = await ReviewApi.getReviewData({
-        type,
-        location,
-        date,
-        sortBy,
-        sortOrder,
-        limit,
+        ...filter,
         offset: pageParam,
       });
 
@@ -50,7 +43,7 @@ export default function useGetReviewData({
           totalItemCount,
         },
       ],
-      pageParams: [offset],
+      pageParams: [filter.offset],
     },
     initialPageParam: 0,
   });
