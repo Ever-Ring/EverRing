@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import RatingContainer from "@features/review/components/RatingContainer";
 import FilterBar from "@features/review/components/FilterBar";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
@@ -77,6 +78,18 @@ export default function ReviewContentContainer({
     // isError: isScoreError,
   } = useGetReviewScore(scoreFilter);
 
+  // TODO 시간 남으면 라이브러리 제거하고 IntersectionObserverAPI로 커스텀 훅 만들기..
+  const { ref: loadMoreRef } = useInView({
+    triggerOnce: false,
+    onChange: (inView) => {
+      if (inView && hasNextPage && !isFetchingNextPage) {
+        // console.log("hasNextPage!!!!!!!!!!!", hasNextPage);
+        fetchNextPage();
+      }
+      console.log(inView);
+    },
+  });
+
   // TODO 에러 처리
   if (isError) return <div>Error loading reviews</div>;
 
@@ -128,6 +141,7 @@ export default function ReviewContentContainer({
 
         <div className="px-4 pb-6 md:px-6">
           <ReviewListwithImage reviewData={data} hasUserInfo />
+          <div ref={loadMoreRef} className="h-1" />
 
           {/* // TODO 무한 스크롤 로딩 스피너 - 일단 넣어놓은건데 제거할지말지 고민중.. */}
           {isFetchingNextPage && (
