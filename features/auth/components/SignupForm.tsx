@@ -85,16 +85,15 @@ export default function SignupForm() {
           errors={errors}
           onBlur={() => trigger("email")}
         />
-        {/* 회사명 대신 소속으로 사용할 것 */}
         <InputForm
           name="companyName"
           id="companyName"
           type="text"
-          label="소속"
+          label="직업 / 소속"
           labelTextSize="sm"
-          placeholder="소속을 입력해주세요(학생,회사원 등)"
+          placeholder="직업 혹은 소속을 입력해주세요"
           register={register}
-          rules={{ required: "소속을 입력해주세요" }}
+          rules={{ required: "직업 혹은 소속을 입력해주세요" }}
           errors={errors}
           onBlur={() => trigger("companyName")}
         />
