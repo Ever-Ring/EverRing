@@ -69,7 +69,7 @@ export default function MypageCard({
           </div>
         </div>
         {!isMadeByMe && (
-          <div className="absolute bottom-0 left-0">
+          <div className="md:absolute md:bottom-0 md:left-0">
             <Button
               text={isCompleted ? "리뷰 작성하기" : "예약 취소하기"}
               size="small"
