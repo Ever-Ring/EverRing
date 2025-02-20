@@ -5,19 +5,16 @@ import UnderLine from "@assets/underline.svg";
 import { ReviewItemWithImageProps } from "@customTypes/review";
 import { formatDate } from "@utils/dateFormatter";
 
-import GATHERING_TYPE_MAP from "@constants/gatheringType";
+import { GATHERING_TYPE_MAP, GatheringType } from "@constants/gatheringType";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 
 export default function ReviewItemWithImage({
   review,
   hasUserInfo,
 }: ReviewItemWithImageProps) {
-  const gatheringType = GATHERING_TYPE_MAP[review?.Gathering?.type] || "";
+  const gatheringType =
+    GATHERING_TYPE_MAP[review?.Gathering?.type as GatheringType] || "";
 
-  // TODO 스켈레톤 UI 표시
-  if (!review) {
-    return <div>스켈레톤</div>;
-  }
   return (
     <li className="flex flex-col items-start gap-6 text-gray-700 md:flex-row">
       <div className="relative h-[9.75rem] w-full md:w-[17.5rem]">

@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { ReviewScoreQueryParams } from "@customTypes/reviewApi";
 
 export default function useGetReviewScore(params: ReviewScoreQueryParams) {
-  // TODO 쿼리키 수정
   return useQuery({
     queryKey: ["reviewScore", params],
     queryFn: async () => {
