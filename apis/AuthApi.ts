@@ -15,7 +15,7 @@ export default class AuthApi {
     axiosInstance.post("/auths/signup", { email, password, name, companyName });
 
   static signout = (): Promise<AxiosResponse> =>
-    axiosInstance.get("/auths/signout");
+    axiosInstance.post("/auths/signout");
 
   static getUserInfo = (): Promise<AxiosResponse> =>
     axiosInstance.get("/auths/user");

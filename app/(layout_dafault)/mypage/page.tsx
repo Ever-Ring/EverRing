@@ -1,6 +1,5 @@
-// TODO MypageContent 작업이 완료되면 주석 풀기
-// import MypageContent from "@features/mypage/components/MypageContent";
 import MyProfile from "@features/mypage/components/MyProfile";
+import MypageContent from "@features/mypage/components/MypageContent";
 
 export default function Mypage() {
   return (
@@ -10,7 +9,7 @@ export default function Mypage() {
       </span>
       <div className="flex flex-1 flex-col gap-y-7">
         <MyProfile />
-        {/* <MypageContent /> */}
+        <MypageContent />
       </div>
     </div>
   );
