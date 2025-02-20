@@ -1,4 +1,5 @@
 import ReviewList from "@components/common/ReviewList";
+import Pagination from "@features/list-detail/Pagination";
 
 const reviews = [
   {
@@ -25,7 +26,7 @@ const reviews = [
   },
 ];
 
-function ReviewSection() {
+export default function ReviewSection() {
   return (
     <div className="inline-flex h-[687px] flex-shrink-0 flex-col items-center gap-6 border-t-2 border-gray-200 bg-white p-6">
       <div className="flex flex-col items-start gap-4">
@@ -36,9 +37,7 @@ function ReviewSection() {
           <ReviewList reviewData={reviews} />
         </div>
       </div>
-      <div>페이지네이션</div>
+      <Pagination />
     </div>
   );
 }
-
-export default ReviewSection;
