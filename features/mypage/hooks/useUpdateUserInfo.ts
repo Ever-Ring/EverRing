@@ -1,10 +1,8 @@
-"use client";
-
 import { useMutation } from "@tanstack/react-query";
 import AuthApi from "@apis/AuthApi";
 
-export default function useSignup() {
+export default function useUpdateUserInfo() {
   return useMutation({
-    mutationFn: AuthApi.signup,
+    mutationFn: (data: FormData) => AuthApi.updateUserInfo(data),
   });
 }

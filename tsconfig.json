@@ -31,7 +31,9 @@
       "@features/*": ["features/*"],
       "@constants/*": ["constants/*"],
       "@providers/*": ["providers/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"],
+      "@apis/*": ["apis/*"]
     }
   },
   "include": [

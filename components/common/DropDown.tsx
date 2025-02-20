@@ -42,7 +42,7 @@ function DropDown({
       {isOpen && items.length > 0 && (
         <ul
           className={`absolute right-0 mt-1 ${
-            variant === "solid" ? "w-[472px]" : "w-[110px]"
+            variant === "solid" ? "w-[472px]" : "w-[120px]"
           } rounded-md border bg-white shadow-md`}
         >
           {items.map((item) => (

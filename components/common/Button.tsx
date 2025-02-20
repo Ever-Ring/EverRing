@@ -21,10 +21,10 @@ function Button({
   return (
     <button
       className={classNames(
-        "group flex w-full items-center justify-center whitespace-nowrap rounded-xl border py-2 transition-colors",
+        "group flex items-center justify-center whitespace-nowrap rounded-xl border py-2 transition-colors",
         {
-          "px-6": size === "large",
-          "max-w-[120px] px-4": size === "small",
+          "w-full px-6": size === "large",
+          "w-[115px] px-4": size === "small",
 
           "bg-mint-600 text-white hover:bg-mint-700 active:bg-mint-800":
             variant === "solid" && !disabled,

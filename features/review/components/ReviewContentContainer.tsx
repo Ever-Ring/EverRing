@@ -7,137 +7,58 @@ import ReviewListwithImage from "@components/common/ReviewListWithImage";
 import Chip from "@components/common/Chip";
 import TabMenu from "@components/common/TabMenu";
 import { TABS } from "@constants/tab";
+import useGetReviewData from "@features/review/hooks/useGetReviewData";
+import { Review, Scores } from "@customTypes/review";
+import useGetReviewScore from "@features/review/hooks/useGetReviewScore";
 
-const reviews = [
-  {
-    teamId: 0,
-    id: 0,
-    score: 4,
-    comment: "리뷰1",
-    createdAt: new Date("2025-02-13T09:27:32.804Z"),
-    Gathering: {
-      teamId: 0,
-      id: 0,
-      type: "string",
-      name: "모임1",
-      dateTime: new Date("2025-02-13T09:27:32.804Z"),
-      location: "홍대입구",
-      image: "/image/dummyImage.png",
-    },
-    User: {
-      teamId: 0,
-      id: 0,
-      name: "네임1",
-      image: "/image/img-profile-large-default",
-    },
-  },
-  // {
-  //   teamId: 0,
-  //   id: 1,
-  //   score: 3,
-  //   comment: "리뷰2",
-  //   createdAt: new Date("2025-02-13T09:27:32.804Z"),
-  //   Gathering: {
-  //     teamId: 0,
-  //     id: 0,
-  //     type: "string",
-  //     name: "모임2",
-  //     dateTime: new Date("2025-02-13T09:27:32.804Z"),
-  //     location: "을지로3가",
-  //     image: "/image/dummyImage.png",
-  //   },
-  //   User: {
-  //     teamId: 0,
-  //     id: 0,
-  //     name: "네임2",
-  //     image: "/image/img-profile-large-default",
-  //   },
-  // },
-  // {
-  //   teamId: 0,
-  //   id: 2,
-  //   score: 5,
-  //   comment: "리뷰3",
-  //   createdAt: new Date("2025-02-13T09:27:32.804Z"),
-  //   Gathering: {
-  //     teamId: 0,
-  //     id: 0,
-  //     type: "string",
-  //     name: "모임3",
-  //     dateTime: new Date("2025-02-13T09:27:32.804Z"),
-  //     location: "을지로3가",
-  //     image: "/image/dummyImage.png",
-  //   },
-  //   User: {
-  //     teamId: 0,
-  //     id: 0,
-  //     name: "네임3",
-  //     image: "/image/img-profile-large-default",
-  //   },
-  // },
-  // {
-  //   teamId: 0,
-  //   id: 3,
-  //   score: 5,
-  //   comment: "리뷰4",
-  //   createdAt: new Date("2025-02-13T09:27:32.804Z"),
-  //   Gathering: {
-  //     teamId: 0,
-  //     id: 0,
-  //     type: "string",
-  //     name: "모임4",
-  //     dateTime: new Date("2025-02-13T09:27:32.804Z"),
-  //     location: "을지로3가",
-  //     image: "/image/dummyImage.png",
-  //   },
-  //   User: {
-  //     teamId: 0,
-  //     id: 0,
-  //     name: "네임4",
-  //     image: "/image/img-profile-large-default",
-  //   },
-  // },
-  // {
-  //   teamId: 0,
-  //   id: 4,
-  //   score: 5,
-  //   comment: "리뷰5",
-  //   createdAt: new Date("2025-02-13T09:27:32.804Z"),
-  //   Gathering: {
-  //     teamId: 0,
-  //     id: 0,
-  //     type: "string",
-  //     name: "모임5",
-  //     dateTime: new Date("2025-02-13T09:27:32.804Z"),
-  //     location: "을지로3가",
-  //     image: "/image/dummyImage.png",
-  //   },
-  //   User: {
-  //     teamId: 0,
-  //     id: 0,
-  //     name: "네임5",
-  //     image: "/image/img-profile-large-default",
-  //   },
-  // },
-];
-const scores = {
-  teamId: 0,
-  // gatheringId: 0, 얘가 무슨 역할을 하는지 아직 모르겠음..
-  type: "DALLAEMFIT",
-  averageScore: 0,
-  oneStar: 5,
-  twoStars: 25,
-  threeStars: 2,
-  fourStars: 19,
-  fiveStars: 27,
-};
-
-export default function ReviewContentContainer() {
+export default function ReviewContentContainer({
+  initialData,
+  totalItemCount,
+  initialScore,
+}: {
+  initialData: Review[];
+  totalItemCount: number;
+  initialScore: Scores;
+}) {
   const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+
+  const filter = {
+    //     type: "DALLAEMFIT", // 예시: 리뷰 종류
+    //     location: "홍대입구", // 예시: 지역
+    //     date: "2025-02-18", // 예시: 날짜
+    //     sortBy: "createdAt", // 예시: 최신순 정렬
+    //     sortOrder: "desc", // 예시: 내림차순
+    //     limit: 10,
+    //     offset: 0,
+  };
+
+  const scoreFilter = {
+    // gatheringId?
+    //   type?
+  };
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isError,
+    isFetching,
+    isFetchingNextPage,
+  } = useGetReviewData({ ...filter, initialData, totalItemCount });
+
+  const {
+    data: scoreData,
+    // isLoading: isScoreLoading,
+    // isError: isScoreError,
+  } = useGetReviewScore(scoreFilter);
+
+  // TODO 에러 처리
+
+  if (isError) return <div>Error loading reviews</div>;
 
   return (
     <section className="flex h-full w-full flex-col gap-6">
-      <div className="sticky top-[54px] z-10 bg-gray-50 pt-6 sm:pt-8 md:top-[60px]">
+      <div className="sticky top-[54px] z-10 bg-gray-50 pt-6 md:top-[60px] md:pt-8">
         <div className="flex flex-col items-start gap-3 border-b-2 border-gray-200 pb-4 lg:gap-4">
           <TabMenu
             hasIcon
@@ -153,14 +74,37 @@ export default function ReviewContentContainer() {
         </div>
       </div>
 
-      <RatingContainer scoreData={scores} />
+      <RatingContainer scoreData={scoreData ?? initialScore} />
       <div className="flex h-full w-full flex-col items-start bg-white">
-        <div className="sticky top-[176px] z-10 w-full sm:top-[190px] lg:top-[194px]">
+        <div className="sticky top-[176px] z-10 w-full md:top-[190px] lg:top-[194px]">
           <FilterBar />
         </div>
 
-        <div className="px-4 pb-6 sm:px-6">
-          <ReviewListwithImage reviewData={reviews} hasUserInfo />
+        <div className="px-4 pb-6 md:px-6">
+          {/* ✅ // TODO 필터 변경 중 기존 데이터 유지하면서 로딩 표시 */}
+          {isFetching && !isFetchingNextPage && (
+            <div className="text-gray-500">필터 변경 중...</div>
+          )}
+
+          <ReviewListwithImage reviewData={data} hasUserInfo />
+
+          {/* ✅ // TODO 무한 스크롤 로딩 스피너 */}
+          {isFetchingNextPage && (
+            <div className="flex justify-center py-4">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+            </div>
+          )}
+
+          {/* //TODO: Intersection Observer 적용 예정 */}
+          {hasNextPage && (
+            <button
+              type="button"
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              {!isFetchingNextPage && "더불러오기"}
+            </button>
+          )}
         </div>
       </div>
     </section>
