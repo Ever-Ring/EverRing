@@ -41,7 +41,7 @@ function DropDown({
     <div className="relative" ref={dropdownRef}>
       {isOpen && items.length > 0 && (
         <ul
-          className={`absolute right-0 mt-1 ${
+          className={`absolute right-0 z-50 mt-1 ${
             variant === "solid" ? "w-[472px]" : "w-[120px]"
           } rounded-md border bg-white shadow-md`}
         >
