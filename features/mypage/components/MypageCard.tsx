@@ -3,7 +3,7 @@ import Button from "@components/common/Button";
 import StateChip from "@features/mypage/components/StateChip";
 import { formatDateTime } from "@utils/dateFormatter";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
-import useAlertModal from "@hooks/useAlertModal";
+import useModalStore from "@stores/modalStore";
 import ModalPortal from "@components/common/ModalPortal";
 import AlertModal from "@components/common/AlertModal";
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
@@ -37,7 +37,7 @@ export default function MypageCard({
   const formattedDateTime = formatDateTime(dateTime);
   const { mutate: deleteGatheringJoined } = useDeleteGatheringJoined();
   const { isOpen, modalOptions, openModal, closeModal, confirmAction } =
-    useAlertModal();
+    useModalStore();
   const [isWriteReviewModalOpen, setIsWriteReviewModalOpen] = useState(false);
 
   const closeWriteReviewModal = () => {
