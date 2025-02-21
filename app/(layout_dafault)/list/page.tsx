@@ -8,6 +8,8 @@ import Chip from "@components/common/Chip";
 import DateFilter from "@components/common/DateFilter";
 import SortFilter from "@components/common/SortFilter";
 import LocationFilter from "@components/common/LocationFilter";
+import GatheringList from "@components/common/GatheringList";
+import { mockGatherings } from "@features/list/data/mockGatherings";
 
 const tabs = [
   { label: "cloud", title: "구름링" },
@@ -77,6 +79,10 @@ export default function List() {
           <DateFilter onDateSelect={handleDateChange} />
         </div>
         <SortFilter variant="list" />
+      </section>
+
+      <section>
+        <GatheringList gatherings={mockGatherings} />
       </section>
     </div>
   );
