@@ -139,14 +139,24 @@ export default function ReviewContentContainer({
           />
         </div>
 
-        <div className="px-4 pb-6 md:px-6">
-          <ReviewListwithImage reviewData={data} hasUserInfo />
-          <div ref={loadMoreRef} className="h-1" />
+        <div className="w-full px-4 pb-6 md:px-6">
+          {data ? (
+            <>
+              <ReviewListwithImage reviewData={data} hasUserInfo />
+              <div ref={loadMoreRef} className="h-1" />
 
-          {/* // TODO 무한 스크롤 로딩 스피너 - 일단 넣어놓은건데 제거할지말지 고민중.. */}
-          {isFetchingNextPage && (
-            <div className="flex justify-center py-4">
-              <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+              {/* // TODO 무한 스크롤 로딩 스피너 - 일단 넣어놓은건데 제거할지말지 고민중.. */}
+              {isFetchingNextPage && (
+                <div className="flex justify-center py-4">
+                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="w-full py-28 md:py-48">
+              <div className="text-center text-sm font-medium text-gray-500">
+                아직 리뷰가 없어요
+              </div>
             </div>
           )}
         </div>
