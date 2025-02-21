@@ -16,5 +16,10 @@ class GatheringApi {
     axiosInstance.get("/gatherings/joined", {
       params: params || {},
     });
+
+  static deleteGatheringJoined = (
+    gatheringId: number,
+  ): Promise<AxiosResponse> =>
+    axiosInstance.delete(`/gatherings/${gatheringId}/leave`);
 }
 export default GatheringApi;

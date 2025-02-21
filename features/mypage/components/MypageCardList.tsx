@@ -9,6 +9,8 @@ import {
   useGetGatheringsJoined,
 } from "@features/mypage/hooks/useGetGatheringsJoined";
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
+import useGetMyReviews from "@features/mypage/hooks/useGetMyReviews";
+import ReviewListwithImage from "@components/common/ReviewListWithImage";
 
 // TODO: Gathering 타입 별도 분리된 파일로 옮길 예정
 interface Gathering {
@@ -29,6 +31,7 @@ export default function MypageCardList({
 }: {
   selectedIndex: number;
 }) {
+  const { data: userInfo, isLoading: isUserInfoLoading } = useGetUserInfo();
   const { data: gatheringsJoined, isLoading: isGatheringJoinedLoading } =
     useGetGatheringsJoined({ reviewed: false });
   const {
@@ -38,8 +41,7 @@ export default function MypageCardList({
   const {
     data: gatheringsIsReviewed,
     isLoading: isGatheringIsReviewedLoading,
-  } = useGetGatheringsJoined({ completed: true, reviewed: true });
-  const { data: userInfo, isLoading: isUserInfoLoading } = useGetUserInfo();
+  } = useGetMyReviews({ userId: userInfo?.data?.id });
   const {
     data: gatheringsCreatedByUser,
     isLoading: isGatheringsCreatedByUserLoading,
@@ -55,7 +57,7 @@ export default function MypageCardList({
         gatheringsJoined.data.map((gathering: Gathering) => (
           <MypageCard
             key={gathering.id}
-            id={gathering.id}
+            gatheringId={gathering.id}
             name={gathering.name}
             location={gathering.location}
             image={gathering.image}
@@ -92,7 +94,7 @@ export default function MypageCardList({
               gatheringsIsNotReviewed.data.map((gathering: Gathering) => (
                 <MypageCard
                   key={gathering.id}
-                  id={gathering.id}
+                  gatheringId={gathering.id}
                   name={gathering.name}
                   location={gathering.location}
                   image={gathering.image}
@@ -108,20 +110,7 @@ export default function MypageCardList({
               </div>
             )
           ) : gatheringsIsReviewed?.data?.length ? (
-            gatheringsIsReviewed?.data?.map((gathering: Gathering) => (
-              //TODO 데이터 확인 불가로 일단 MypageCard 렌더링
-              <MypageCard
-                key={gathering.id}
-                id={gathering.id}
-                name={gathering.name}
-                location={gathering.location}
-                image={gathering.image}
-                dateTime={gathering.dateTime}
-                participantCount={gathering.participantCount}
-                capacity={gathering.capacity}
-                isCompleted
-              />
-            ))
+            <ReviewListwithImage reviewData={gatheringsIsReviewed?.data} />
           ) : (
             <div className="flex h-full w-full flex-1 items-center justify-center">
               아직 작성한 리뷰가 없어요
@@ -134,7 +123,7 @@ export default function MypageCardList({
         gatheringsCreatedByUser?.data?.map((gathering: Gathering) => (
           <MypageCard
             key={gathering.id}
-            id={gathering.id}
+            gatheringId={gathering.id}
             name={gathering.name}
             location={gathering.location}
             image={gathering.image}
