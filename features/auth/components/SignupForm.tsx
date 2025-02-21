@@ -1,18 +1,14 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
-
 import { FormValues } from "@customTypes/form";
 import { emailPattern, passwordPattern } from "@constants/validationPatterns";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import useSignup from "@features/auth/hooks/useSignup";
+import handleAuthMutationError from "@features/auth/utils/handleMutationError";
 
 export default function SignupForm() {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -28,29 +24,8 @@ export default function SignupForm() {
     const { passwordConfirm, ...formData } = data;
 
     mutation.mutate(formData, {
-      onSuccess: (response) => {
-        if (response.status === 201) {
-          console.log("성공", response);
-          // TODO: 로그인성공 popup 띄우기
-        }
-        router.push("/");
-      },
       onError: (error) => {
-        console.log(error);
-        if (error instanceof AxiosError && error.response?.data) {
-          if (error.response?.data.code === "VALIDATION_ERROR") {
-            setError("email", {
-              type: "email",
-              message: error.response.data.message,
-            });
-          }
-          if (error.response?.data.code === "EMAIL_EXISTS") {
-            setError("email", {
-              type: "email",
-              message: error.response.data.message,
-            });
-          }
-        }
+        handleAuthMutationError(error, setError);
       },
     });
   };

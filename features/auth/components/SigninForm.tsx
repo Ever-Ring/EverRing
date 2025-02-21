@@ -1,20 +1,15 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { AxiosError } from "axios";
 
 import { FormValues } from "@customTypes/form";
 import { emailPattern } from "@constants/validationPatterns";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import useSignin from "@features/auth/hooks/useSignin";
-import { Cookies } from "react-cookie";
+import handleSigninMutationError from "@features/auth/utils/handleMutationError";
 
 export default function SigninForm() {
-  const router = useRouter();
-  const cookies = new Cookies();
-
   const {
     register,
     handleSubmit,
@@ -27,36 +22,7 @@ export default function SigninForm() {
 
   const onSubmit = async (data: FormValues) => {
     mutation.mutate(data, {
-      onSuccess: (response) => {
-        if (response.status === 200) {
-          const { token } = response.data;
-          cookies.set("token", token, { path: "/" });
-        }
-        router.push("/");
-      },
-      onError: (error) => {
-        if (error instanceof AxiosError && error.response?.data) {
-          if (error.response?.data.code === "INVALID_CREDENTIALS") {
-            setError("password", {
-              type: "password",
-              message: error.response?.data.message,
-            });
-          }
-
-          if (error.response?.data.code === "USER_NOT_FOUND") {
-            setError("email", {
-              type: "email",
-              message: error.response.data.message,
-            });
-          }
-          if (error.response?.data.code === "VALIDATION_ERROR") {
-            setError("email", {
-              type: "email",
-              message: error.response.data.message,
-            });
-          }
-        }
-      },
+      onError: (error) => handleSigninMutationError(error, setError),
     });
   };
 
