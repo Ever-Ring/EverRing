@@ -12,9 +12,19 @@ export function useGetGatheringsCreatedByUser(params: { createdBy: number }) {
 export function useGetGatheringsJoined(params?: {
   completed?: boolean;
   reviewed?: boolean;
+  sortBy?: string;
+  sortOrder?: string;
 }) {
   return useQuery({
     queryKey: ["gatheringsJoined", params],
-    queryFn: () => GatheringApi.getGatheringsJoined(params || {}),
+    queryFn: () => {
+      const updatedParams = {
+        ...params,
+        sortBy: params?.sortBy || "registrationEnd",
+        sortOrder: params?.sortOrder || "desc",
+      };
+
+      return GatheringApi.getGatheringsJoined(updatedParams);
+    },
   });
 }
