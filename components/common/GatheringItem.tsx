@@ -15,7 +15,7 @@ export interface GatheringItemProps {
     participantCount: number; // 현재 참여 인원
     capacity: number; // 최대 인원
     image?: string; // 대표 이미지 URL
-    createdBy: number; // 생성자 ID
+    createdBy: number | null; // 생성자 ID
     canceledAt?: string | null; // 취소된 경우 날짜, 없으면 null
   };
 }
@@ -25,12 +25,14 @@ const DEFAULT_REVIEW_IMAGE = "/image/list-default.png";
 // const HEART_ACTIVE_IMAGE = "icon-save-large-active.svg";
 const HEART_INACTIVE_IMAGE = "/image/icon-save-large-inactive.svg";
 const ARROW_RIGHT = "/image/arrow_right.svg";
+const CHECKBOX = "/image/icon-checkbox-active.svg";
 
 const PERSON_IMAGE = "/image/person.svg";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
   const { date, time } = formatDateTime2(gathering.registrationEnd);
   const isFull = gathering.participantCount >= gathering.capacity;
+  const isGatheringOpen = gathering.participantCount >= 5;
 
   return (
     <Link
@@ -42,8 +44,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
         <Image
           fill
           alt={gathering.name || "list-default"}
-          // src={gathering.image || DEFAULT_REVIEW_IMAGE}
-          src={DEFAULT_REVIEW_IMAGE}
+          src={gathering.image || DEFAULT_REVIEW_IMAGE}
         />
       </div>
 
@@ -88,7 +89,15 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
               <span>
                 {gathering.participantCount}/{gathering.capacity}
               </span>
-              <span>2</span>
+              {/* 개설확정 추가 */}
+              {isGatheringOpen && (
+                <div className="flex items-center">
+                  <Image alt="checkbox" src={CHECKBOX} width={24} height={24} />
+                  <span className="text-sm font-medium text-mint-500">
+                    개설확정
+                  </span>
+                </div>
+              )}
             </div>
             <div className="relative mt-2 min-h-1 w-full rounded-full bg-gray-200">
               <div
@@ -100,11 +109,11 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
             </div>
           </div>
           {/* 밑에 오른쪽 */}
-          <div className="flex min-w-[5.5rem] items-center justify-center text-base font-semibold text-mint-600">
+          <div className="flex min-w-[5.5rem] items-center justify-between text-base font-semibold text-mint-600">
             {isFull ? (
-              <span className="flex-grow text-center">closed</span>
+              <span className="mr-2 mt-3 flex-grow text-end">closed</span>
             ) : (
-              <div className="flex gap-2">
+              <div className="mt-2 flex gap-2">
                 join now
                 <Image
                   alt="join_arrow"
