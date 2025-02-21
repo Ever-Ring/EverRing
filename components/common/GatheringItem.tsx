@@ -2,23 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { formatDateTime2 } from "@utils/dateFormatter";
 import ChipInfo from "@components/common/ChipInfo";
-
-export interface GatheringItemProps {
-  gathering: {
-    teamId: number;
-    id: number;
-    type?: string; // 모임 유형 (예: "DALLAEMFIT", "YOGA", "DANCE" 등)
-    name: string; // 모임 이름
-    dateTime: string; // 모임 날짜 및 시간 (ISO 8601 형식)
-    registrationEnd?: string; // 모집 마감일
-    location?: string; // 모임 위치
-    participantCount: number; // 현재 참여 인원
-    capacity: number; // 최대 인원
-    image?: string; // 대표 이미지 URL
-    createdBy: number | null; // 생성자 ID
-    canceledAt?: string | null; // 취소된 경우 날짜, 없으면 null
-  };
-}
+import { GatheringItemProps } from "@customTypes/gathering";
 
 const DEFAULT_REVIEW_IMAGE = "/image/list-default.png";
 
