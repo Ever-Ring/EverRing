@@ -4,8 +4,7 @@ import StateChip from "@features/mypage/components/StateChip";
 import { formatDateTime } from "@utils/dateFormatter";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import useModalStore from "@stores/modalStore";
-import ModalPortal from "@components/common/ModalPortal";
-import AlertModal from "@components/common/AlertModal";
+
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
 
@@ -36,10 +35,8 @@ export default function MypageCard({
 }: MypageCardProps) {
   const formattedDateTime = formatDateTime(dateTime);
   const { mutate: deleteGatheringJoined } = useDeleteGatheringJoined();
-  const { isOpen, modalOptions, openModal, closeModal, confirmAction } =
-    useModalStore();
+  const { openModal } = useModalStore();
   const [isWriteReviewModalOpen, setIsWriteReviewModalOpen] = useState(false);
-
   const closeWriteReviewModal = () => {
     setIsWriteReviewModalOpen(false);
   };
@@ -119,15 +116,6 @@ export default function MypageCard({
           gatheringId={gatheringId}
         />
       )}
-      <ModalPortal>
-        <AlertModal
-          isOpen={isOpen}
-          text={modalOptions?.text || ""}
-          hasTwoButton={modalOptions?.hasTwoButton}
-          onClose={closeModal}
-          onConfirm={confirmAction}
-        />
-      </ModalPortal>
     </div>
   );
 }
