@@ -3,7 +3,7 @@ import RatingBreakdown from "@features/review/components/RatingBreakdown";
 import { Scores } from "@customTypes/review";
 
 interface RatingContainerProps {
-  scoreData: Scores;
+  scoreData?: Scores;
 }
 
 export default function RatingContainer({ scoreData }: RatingContainerProps) {
@@ -17,7 +17,7 @@ export default function RatingContainer({ scoreData }: RatingContainerProps) {
             </span>
             <span className="text-gray-400">/5</span>
           </p>
-          <ReviewRating score={scoreData.averageScore} />
+          <ReviewRating score={scoreData?.averageScore ?? 0} />
         </div>
         <RatingBreakdown scoreData={scoreData} />
       </div>
