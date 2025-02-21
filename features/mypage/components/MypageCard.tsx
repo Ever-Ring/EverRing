@@ -2,9 +2,15 @@ import Image from "next/image";
 import Button from "@components/common/Button";
 import StateChip from "@features/mypage/components/StateChip";
 import { formatDateTime } from "@utils/dateFormatter";
+import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
+import useAlertModal from "@hooks/useAlertModal";
+import ModalPortal from "@components/common/ModalPortal";
+import AlertModal from "@components/common/AlertModal";
+import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
+import { useState } from "react";
 
 interface MypageCardProps {
-  id: number;
+  gatheringId: number;
   name: string;
   location: string;
   dateTime: string;
@@ -17,7 +23,7 @@ interface MypageCardProps {
 }
 
 export default function MypageCard({
-  id,
+  gatheringId,
   name,
   location,
   dateTime,
@@ -29,6 +35,29 @@ export default function MypageCard({
   capacity,
 }: MypageCardProps) {
   const formattedDateTime = formatDateTime(dateTime);
+  const { mutate: deleteGatheringJoined } = useDeleteGatheringJoined();
+  const { isOpen, modalOptions, openModal, closeModal, confirmAction } =
+    useAlertModal();
+  const [isWriteReviewModalOpen, setIsWriteReviewModalOpen] = useState(false);
+
+  const closeWriteReviewModal = () => {
+    setIsWriteReviewModalOpen(false);
+  };
+
+  function handleClick(isCompleted: boolean) {
+    if (isCompleted) {
+      setIsWriteReviewModalOpen(true);
+    } else {
+      openModal({
+        text: "정말 모임 참여를 취소하시겠습니까?",
+        hasTwoButton: true,
+        onConfirm: () => {
+          deleteGatheringJoined(gatheringId);
+          alert("모임 참여가 취소되었습니다.");
+        },
+      });
+    }
+  }
 
   return (
     <div className="mb-6 flex flex-col gap-4 border-b-2 border-dotted pb-6 md:flex-row">
@@ -77,13 +106,28 @@ export default function MypageCard({
               variant={isCompleted ? "solid" : "outlined"}
               type="button"
               onClick={() => {
-                // TODO: 버튼 인터랙션 기능 추가
-                console.log("id: ", id);
+                handleClick(isCompleted ?? false);
               }}
             />
           </div>
         )}
       </div>
+      {isWriteReviewModalOpen && (
+        <WriteReviewModal
+          isOpen={isWriteReviewModalOpen}
+          onClose={closeWriteReviewModal}
+          gatheringId={gatheringId}
+        />
+      )}
+      <ModalPortal>
+        <AlertModal
+          isOpen={isOpen}
+          text={modalOptions?.text || ""}
+          hasTwoButton={modalOptions?.hasTwoButton}
+          onClose={closeModal}
+          onConfirm={confirmAction}
+        />
+      </ModalPortal>
     </div>
   );
 }
