@@ -1,3 +1,5 @@
+import { User } from "@customTypes/user";
+
 export interface ReviewItemProps {
   review: Review;
 }
@@ -46,12 +48,5 @@ export interface Gathering {
   name: string;
   dateTime: string;
   location: string;
-  image: string;
-}
-
-export interface User {
-  teamId: number;
-  id: number;
-  name: string;
   image: string;
 }
