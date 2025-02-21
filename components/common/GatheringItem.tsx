@@ -1,37 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatDateTime2 } from "@utils/dateFormatter";
+import { formatDateTime2, isExpired } from "@utils/dateFormatter";
 import ChipInfo from "@components/common/ChipInfo";
 import { GatheringItemProps } from "@customTypes/gathering";
-
-const DEFAULT_REVIEW_IMAGE = "/image/list-default.png";
-
-// const HEART_ACTIVE_IMAGE = "icon-save-large-active.svg";
-const HEART_INACTIVE_IMAGE = "/image/icon-save-large-inactive.svg";
-const ARROW_RIGHT = "/image/arrow_right.svg";
-const CHECKBOX = "/image/icon-checkbox-active.svg";
-const BYE = "/image/icon-bye-circle-large-discard.svg";
-const WATCH = "/image/Group 33855.svg";
-
-const PERSON_IMAGE = "/image/person.svg";
+import { IMAGES } from "@constants/gathering";
+import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
   const { date, time } = formatDateTime2(gathering.registrationEnd);
   const isFull = gathering.participantCount >= gathering.capacity;
   const isGatheringOpen = gathering.participantCount >= 5;
-  const deadlineTime = new Date(gathering.registrationEnd).getHours();
-
-  const isExpired = gathering.registrationEnd
-    ? (() => {
-        const now = new Date();
-        now.setSeconds(0, 0);
-
-        const registrationTime = new Date(gathering.registrationEnd);
-        registrationTime.setSeconds(0, 0);
-
-        return registrationTime < now;
-      })()
-    : false;
+  const expired = isExpired(gathering.registrationEnd);
 
   return (
     <div className="relative w-full">
@@ -41,16 +20,11 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
       >
         {/* 위쪽영역 */}
         <div className="relative min-h-[9.75rem] w-full md:w-[17.5rem]">
-          <div className="absolute right-0 top-0 z-10 flex h-8 min-w-[100px] rounded-bl-xl bg-mint-600 p-2">
-            <Image src={WATCH} alt="WATCH" width={24} height={24} />
-            <p className="text-xs font-medium text-white">
-              {isExpired ? "마감된 모임" : `${deadlineTime}시 마감 예정`}
-            </p>
-          </div>
+          <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
           <Image
             fill
             alt={gathering.name || "list-default"}
-            src={gathering.image || DEFAULT_REVIEW_IMAGE}
+            src={gathering.image || IMAGES.DEFAULT_REVIEW}
           />
         </div>
 
@@ -77,8 +51,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
             <div className="flex items-center justify-center">
               <Image
                 alt={gathering.name || "list-default"}
-                // src={gathering.image || DEFAULT_REVIEW_IMAGE}
-                src={HEART_INACTIVE_IMAGE}
+                src={IMAGES.HEART_INACTIVE}
                 width={48}
                 height={48}
               />
@@ -91,7 +64,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
               <div className="flex items-center gap-1">
                 <Image
                   alt="person_icon"
-                  src={PERSON_IMAGE}
+                  src={IMAGES.PERSON}
                   width={20}
                   height={20}
                   className="inline-block"
@@ -104,7 +77,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                   <div className="flex items-center">
                     <Image
                       alt="checkbox"
-                      src={CHECKBOX}
+                      src={IMAGES.CHECKBOX}
                       width={24}
                       height={24}
                     />
@@ -132,7 +105,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                   join now
                   <Image
                     alt="join_arrow"
-                    src={ARROW_RIGHT}
+                    src={IMAGES.ARROW_RIGHT}
                     width={18}
                     height={18}
                   />
@@ -142,12 +115,12 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
           </div>
         </div>
       </Link>
-      {isExpired && (
+      {expired && (
         <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-[1.5rem] bg-black/70 text-lg font-medium text-white">
           <p>마감된 챌린지에요,</p>
           <p>다음 기회에 만나요 🙏</p>
           <Image
-            src={BYE}
+            src={IMAGES.BYE}
             alt="BYE"
             width={48}
             height={48}

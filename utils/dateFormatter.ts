@@ -42,3 +42,19 @@ export function formatDateTime2(dateTimeString: string) {
 
   return { date, time };
 }
+
+export const isExpired = (dateString?: string): boolean => {
+  if (!dateString) return false;
+
+  const now = new Date();
+  now.setSeconds(0, 0);
+
+  const targetDate = new Date(dateString);
+  targetDate.setSeconds(0, 0);
+
+  return targetDate < now;
+};
+
+export const extractHour = (dateString: string): number => {
+  return new Date(dateString).getHours();
+};
