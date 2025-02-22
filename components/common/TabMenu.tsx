@@ -56,7 +56,3 @@ export default function TabMenu({
     </div>
   );
 }
-
-TabMenu.defaultProps = {
-  hasIcon: false,
-};
