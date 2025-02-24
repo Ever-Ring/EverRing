@@ -120,3 +120,26 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: ${{ steps.format_lighthouse_score.outputs.comments}}
+
+  codecov:
+    name: Codecov Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.0.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.0.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests and collect coverage
+        run: npm run test -- --coverage
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          slug: Ever-Ring/EverRing
