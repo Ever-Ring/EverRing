@@ -1,4 +1,4 @@
-name: Run Lighthouse CI (Push on PR to master branch)
+name: Run Lighthouse & Codecov on PR
 on:
   pull_request:
     branches:
