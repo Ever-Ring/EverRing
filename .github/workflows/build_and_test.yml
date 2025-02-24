@@ -120,7 +120,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const comments = `${{ steps.format_lighthouse_score.outputs.comments }}`;
-            const pr_number = ${process.env.GITHUB_REF.split('/')[2]};
+            const pr_number = `${process.env.GITHUB_REF.split('/')[2]}`;
             const { data: commentsData } = await github.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
