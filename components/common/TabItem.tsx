@@ -1,8 +1,8 @@
 /* eslint-disable react/require-default-props */
 // TODO 나중에 구름/나무로 이미지 바꿀 것. 구름링/나무링
 
-import SvgCloud from "@assets/dalaemfit.svg";
-import SvgTree from "@assets/workation.svg";
+import SvgTree from "@assets/dalaemfit.svg";
+import SvgCloud from "@assets/workation.svg";
 import { forwardRef } from "react";
 
 interface TabProps {
@@ -29,8 +29,8 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
             {title}
           </div>
           {hasIcon &&
-            (label === "cloud" ? (
-              <SvgCloud
+            (label === "tree" ? (
+              <SvgTree
                 width={32}
                 height={32}
                 className={`transition-colors duration-300 ease-in-out ${
@@ -38,7 +38,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
                 }`}
               />
             ) : (
-              <SvgTree
+              <SvgCloud
                 width={32}
                 height={32}
                 className={`transition-colors duration-300 ease-in-out ${
@@ -51,13 +51,5 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
     );
   },
 );
-// displayName 추가 (린트 에러)
-TabItem.displayName = "TabItem";
-
-// defaultProps를 사용하여 기본값을 설정
-// TapItem.defaultProps = {
-//   hasIcon: false,
-//   isSelected: false,
-// };
 
 export default TabItem;

@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import ReviewApi from "@apis/ReviewApi";
 import { ReviewQueryParams } from "@customTypes/reviewApi";
 import { Review } from "@customTypes/review";
+import { INITIAL_PARAMS } from "@features/review/constants/query";
 
 export default function useGetReviewData(
   filter: ReviewQueryParams,
@@ -15,6 +16,9 @@ export default function useGetReviewData(
     totalItemCount: number;
   },
 ) {
+  const isInitialParams =
+    JSON.stringify(filter) === JSON.stringify(INITIAL_PARAMS);
+
   const {
     data,
     isError,
@@ -24,7 +28,7 @@ export default function useGetReviewData(
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["reviews", filter],
-    queryFn: async ({ pageParam }) => {
+    queryFn: async ({ pageParam = filter.offset }) => {
       const response = await ReviewApi.getReviewData({
         ...filter,
         offset: pageParam,
@@ -36,15 +40,17 @@ export default function useGetReviewData(
       const loadedItems = allPages.flatMap((page) => page.data).length;
       return loadedItems < lastPage.totalItemCount ? loadedItems : undefined;
     },
-    initialData: {
-      pages: [
-        {
-          data: initialData,
-          totalItemCount,
-        },
-      ],
-      pageParams: [filter.offset],
-    },
+    initialData: isInitialParams
+      ? {
+          pages: [
+            {
+              data: initialData,
+              totalItemCount,
+            },
+          ],
+          pageParams: [0],
+        }
+      : undefined,
     initialPageParam: 0,
   });
 

@@ -11,7 +11,7 @@ function RatingBar({ percentage }: { percentage: number }) {
 
 function RatingBreakdownItem({
   score,
-  count,
+  count = 0,
   totalReviewCount,
 }: {
   score: number;
@@ -48,24 +48,22 @@ interface Scores {
 }
 
 interface RatingBreakdownProps {
-  scoreData: Scores;
+  scoreData?: Scores;
 }
 
 export default function RatingBreakdown({ scoreData }: RatingBreakdownProps) {
   const ratings = [
-    { rating: 5, count: scoreData.fiveStars },
-    { rating: 4, count: scoreData.fourStars },
-    { rating: 3, count: scoreData.threeStars },
-    { rating: 2, count: scoreData.twoStars },
-    { rating: 1, count: scoreData.oneStar },
+    { rating: 5, count: scoreData?.fiveStars },
+    { rating: 4, count: scoreData?.fourStars },
+    { rating: 3, count: scoreData?.threeStars },
+    { rating: 2, count: scoreData?.twoStars },
+    { rating: 1, count: scoreData?.oneStar },
   ];
 
-  const totalReviewCount =
-    scoreData.oneStar +
-    scoreData.twoStars +
-    scoreData.threeStars +
-    scoreData.fourStars +
-    scoreData.fiveStars;
+  const totalReviewCount = ratings.reduce(
+    (acc, cur) => acc + (cur.count || 0),
+    0,
+  );
 
   return (
     <ol className="flex flex-col items-start gap-1">
@@ -73,7 +71,7 @@ export default function RatingBreakdown({ scoreData }: RatingBreakdownProps) {
         <RatingBreakdownItem
           key={rating.rating}
           score={rating.rating}
-          count={rating.count}
+          count={rating.count ?? 0}
           totalReviewCount={totalReviewCount}
         />
       ))}
