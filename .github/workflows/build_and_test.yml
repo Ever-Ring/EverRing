@@ -119,34 +119,26 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const { Octokit } = require('@octokit/rest');
-            const octokit = new Octokit({ auth: `${{ secrets.GITHUB_TOKEN }}` });
+            const { context } = require('@actions/github');
 
-            const { repo, payload } = context;
-            const { data: previousComments } = await octokit.issues.listComments({
-              owner: repo.owner,
-              repo: repo.repo,
-              issue_number: payload.pull_request.number,
-            });
-
-            const previousLhciComment = previousComments.find((comment) => (comment.body.startsWith(`⚡️ Lighthouse report!`)));
+            const previousLhciComment = context.payload.pull_request.comments.find(
+              (comment) => comment.body.startsWith('⚡️ Lighthouse report!')
+            );
 
             const newComment = `${{ steps.format_lighthouse_score.outputs.comments }}`;
 
-
             if (previousLhciComment) {
-              await octokit.issues.updateComment({
-                owner: repo.owner,
-                repo: repo.repo,
-                comment_id: previousLHCIComment.id,
+              await github.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: previousLhciComment.id,
                 body: newComment,
               });
             } else {
-              await octokit.issues.createComment({
-                owner: repo.owner,
-                repo: repo.repo,
-                issue_number: payload.pull_request.number,
+              await github.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
                 body: newComment,
               });
             }
