@@ -1,5 +1,3 @@
-import ReviewSection from "@features/list-detail/ReviewSection";
-
 export default function Home() {
-  return <ReviewSection />;
+  return <div>initial commit</div>;
 }
