@@ -21,5 +21,8 @@ class GatheringApi {
     gatheringId: number,
   ): Promise<AxiosResponse> =>
     axiosInstance.delete(`/gatherings/${gatheringId}/leave`);
+
+  static getGatheringDetail = (id: number): Promise<AxiosResponse> =>
+    axiosInstance.get(`/gatherings/${id}`);
 }
 export default GatheringApi;
