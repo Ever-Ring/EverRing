@@ -14,7 +14,6 @@ export default function ReviewSection() {
     limit,
   });
 
-  // data의 구조: { reviewData: Review[], totalItemCount: number, totalPages: number }
   const {
     reviewData: reviews,
     totalItemCount,
@@ -25,14 +24,19 @@ export default function ReviewSection() {
     totalPages: 0,
   };
 
-  // 서버에서 내려준 totalPages를 우선 사용하고, 없으면 totalItemCount로 계산
   const computedTotalPages = (() => {
     if (totalPages > 0) return totalPages;
     if (totalItemCount > 0) return Math.ceil(totalItemCount / limit);
     return 0;
   })();
 
-  // totalPages가 변경될 때 currentPage 조정 (불필요한 리렌더 방지)
+  const renderContent = () => {
+    if (isError) return <p>에러가 발생했습니다.</p>;
+    if (isFetching) return <p>불러 오는 중...</p>;
+    if (computedTotalPages === 0) return <p>리뷰가 없습니다.</p>;
+    return <ReviewList reviewData={reviews} />;
+  };
+
   useEffect(() => {
     setCurrentPage((prevPage) => {
       if (computedTotalPages === 0) return 1;
@@ -40,14 +44,6 @@ export default function ReviewSection() {
       return prevPage;
     });
   }, [computedTotalPages]);
-
-  // 컨텐츠 렌더링 로직
-  const renderContent = () => {
-    if (isError) return <p>에러가 발생했습니다.</p>;
-    if (isFetching) return <p>불러 오는 중...</p>;
-    if (computedTotalPages === 0) return <p>리뷰가 없습니다.</p>;
-    return <ReviewList reviewData={reviews} />;
-  };
 
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-6 border-t-2 border-gray-200 bg-white p-6">
