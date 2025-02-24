@@ -119,27 +119,22 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { context } = require('@actions/github');
+            const comments = `${{ steps.format_lighthouse_score.outputs.comments }}`;
+            const pr_number = context.payload.pull_request.number;
 
-            const previousLhciComment = context.payload.pull_request.comments.find(
-              (comment) => comment.body.startsWith('⚡️ Lighthouse report!')
-            );
+            const { data: commentsData } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr_number,
+            });
 
-            const newComment = `${{ steps.format_lighthouse_score.outputs.comments }}`;
-
-            if (previousLhciComment) {
-              await github.issues.updateComment({
+            const isAlreadyCommented = commentsData.some(comment => comment.body.includes("⚡️ Lighthouse report"));
+            if (!isAlreadyCommented) {
+              await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                comment_id: previousLhciComment.id,
-                body: newComment,
-              });
-            } else {
-              await github.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.payload.pull_request.number,
-                body: newComment,
+                issue_number: pr_number,
+                body: comments,
               });
             }
 
