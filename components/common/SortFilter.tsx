@@ -14,7 +14,7 @@ export default function SortFilter({
 }: SortFilterProps) {
   const itemsMap = {
     list: ["정렬", "최신순", "마감 임박", "참여 인원순"],
-    review: ["정렬", "최신순", "평점 높은순", "참여 인원순"],
+    review: ["정렬", "오래된순", "평점 높은순", "참여 인원순"],
   };
 
   const items = itemsMap[variant];
