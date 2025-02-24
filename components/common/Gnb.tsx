@@ -1,3 +1,5 @@
+// TODO 비지니스 로직과 뷰 분리
+
 "use client";
 
 import Link from "next/link";
@@ -5,6 +7,10 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
+import AuthApi from "@apis/AuthApi";
+import { DEFAULT_USER_IMAGE } from "@constants/user";
+import useUserStore from "@stores/userStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface NavLink {
   href: string;
@@ -21,16 +27,28 @@ function UserProfile() {
   const [cookies, , removeCookie] = useCookies(["token"]);
   const [isMounted, setIsMounted] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isLoggedIn = !!cookies.token;
-  const profileImageSrc = "/image/img-profile-large-default.svg";
+  const isLoggedIn = !!cookies.token; // localStorage로 확인할 수 있으므로 불필요한가?
+
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { image: userImage } = useUserStore();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await AuthApi.signout();
     removeCookie("token");
+    queryClient.clear();
+    localStorage.removeItem("userIdStorage");
+    useUserStore.setState({
+      id: null,
+      name: null,
+      image: null,
+      companyName: null,
+      email: null,
+    });
     setIsDropdownOpen(false);
     router.push("/");
   };
@@ -45,14 +63,14 @@ function UserProfile() {
       <button
         type="button"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center justify-center focus:outline-none"
+        className="flex h-10 w-10 items-center justify-center focus:outline-none"
       >
         <Image
-          src={profileImageSrc}
+          src={userImage || DEFAULT_USER_IMAGE}
           alt="user profile image"
           width={40}
           height={40}
-          className="rounded-full"
+          className="h-full w-full rounded-full object-cover"
         />
       </button>
 
