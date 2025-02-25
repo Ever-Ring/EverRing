@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { FormValues } from "@customTypes/form";
 import { emailPattern, passwordPattern } from "@constants/validationPatterns";
 import Button from "@components/common/Button";
@@ -10,6 +10,7 @@ import handleAuthMutationError from "@features/auth/utils/handleMutationError";
 import AlertModal from "@components/common/AlertModal";
 import ModalPortal from "@components/common/ModalPortal";
 import useModalStore from "@stores/modalStore";
+import useDebouncedValidation from "@features/auth/hooks/useDebouncedValidation";
 
 export default function SignupForm() {
   const {
@@ -19,7 +20,11 @@ export default function SignupForm() {
     formState: { errors, isValid },
     trigger,
     watch,
-  } = useForm<FormValues>();
+  } = useFormContext<FormValues>();
+
+  useDebouncedValidation("email");
+  useDebouncedValidation("password");
+  useDebouncedValidation("passwordConfirm");
 
   const mutation = useSignup();
 

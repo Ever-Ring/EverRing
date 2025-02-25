@@ -1,9 +1,7 @@
-/* eslint-disable react/require-default-props */
-// TODO 나중에 구름/나무로 이미지 바꿀 것. 구름링/나무링
-
-import SvgTree from "@assets/dalaemfit.svg";
-import SvgCloud from "@assets/workation.svg";
 import { forwardRef } from "react";
+
+import SvgTree from "@assets/tree-fill.svg";
+import SvgCloud from "@assets/cloud-fill.svg";
 
 interface TabProps {
   title: string;
@@ -31,16 +29,16 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
           {hasIcon &&
             (label === "tree" ? (
               <SvgTree
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 className={`transition-colors duration-300 ease-in-out ${
                   isSelected ? "fill-gray-900" : "fill-gray-400"
                 }`}
               />
             ) : (
               <SvgCloud
-                width={32}
-                height={32}
+                width={24}
+                height={24}
                 className={`transition-colors duration-300 ease-in-out ${
                   isSelected ? "fill-gray-900" : "fill-gray-400"
                 }`}
