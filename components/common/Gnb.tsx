@@ -1,10 +1,16 @@
+// TODO 비지니스 로직과 뷰 분리
+
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import useIsMounted from "@hooks/useIsMounted";
+import useIsAuthenticated from "@hooks/useIsAuthenticated";
+import useLogout from "@hooks/useLogout";
+import { DEFAULT_USER_IMAGE } from "@constants/user";
+import useUserStore from "@stores/userStore";
 
 interface NavLink {
   href: string;
@@ -18,21 +24,15 @@ const navLinks: NavLink[] = [
 ];
 
 function UserProfile() {
-  const [cookies, , removeCookie] = useCookies(["token"]);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMounted();
+  const isLoggedIn = useIsAuthenticated();
+  const logout = useLogout();
+  const { image: userImage } = useUserStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isLoggedIn = !!cookies.token;
-  const profileImageSrc = "/image/img-profile-large-default.svg";
-  const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handleLogout = () => {
-    removeCookie("token");
+  const handleLogout = async () => {
+    logout();
     setIsDropdownOpen(false);
-    router.push("/");
   };
 
   if (!isMounted) {
@@ -45,14 +45,14 @@ function UserProfile() {
       <button
         type="button"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center justify-center focus:outline-none"
+        className="flex h-10 w-10 items-center justify-center focus:outline-none"
       >
         <Image
-          src={profileImageSrc}
+          src={userImage || DEFAULT_USER_IMAGE}
           alt="user profile image"
           width={40}
           height={40}
-          className="rounded-full"
+          className="h-full w-full rounded-full object-cover"
         />
       </button>
 
@@ -80,7 +80,7 @@ function UserProfile() {
   );
 }
 
-function NavLinks() {
+function NavMenu() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
@@ -107,7 +107,7 @@ export default function Gnb() {
         <Link href="/list" className="rounded-md border border-black">
           로고
         </Link>
-        <NavLinks />
+        <NavMenu />
       </div>
       <UserProfile />
     </nav>
