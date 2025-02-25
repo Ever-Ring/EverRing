@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 import { FormValues } from "@customTypes/form";
 import { emailPattern } from "@constants/validationPatterns";
@@ -8,8 +8,7 @@ import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import useSignin from "@features/auth/hooks/useSignin";
 import handleSigninMutationError from "@features/auth/utils/handleMutationError";
-import useDebounce from "@features/auth/hooks/useDebounce";
-import { useEffect } from "react";
+import useDebouncedValidation from "@features/auth/hooks/useDebouncedValidation";
 
 export default function SigninForm() {
   const {
@@ -18,17 +17,9 @@ export default function SigninForm() {
     setError,
     formState: { errors, isValid },
     trigger,
-    watch,
-  } = useForm<FormValues>();
+  } = useFormContext<FormValues>();
 
-  const emailValue = watch("email");
-  const debouncedEmail = useDebounce(emailValue, 1000);
-
-  useEffect(() => {
-    if (debouncedEmail) {
-      trigger("email");
-    }
-  }, [debouncedEmail, trigger]);
+  useDebouncedValidation("email");
 
   const mutation = useSignin();
 
