@@ -10,6 +10,8 @@ import handleAuthMutationError from "@features/auth/utils/handleMutationError";
 import AlertModal from "@components/common/AlertModal";
 import ModalPortal from "@components/common/ModalPortal";
 import useModalStore from "@stores/modalStore";
+import { useEffect } from "react";
+import useDebounce from "@features/auth/hooks/useDebounce";
 
 export default function SignupForm() {
   const {
@@ -20,6 +22,48 @@ export default function SignupForm() {
     trigger,
     watch,
   } = useForm<FormValues>();
+
+  const emailValue = watch("email");
+  const passwordValue = watch("password");
+  const passwordConfirmValue = watch("passwordConfirm");
+
+  const debouncedEmail = useDebounce(emailValue, 1000);
+  const debouncedPassword = useDebounce(passwordValue, 1000);
+  const debouncedPasswordConfirm = useDebounce(passwordConfirmValue, 1000);
+
+  useEffect(() => {
+    if (debouncedEmail) {
+      trigger("email");
+    }
+    if (debouncedPassword) {
+      trigger("password");
+    }
+    if (debouncedPasswordConfirm) {
+      trigger("passwordConfirm");
+    }
+  }, [debouncedEmail, debouncedPassword, debouncedPasswordConfirm, trigger]);
+
+  // TODO debouncedValue를 객체로 만들어서 한 번에 관리하는 방식과 위의 버전 중 어느 것이 더 나을까요..
+  // const debouncedValues = useMemo(
+  //   () => ({
+  //     email: debouncedEmail,
+  //     password: debouncedPassword,
+  //     passwordConfirm: debouncedPasswordConfirm,
+  //   }),
+  //   [debouncedEmail, debouncedPassword, debouncedPasswordConfirm],
+  // );
+
+  // useEffect(() => {
+  //   if (debouncedValues.email) {
+  //     trigger("email");
+  //   }
+  //   if (debouncedValues.password) {
+  //     trigger("password");
+  //   }
+  //   if (debouncedValues.passwordConfirm) {
+  //     trigger("passwordConfirm");
+  //   }
+  // }, [debouncedValues, trigger]);
 
   const mutation = useSignup();
 
