@@ -1,11 +1,10 @@
 import { useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
+import { removeCookie } from "@utils/cookieUtils";
 import { useQueryClient } from "@tanstack/react-query";
 import AuthApi from "@apis/AuthApi";
 import useUserStore from "@stores/userStore";
 
 export default function useLogout() {
-  const [, , removeCookie] = useCookies(["token"]);
   const router = useRouter();
   const queryClient = useQueryClient();
 
