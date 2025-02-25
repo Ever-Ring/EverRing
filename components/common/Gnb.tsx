@@ -80,7 +80,7 @@ function UserProfile() {
   );
 }
 
-function NavLinks() {
+function NavMenu() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
 
@@ -107,7 +107,7 @@ export default function Gnb() {
         <Link href="/list" className="rounded-md border border-black">
           로고
         </Link>
-        <NavLinks />
+        <NavMenu />
       </div>
       <UserProfile />
     </nav>
