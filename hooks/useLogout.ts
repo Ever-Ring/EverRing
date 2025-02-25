@@ -20,7 +20,7 @@ export default function useLogout() {
       companyName: null,
       email: null,
     });
-    router.push("/");
+    router.replace("/");
   };
 
   return logout;
