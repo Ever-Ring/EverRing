@@ -1,7 +1,7 @@
-import { useCookies } from "react-cookie";
+import { getCookie } from "@utils/cookieUtils";
 
 export default function useIsAuthenticated() {
-  const [cookies] = useCookies(["token"]);
+  const token = getCookie("token");
 
-  return !!cookies.token;
+  return !!token;
 }
