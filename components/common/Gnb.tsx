@@ -4,13 +4,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
-import { useState, useEffect } from "react";
-import AuthApi from "@apis/AuthApi";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import useIsMounted from "@hooks/useIsMounted";
+import useIsAuthenticated from "@hooks/useIsAuthenticated";
+import useLogout from "@hooks/useLogout";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 import useUserStore from "@stores/userStore";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface NavLink {
   href: string;
@@ -24,33 +24,15 @@ const navLinks: NavLink[] = [
 ];
 
 function UserProfile() {
-  const [cookies, , removeCookie] = useCookies(["token"]);
-  const [isMounted, setIsMounted] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isLoggedIn = !!cookies.token; // localStorage로 확인할 수 있으므로 불필요한가?
-
-  const router = useRouter();
-  const queryClient = useQueryClient();
+  const isMounted = useIsMounted();
+  const isLoggedIn = useIsAuthenticated();
+  const logout = useLogout();
   const { image: userImage } = useUserStore();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLogout = async () => {
-    await AuthApi.signout();
-    removeCookie("token");
-    queryClient.clear();
-    localStorage.removeItem("userIdStorage");
-    useUserStore.setState({
-      id: null,
-      name: null,
-      image: null,
-      companyName: null,
-      email: null,
-    });
+    logout();
     setIsDropdownOpen(false);
-    router.push("/");
   };
 
   if (!isMounted) {
