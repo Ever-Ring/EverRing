@@ -99,7 +99,7 @@ export default function ReviewContentContainer({
 
   return (
     <section className="flex h-full w-full flex-col gap-6">
-      <div className="sticky top-[54px] z-10 bg-gray-50 pt-6 md:top-[60px] md:pt-8">
+      <div className="sticky top-[56px] z-10 bg-gray-50 pt-6 md:top-[60px] md:pt-8">
         <div className="flex flex-col items-start gap-3 border-b-2 border-gray-200 pb-4 lg:gap-4">
           <TabMenu
             hasIcon
@@ -134,7 +134,7 @@ export default function ReviewContentContainer({
       <RatingContainer scoreData={scoreData ?? initialScore} />
 
       <div className="flex h-full w-full flex-col items-start bg-white">
-        <div className="sticky top-[176px] z-10 w-full md:top-[190px] lg:top-[194px]">
+        <div className="sticky top-[174px] z-10 w-full md:top-[190px] lg:top-[194px]">
           <FilterBar
             onLocationChange={(location) =>
               setFilters((prev) => ({ ...prev, location }))
@@ -145,7 +145,7 @@ export default function ReviewContentContainer({
         </div>
 
         <div className="w-full px-4 pb-6 md:px-6">
-          {data ? (
+          {data.length > 0 ? (
             <>
               <ReviewListwithImage reviewData={data} hasUserInfo />
               <div ref={loadMoreRef} className="h-1" />
