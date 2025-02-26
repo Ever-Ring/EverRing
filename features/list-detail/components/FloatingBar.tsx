@@ -1,23 +1,46 @@
-import React from "react";
+"use client";
+
+import React, { useState, useCallback } from "react";
 import Button from "@components/common/Button";
 
 type FloatingBarType = "default" | "twoButton";
 
 interface FloatingBarProps {
   type?: FloatingBarType;
-  primaryButtonText?: string;
-  secondaryButtonText?: string;
-  isPrimaryDisabled?: boolean;
-  isSecondaryDisabled?: boolean;
+  isSolidDisabled?: boolean;
+  onSolidClick?: () => void;
+  onCancelClick?: () => void;
+  onShareClick?: () => void;
 }
 
 function FloatingBar({
   type = "default",
-  primaryButtonText = "참여하기",
-  secondaryButtonText = "참여하기",
-  isPrimaryDisabled = false,
-  isSecondaryDisabled = false,
+  isSolidDisabled = false,
+  onSolidClick,
+  onCancelClick,
+  onShareClick,
 }: FloatingBarProps) {
+  const [isJoined, setIsJoined] = useState(false);
+
+  const handleSingleButtonClick = useCallback(() => {
+    setIsJoined((prev) => !prev);
+    if (onSolidClick) {
+      onSolidClick();
+    }
+  }, [onSolidClick]);
+
+  const handleCancelClick = useCallback(() => {
+    if (onCancelClick) {
+      onCancelClick();
+    }
+  }, [onCancelClick]);
+
+  const handleShareClick = useCallback(() => {
+    if (onShareClick) {
+      onShareClick();
+    }
+  }, [onShareClick]);
+
   function renderByType() {
     switch (type) {
       case "default":
@@ -34,12 +57,13 @@ function FloatingBar({
                 </span>
               </div>
               <Button
-                text={primaryButtonText}
+                text={isJoined ? "참여 취소하기" : "참여하기"}
                 size="small"
-                disabled={isPrimaryDisabled}
+                disabled={isSolidDisabled}
+                onClick={handleSingleButtonClick}
               />
             </div>
-            {/* 모바일 뷰 */}
+
             <div className="w-full sm:hidden">
               <div className="flex w-full items-center justify-between gap-4">
                 <div>
@@ -53,18 +77,19 @@ function FloatingBar({
                   </span>
                 </div>
                 <Button
-                  text={primaryButtonText}
+                  text={isJoined ? "참여 취소하기" : "참여하기"}
                   size="small"
-                  disabled={isPrimaryDisabled}
+                  disabled={isSolidDisabled}
+                  onClick={handleSingleButtonClick}
                 />
               </div>
             </div>
           </>
         );
+
       case "twoButton":
         return (
           <>
-            {/* 데스크톱 뷰 */}
             <div className="hidden w-full items-center justify-between sm:flex">
               <div className="flex flex-col gap-1">
                 <span className="text-base font-semibold text-gray-900">
@@ -77,20 +102,20 @@ function FloatingBar({
               </div>
               <div className="flex gap-3">
                 <Button
-                  text={primaryButtonText}
+                  text="취소하기"
                   size="small"
                   variant="outlined"
-                  disabled={isPrimaryDisabled}
+                  onClick={handleCancelClick}
                 />
                 <Button
-                  text={secondaryButtonText}
+                  text="공유하기"
                   size="small"
                   variant="solid"
-                  disabled={isSecondaryDisabled}
+                  onClick={handleShareClick}
                 />
               </div>
             </div>
-            {/* 모바일 뷰 */}
+
             <div className="w-full sm:hidden">
               <div className="flex w-full flex-col items-center gap-3">
                 <div>
@@ -104,24 +129,24 @@ function FloatingBar({
                 </div>
                 <div className="flex w-full max-w-xs gap-4">
                   <Button
-                    text={primaryButtonText}
+                    text="취소하기"
                     size="large"
                     variant="outlined"
-                    disabled={isPrimaryDisabled}
+                    onClick={handleCancelClick}
                   />
                   <Button
-                    text={secondaryButtonText}
+                    text="공유하기"
                     size="large"
                     variant="solid"
-                    disabled={isSecondaryDisabled}
+                    onClick={handleShareClick}
                   />
                 </div>
               </div>
             </div>
           </>
         );
+
       default:
-        // ESLint default-case 규칙 준수를 위해 기본 케이스 추가
         return null;
     }
   }
