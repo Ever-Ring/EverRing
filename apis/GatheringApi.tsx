@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "@lib/axios";
-import { GatheringParams } from "@apis/GatheringListApi";
+import { GatheringParams } from "@types/gathering";
 
 class GatheringApi {
   static getGatherings = (params?: GatheringParams): Promise<AxiosResponse> =>
