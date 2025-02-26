@@ -15,7 +15,17 @@ import EyeOn from "@assets/visibility_on.svg";
  */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { id, name, type, label, placeholder, isInvalid, onBlur, ...props },
+    {
+      id,
+      name,
+      type,
+      label,
+      placeholder,
+      isInvalid,
+      onBlur,
+      labelTextSize = "base",
+      ...props
+    },
     ref,
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -23,11 +33,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const togglePasswordVisibility = () => {
       setIsPasswordVisible((prev) => !prev);
     };
+
+    const textSize = labelTextSize === "sm" ? "text-sm" : "text-base";
+
     return (
       <div className="relative flex w-full flex-col items-start gap-2">
         <label
           htmlFor={id}
-          className="w-full text-sm font-semibold text-gray-900"
+          className={`w-full ${textSize} font-semibold text-gray-900`}
         >
           {label}
         </label>
@@ -37,14 +50,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           type={type === "password" && isPasswordVisible ? "text" : type}
           placeholder={placeholder}
           ref={ref}
-          className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none sm:text-base"
+          className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none md:text-base"
           onBlur={onBlur}
           {...props}
           style={{
             border: isInvalid ? "2px solid red" : "",
           }}
         />
-        {name === "password" && (
+        {type === "password" && (
           <button
             type="button"
             onClick={togglePasswordVisibility}

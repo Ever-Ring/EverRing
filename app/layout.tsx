@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Gnb from "@components/common/Gnb";
+import ReactQueryProvider from "@providers/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +15,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="bg-gray-100 font-pretendard antialiased">
-        <Gnb />
-        {children}
+      <body className="flex h-screen flex-col bg-gray-100 font-pretendard antialiased">
+        <ReactQueryProvider>
+          <div className="fixed left-0 top-0 z-20 w-full">
+            <Gnb />
+          </div>
+          <div className="flex w-full flex-1 pt-[54px] md:pt-[60px] lg:px-[15%]">
+            {children}
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   );

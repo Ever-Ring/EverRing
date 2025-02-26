@@ -27,7 +27,14 @@
       "@public/*": ["public/*"],
       "@image/*": ["public/image/*"],
       "@types/*": ["types/*"],
-      "@customTypes/*": ["types/*"]
+      "@customTypes/*": ["types/*"],
+      "@features/*": ["features/*"],
+      "@constants/*": ["constants/*"],
+      "@providers/*": ["providers/*"],
+      "@utils/*": ["utils/*"],
+      "@hooks/*": ["hooks/*"],
+      "@apis/*": ["apis/*"],
+      "@stores/*": ["stores/*"]
     }
   },
   "include": [

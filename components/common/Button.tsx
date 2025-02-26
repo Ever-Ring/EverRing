@@ -6,6 +6,8 @@ interface ButtonProps {
   size?: "large" | "small";
   disabled?: boolean;
   variant?: "solid" | "outlined";
+  type?: "button" | "submit";
+  onClick?: () => void;
 }
 
 function Button({
@@ -13,14 +15,16 @@ function Button({
   size = "large",
   disabled = false,
   variant = "solid",
+  type = "button",
+  onClick,
 }: ButtonProps) {
   return (
     <button
       className={classNames(
         "group flex items-center justify-center whitespace-nowrap rounded-xl border py-2 transition-colors",
         {
-          "w-[332px] px-6": size === "large",
-          "w-[120px] px-4": size === "small",
+          "w-full px-6": size === "large",
+          "w-[115px] px-4": size === "small",
 
           "bg-mint-600 text-white hover:bg-mint-700 active:bg-mint-800":
             variant === "solid" && !disabled,
@@ -33,8 +37,9 @@ function Button({
             variant === "outlined" && disabled,
         },
       )}
-      type="button"
+      type={type === "submit" ? "submit" : "button"}
       disabled={disabled}
+      onClick={onClick}
     >
       <span
         className={classNames(
