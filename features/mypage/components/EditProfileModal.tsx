@@ -15,7 +15,7 @@ import useUserStore from "@stores/userStore";
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  currentUser: {
+  userInfo: {
     companyName: string | null;
     image: string | null;
   };
@@ -26,7 +26,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 export default function EditProfileModal({
   isOpen,
   onClose,
-  currentUser,
+  userInfo,
 }: EditProfileModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: updateUserInfo } = useUpdateUserInfo();
@@ -41,13 +41,13 @@ export default function EditProfileModal({
   } = useForm<FormValues>();
 
   useEffect(() => {
-    if (currentUser) {
-      setValue("companyName", currentUser.companyName ?? "");
-      setValue("image", currentUser.image ?? DEFAULT_USER_IMAGE);
+    if (userInfo) {
+      setValue("companyName", userInfo.companyName ?? "");
+      setValue("image", userInfo.image ?? DEFAULT_USER_IMAGE);
     }
-  }, [currentUser, setValue]);
+  }, [userInfo, setValue]);
 
-  if (!isOpen || !currentUser) return null;
+  if (!isOpen || !userInfo) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;

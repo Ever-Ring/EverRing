@@ -56,7 +56,7 @@ export default function MyProfile() {
         <EditProfileModal
           isOpen={isModalOpen}
           onClose={closeModal}
-          currentUser={userInfo}
+          userInfo={userInfo}
         />
       )}
     </div>
