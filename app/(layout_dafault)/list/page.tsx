@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useGetGatherings } from "@features/list/hooks/useGetGatherings";
 import Button from "@components/common/Button";
 import TabMenu from "@components/common/TabMenu";
@@ -10,22 +10,26 @@ import DateFilter from "@components/common/DateFilter";
 import SortFilter from "@components/common/SortFilter";
 import LocationFilter from "@components/common/LocationFilter";
 import GatheringList from "@components/common/GatheringList";
-
-const tabs = [
-  { label: "cloud", title: "구름링" },
-  { label: "tree", title: "나무링" },
-];
+import { TABS } from "@constants/tab";
+import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
 
 export default function List() {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const {
+    selectedTabIndex,
+    setSelectedTabIndex,
+    typeFilter,
+    setTypeFilter,
+    setLocationFilter,
+    setDateFilter,
+    setSortBy,
+    filters,
+    subChips,
+  } = useGatheringFilters();
+
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
-    useGetGatherings();
-
-  console.log("📡 현재 불러온 data 데이터:", data);
-  console.log("🚀 hasNextPage:", hasNextPage);
-  console.log("🚀 isFetchingNextPage:", isFetchingNextPage);
+    useGetGatherings(filters);
 
   const gatherings = Array.isArray(data?.pages)
     ? data.pages.flatMap((page) =>
@@ -37,6 +41,7 @@ export default function List() {
 
   console.log("📡 현재 불러온 gatherings:", gatherings);
 
+  // 스크롤 부분 디벨롭 예정
   useEffect(() => {
     if (!loadMoreRef.current) {
       return undefined;
@@ -44,9 +49,9 @@ export default function List() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log("📡 스크롤 감지됨:", entries[0]);
+        console.log("스크롤 감지됨:", entries[0]);
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log("🔄 추가 데이터 요청 중...");
+          console.log("추가 데이터 요청 중");
           fetchNextPage();
         }
       },
@@ -78,9 +83,9 @@ export default function List() {
         <div>
           <TabMenu
             hasIcon
-            tabs={tabs}
-            selectedIndex={selectedIndex}
-            onSelect={setSelectedIndex}
+            tabs={TABS}
+            selectedIndex={selectedTabIndex}
+            onSelect={setSelectedTabIndex}
           />
         </div>
         <div className="flex items-center">
@@ -90,9 +95,14 @@ export default function List() {
 
       {/*  카테고리 필터 */}
       <section className="flex justify-start gap-2">
-        <Chip label="전체" selected />
-        <Chip label="오피스 스트레칭" selected />
-        <Chip label="마인드풀니스" selected />
+        {subChips.map((chip) => (
+          <Chip
+            key={chip.value}
+            label={chip.label}
+            selected={typeFilter === chip.value}
+            onClick={() => setTypeFilter(chip.value)}
+          />
+        ))}
       </section>
 
       <hr className="my-4 w-full border-t-2 border-gray-200" />
@@ -100,14 +110,14 @@ export default function List() {
       {/* 정렬 & 필터링 섹션 */}
       <section className="mb-4 flex justify-between sm:mb-6">
         <div className="flex gap-2">
-          <LocationFilter />
-          <DateFilter
-            onDateSelect={(date) =>
-              console.log("API 요청: 필터링할 날짜 =", date || "전체")
+          <LocationFilter
+            onLocationChange={(selected) =>
+              setLocationFilter(selected === "지역전체" ? null : selected)
             }
           />
+          <DateFilter onDateSelect={(date) => setDateFilter(date)} />
         </div>
-        <SortFilter variant="list" />
+        <SortFilter variant="list" onSortChange={setSortBy} />
       </section>
 
       {/*  모임 리스트 */}

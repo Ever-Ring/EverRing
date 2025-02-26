@@ -20,3 +20,14 @@ export interface GatheringItemProps {
 export interface GatheringListProps {
   gatherings: Gathering[];
 }
+
+export interface GatheringParams {
+  limit?: number;
+  offset?: number;
+  location?: string | null;
+  date?: string | null;
+  sortBy?: string | null;
+  type?: string | null;
+  sortOrder?: "asc" | "desc";
+  createdBy?: number;
+}
