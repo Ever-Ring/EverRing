@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import GatheringApi from "@apis/GatheringApi";
-import { GatheringParams } from "@types/gathering";
+import { GatheringParams } from "@customTypes/gathering";
 
 const LIMIT = 10;
 
