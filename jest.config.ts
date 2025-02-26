@@ -16,6 +16,9 @@ const config: Config = {
     "^@hooks/(.*)$": "<rootDir>/hooks/$1",
     "^@stores/(.*)$": "<rootDir>/stores/$1",
   },
+  collectCoverage: true,
+  coverageDirectory: "coverage",
+  coverageReporters: ["lcov", "text"],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
