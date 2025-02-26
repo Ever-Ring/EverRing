@@ -24,14 +24,15 @@ export default function ListDetailContent({
   if (!data) return null;
 
   const formattedDateTime = formatDateTime(data.dateTime);
+  const [dateString, timeString] = formattedDateTime.split(" ・ ");
 
   return (
-    <div className="flex flex-col gap-6 pb-20">
-      <div className="flex flex-row items-center justify-center">
+    <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
+      <div className="flex flex-row items-center justify-center gap-8">
         <Image
           src={data.image || testImage}
-          alt="모임 이미지"
-          className="h-[270px] w-[468px]"
+          alt="모임 장소 이미지"
+          className="h-[270px] w-[468px] rounded-[24px] border-2 border-gray-200 object-cover"
           width={468}
           height={270}
         />
@@ -39,8 +40,8 @@ export default function ListDetailContent({
           maxCount={data.capacity}
           title={data.name}
           location={data.location}
-          date={formattedDateTime.split(" ・ ")[0]} // "ex) 2월 24일"
-          time={formattedDateTime.split(" ・ ")[1]} // "ex) 14:44"
+          date={dateString} // "ex) 2월 24일"
+          time={timeString} // "ex) 14:44"
         />
       </div>
       <ReviewSection />
