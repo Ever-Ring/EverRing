@@ -22,6 +22,7 @@ export interface GatheringListProps {
 }
 
 export interface GatheringParams {
+  id?: string;
   limit?: number;
   offset?: number;
   location?: string | null;
