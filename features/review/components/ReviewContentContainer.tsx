@@ -145,7 +145,7 @@ export default function ReviewContentContainer({
         </div>
 
         <div className="w-full px-4 pb-6 md:px-6">
-          {data ? (
+          {data.length > 0 ? (
             <>
               <ReviewListwithImage reviewData={data} hasUserInfo />
               <div ref={loadMoreRef} className="h-1" />
