@@ -5,6 +5,7 @@ import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import DateFilter from "@components/common/DateFilter";
+// import CreateGathering from "@apis/GatheringApi";
 
 interface CreateGatheringModalProps {
   isOpen: boolean;
@@ -57,17 +58,13 @@ export default function CreateGatheringModal({
             />
 
             {/* 이미지 첨부 */}
-            <div>
-              <span className="mb-1 block text-sm font-semibold text-gray-900">
-                이미지
-              </span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="file"
-                  className="flex-1 rounded-md border border-gray-300 p-2 text-sm text-gray-900 focus:outline-none"
-                />
-              </div>
-            </div>
+            <InputForm
+              id="image"
+              name="image"
+              label="이미지"
+              placeholder="이미지를 첨부해주세요."
+              type="fileupload"
+            />
 
             {/* 선택 서비스 (라디오 버튼) */}
             <div>

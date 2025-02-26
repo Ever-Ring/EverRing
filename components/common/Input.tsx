@@ -1,20 +1,10 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, useRef } from "react";
 import { InputProps } from "@customTypes/form";
 import EyeOff from "@assets/visibility_off.svg";
 import EyeOn from "@assets/visibility_on.svg";
 import ArrowDown from "@assets/icon-arrow-default-down.svg";
 import DropDown from "@components/common/DropDown";
-
-/**
- * @param {string} id - 고유 ID, label과 연결됨
- * @param {string} name - 이름
- * @param {string} type - 타입 (예: text, password)
- * @param {string} label - 레이블
- * @param {string} placeholder - 플레이스홀더 텍스트
- * @param {boolean} isInvalid - 유효성 검사가 실패했을 때 표시할 에러 상태
- * @param {function} onBlur - 입력 필드 focus out될 때 호출되는 함수
- * @returns {JSX.Element} - Input 컴포넌트 리턴
- */
+import Button from "@components/common/Button";
 
 interface ExtendedInputProps extends InputProps {
   options?: string[];
@@ -37,6 +27,24 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
     ref,
   ) => {
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    // 이미지 업로드 상태
+    const [selectedFileName, setSelectedFileName] = useState("");
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files?.[0]) {
+        setSelectedFileName(e.target.files[0].name);
+      } else {
+        setSelectedFileName("");
+      }
+    };
+
+    const handleFileButtonClick = () => {
+      fileInputRef.current?.click();
+    };
+
+    // 드롭다운 상태 (select 타입)
     const [isOpen, setIsOpen] = useState(false);
     const [selectedValue, setSelectedValue] = useState("");
 
@@ -63,7 +71,38 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
         >
           {label}
         </label>
-        {type === "select" ? (
+
+        {type === "fileupload" && (
+          <div className="flex w-full items-center gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+            <input
+              id={id}
+              name={name}
+              type="text"
+              placeholder={placeholder}
+              readOnly
+              value={selectedFileName || ""}
+              onBlur={onBlur}
+              ref={ref}
+              className="h-11 flex-1 rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-400 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
+              style={{ border: isInvalid ? "2px solid red" : "" }}
+              {...props}
+            />
+            <Button
+              text="파일 찾기"
+              onClick={handleFileButtonClick}
+              variant="outlined"
+              size="small"
+            />
+          </div>
+        )}
+
+        {type === "select" && (
           <div className="relative w-full">
             <input
               id={id}
@@ -97,11 +136,40 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
               />
             )}
           </div>
-        ) : (
+        )}
+
+        {type === "password" && (
+          <div className="relative w-full">
+            <input
+              id={id}
+              name={name}
+              type={isPasswordVisible ? "text" : "password"}
+              placeholder={placeholder}
+              ref={ref}
+              onBlur={onBlur}
+              className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
+              style={{ border: isInvalid ? "2px solid red" : "" }}
+              {...props}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-4 top-1/2 -translate-y-1/2 transform cursor-pointer"
+            >
+              {isPasswordVisible ? (
+                <EyeOn className="h-6 w-6" />
+              ) : (
+                <EyeOff className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+        )}
+
+        {type !== "select" && type !== "password" && type !== "fileupload" && (
           <input
             id={id}
             name={name}
-            type={type === "password" && isPasswordVisible ? "text" : type}
+            type={type}
             placeholder={placeholder}
             ref={ref}
             onBlur={onBlur}
@@ -109,20 +177,6 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
             style={{ border: isInvalid ? "2px solid red" : "" }}
             {...props}
           />
-        )}
-
-        {type === "password" && (
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="absolute right-4 top-3/4 -translate-y-3/4 transform cursor-pointer"
-          >
-            {isPasswordVisible ? (
-              <EyeOn className="h-6 w-6" />
-            ) : (
-              <EyeOff className="h-6 w-6" />
-            )}
-          </button>
         )}
       </div>
     );
