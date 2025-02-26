@@ -7,6 +7,8 @@ export interface FormValues {
   password?: string;
   passwordConfirm?: string;
   image?: string;
+  location?: string;
+  capacity?: string;
 }
 
 export interface Pattern {

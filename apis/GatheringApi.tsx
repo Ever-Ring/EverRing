@@ -21,5 +21,8 @@ class GatheringApi {
     gatheringId: number,
   ): Promise<AxiosResponse> =>
     axiosInstance.delete(`/gatherings/${gatheringId}/leave`);
+
+  static createGathering = (teamId: number): Promise<AxiosResponse> =>
+    axiosInstance.post(`/teams/${teamId}/gatherings`);
 }
 export default GatheringApi;
