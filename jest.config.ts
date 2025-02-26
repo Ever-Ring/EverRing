@@ -15,6 +15,7 @@ const config: Config = {
   moduleNameMapper: {
     "^@hooks/(.*)$": "<rootDir>/hooks/$1",
     "^@stores/(.*)$": "<rootDir>/stores/$1",
+    "^.+\\.(svg)$": "<rootDir>/__mocks__/svg.ts",
   },
 };
 
