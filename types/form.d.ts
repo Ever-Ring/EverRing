@@ -27,6 +27,7 @@ export interface InputFormProps {
   rules?: RegisterOptions;
   errors?: FieldErrors<FormValues> | undefined;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  options?: string[];
 }
 
 export interface InputProps extends InputFormProps {

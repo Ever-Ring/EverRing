@@ -55,8 +55,6 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
 
     const textSize = labelTextSize === "sm" ? "text-sm" : "text-base";
 
-    const inputValue = type === "select" ? selectedValue : undefined;
-
     return (
       <div className="relative flex w-full flex-col items-start gap-2">
         <label
@@ -65,21 +63,54 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
         >
           {label}
         </label>
-        <input
-          id={id}
-          name={name}
-          type={type === "password" && isPasswordVisible ? "text" : type}
-          placeholder={placeholder}
-          ref={ref}
-          className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none md:text-base"
-          onBlur={onBlur}
-          readOnly={type === "select"}
-          value={inputValue}
-          {...props}
-          style={{
-            border: isInvalid ? "2px solid red" : "",
-          }}
-        />
+        {type === "select" ? (
+          <div className="relative w-full">
+            <input
+              id={id}
+              name={name}
+              type="text"
+              placeholder={placeholder}
+              ref={ref}
+              readOnly
+              value={selectedValue}
+              onBlur={onBlur}
+              className="h-11 w-full rounded-xl bg-gray-50 px-4 pr-10 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
+              style={{ border: isInvalid ? "2px solid red" : "" }}
+              {...props}
+            />
+            <button
+              type="button"
+              onClick={toggleDropdown}
+              className="absolute right-4 top-1/2 -translate-y-1/2 transform cursor-pointer"
+            >
+              <ArrowDown className="h-6 w-6" />
+            </button>
+            {isOpen && (
+              <DropDown
+                items={options}
+                onSelect={handleOptionClick}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+                selectedItem={selectedValue}
+                variant="solid"
+                textSize="large"
+              />
+            )}
+          </div>
+        ) : (
+          <input
+            id={id}
+            name={name}
+            type={type === "password" && isPasswordVisible ? "text" : type}
+            placeholder={placeholder}
+            ref={ref}
+            onBlur={onBlur}
+            className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none md:text-base"
+            style={{ border: isInvalid ? "2px solid red" : "" }}
+            {...props}
+          />
+        )}
+
         {type === "password" && (
           <button
             type="button"
@@ -92,28 +123,6 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
               <EyeOff className="h-6 w-6" />
             )}
           </button>
-        )}
-
-        {type === "select" && (
-          <button
-            type="button"
-            onClick={toggleDropdown}
-            className="absolute right-4 top-3/4 -translate-y-3/4 transform cursor-pointer"
-          >
-            <ArrowDown className="h-6 w-6" />
-          </button>
-        )}
-
-        {type === "select" && (
-          <DropDown
-            items={options}
-            onSelect={handleOptionClick}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            selectedItem={selectedValue}
-            variant="solid"
-            textSize="large"
-          />
         )}
       </div>
     );

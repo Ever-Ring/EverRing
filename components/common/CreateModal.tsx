@@ -53,6 +53,7 @@ export default function CreateGatheringModal({
               label="장소"
               placeholder="장소를 선택해주세요."
               type="select"
+              options={["건대입구", "을지로3가", "신림", "홍대입구"]}
             />
 
             {/* 이미지 첨부 */}
