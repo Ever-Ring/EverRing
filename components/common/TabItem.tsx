@@ -29,6 +29,8 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
           {hasIcon &&
             (label === "tree" ? (
               <SvgTree
+                role="img"
+                data-testid="tree-icon"
                 width={24}
                 height={24}
                 className={`transition-colors duration-300 ease-in-out ${
@@ -37,6 +39,8 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
               />
             ) : (
               <SvgCloud
+                role="img"
+                data-testid="cloud-icon"
                 width={24}
                 height={24}
                 className={`transition-colors duration-300 ease-in-out ${
