@@ -9,23 +9,24 @@ import { useForm } from "react-hook-form";
 import InputForm from "@components/common/InputForm";
 import { FormValues } from "@customTypes/form";
 import { AxiosError } from "axios";
+import { DEFAULT_USER_IMAGE } from "@constants/user";
+import useUserStore from "@stores/userStore";
 
 interface EditProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
-  currentUser: {
-    companyName: string;
-    image: string;
-  } | null;
+  userInfo: {
+    companyName: string | null;
+    image: string | null;
+  };
 }
 
-const DEFAULT_PROFILE_IMAGE_SRC = "/image/img-profile-large-default.svg";
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export default function EditProfileModal({
   isOpen,
   onClose,
-  currentUser,
+  userInfo,
 }: EditProfileModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { mutate: updateUserInfo } = useUpdateUserInfo();
@@ -40,13 +41,13 @@ export default function EditProfileModal({
   } = useForm<FormValues>();
 
   useEffect(() => {
-    if (currentUser) {
-      setValue("companyName", currentUser.companyName ?? "");
-      setValue("image", currentUser.image ?? DEFAULT_PROFILE_IMAGE_SRC);
+    if (userInfo) {
+      setValue("companyName", userInfo.companyName ?? "");
+      setValue("image", userInfo.image ?? DEFAULT_USER_IMAGE);
     }
-  }, [currentUser, setValue]);
+  }, [userInfo, setValue]);
 
-  if (!isOpen || !currentUser) return null;
+  if (!isOpen || !userInfo) return null;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -61,10 +62,15 @@ export default function EditProfileModal({
     const file = fileInputRef.current?.files?.[0];
     const formData = new FormData();
     formData.append("companyName", data.companyName ?? "");
-    formData.append("image", file ? file : (data.image ?? ""));
+    formData.append("image", file || (data.image ?? ""));
 
     updateUserInfo(formData, {
       onSuccess: () => {
+        useUserStore.getState().setUser({
+          ...useUserStore.getState(),
+          companyName: data.companyName ?? null,
+          image: data.image ?? null,
+        });
         queryClient.invalidateQueries({ queryKey: ["userInfo"] });
         onClose();
       },
@@ -115,7 +121,7 @@ export default function EditProfileModal({
             >
               <div className="relative h-14 w-14 rounded-full border-2 border-gray-200 bg-gray-200">
                 <Image
-                  src={watch("image") ?? DEFAULT_PROFILE_IMAGE_SRC}
+                  src={watch("image") ?? DEFAULT_USER_IMAGE}
                   alt="profile image"
                   className="h-full w-full rounded-full object-cover"
                   width={56}
