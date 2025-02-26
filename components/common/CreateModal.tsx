@@ -6,15 +6,15 @@ import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import DateFilter from "@components/common/DateFilter";
 
-interface CreateMeetingModalProps {
+interface CreateGatheringModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function CreateMeetingModal({
+export default function CreateGatheringModal({
   isOpen,
   onClose,
-}: CreateMeetingModalProps) {
+}: CreateGatheringModalProps) {
   if (!isOpen) return null;
 
   return (

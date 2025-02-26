@@ -20,3 +20,13 @@ export interface GatheringItemProps {
 export interface GatheringListProps {
   gatherings: Gathering[];
 }
+
+export interface CreateGatheringValues {
+  location: string;
+  type: string;
+  name: string;
+  dateTime: string;
+  registrationEnd: string;
+  capacity: number;
+  image: File;
+}
