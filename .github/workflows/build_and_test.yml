@@ -34,9 +34,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install packages
+      - name: Install dependencies
         run: |
-          npm install
+          npm ci
 
       - name: Build
         run: |
@@ -151,10 +151,10 @@ jobs:
           node-version: 20.0.0
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests and collect coverage
-        run: npm run test -- --coverage
+        run: npm run test
 
       - name: Upload coverage report to Codecov
         uses: codecov/codecov-action@v5
