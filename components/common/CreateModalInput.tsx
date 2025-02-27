@@ -61,7 +61,6 @@ export default function CreateModalInput({
     fileInputRef.current?.click();
   };
 
-  // select 로직
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const handleSelectOption = (option: string) => {
     if (onChange) {

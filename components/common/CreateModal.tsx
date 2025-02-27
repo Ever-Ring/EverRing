@@ -9,6 +9,7 @@ import RadioButton from "@components/common/RadioButton";
 import useCreateGatheringMutation from "@hooks/useCreateGathering";
 import type { CreateGatheringValues } from "types/gathering";
 import axios from "axios";
+import CloseButton from "@assets/Group 33597.svg";
 
 interface CreateGatheringModalProps {
   isOpen: boolean;
@@ -24,7 +25,6 @@ export default function CreateGatheringModal({
   const [image, setImage] = useState("");
   const [capacity, setCapacity] = useState("");
   const [type, setType] = useState("");
-
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
 
@@ -47,7 +47,6 @@ export default function CreateGatheringModal({
     meetingDate.trim() !== "" &&
     registrationEnd.trim() !== "";
 
-  // 제출
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -65,7 +64,6 @@ export default function CreateGatheringModal({
       dateTime: meetingDate,
       registrationEnd,
       capacity: capacityNum,
-      // Base64 문자열
       image,
     };
 
@@ -97,10 +95,19 @@ export default function CreateGatheringModal({
           }}
         />
         <div className="w-94 md:w-130 relative z-10 rounded-xl bg-white p-6 shadow-lg">
-          <h2 className="mb-4 text-xl font-bold text-gray-900">모임 만들기</h2>
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-900">모임 만들기</h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700"
+              aria-label="Close"
+            >
+              <CloseButton className="h-6 w-6" />
+            </button>
+          </div>
 
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-            {/* 모임 이름 */}
             <CreateModalInput
               type="text"
               label="모임 이름"
@@ -109,7 +116,6 @@ export default function CreateGatheringModal({
               onChange={(e) => setName(e.target.value)}
             />
 
-            {/* 장소 */}
             {type === "WORKATION" ? (
               <CreateModalInput
                 type="text"
@@ -139,7 +145,6 @@ export default function CreateGatheringModal({
 
             <RadioButton selectedType={type} onChange={setType} />
 
-            {/* 날짜 */}
             <div className="flex flex-col gap-4 md:flex-row">
               <div className="flex-1">
                 <span className="mb-1 block text-sm font-semibold text-gray-900">
@@ -161,7 +166,6 @@ export default function CreateGatheringModal({
               </div>
             </div>
 
-            {/* 모임 정원 */}
             <CreateModalInput
               type="number"
               label="모임 정원"

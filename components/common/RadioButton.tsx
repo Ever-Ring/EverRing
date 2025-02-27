@@ -48,7 +48,6 @@ export default function RadioButton({
                   : "bg-gray-50 text-gray-900"
               }`}
             >
-              {/* 숨겨진 라디오 버튼 */}
               <input
                 id={inputId}
                 type="radio"
@@ -59,7 +58,6 @@ export default function RadioButton({
                 className="hidden"
               />
 
-              {/* 라벨 */}
               <label htmlFor={inputId} className="flex items-start gap-2">
                 {isSelected ? (
                   <CheckBoxActive className="h-6 w-6" />
