@@ -23,8 +23,8 @@ export function useGatheringFilters() {
     selectedTabIndex === 0
       ? [
           { label: "전체", value: "DALLAEMFIT" },
-          { label: "오피스 스트레칭", value: "OFFICE_STRETCHING" },
-          { label: "마인드풀니스", value: "MINDFULNESS" },
+          { label: "에버 스트레칭", value: "OFFICE_STRETCHING" },
+          { label: "에버 푸드트립", value: "MINDFULNESS" },
         ]
       : [{ label: "전체", value: "WORKATION" }];
 

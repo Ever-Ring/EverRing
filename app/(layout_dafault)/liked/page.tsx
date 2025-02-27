@@ -1,11 +1,27 @@
 "use client";
 
-import GatheringList from "@components/common/GatheringList";
 import { useGetIdGatherings } from "@features/list/hooks/useGetIdGatherings";
 import Image from "next/image";
+import Button from "@components/common/Button";
+import { useFavoriteStore } from "@stores/favoriteStore";
+import FavoriteGatheringList from "@features/liked/FavoriteGatheringList";
+import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
+import TabMenu from "@components/common/TabMenu";
+import Chip from "@components/common/Chip";
+import { TABS } from "@constants/tab";
 
 export default function LikePage() {
-  const { data: favoriteDate = [] } = useGetIdGatherings();
+  const {
+    selectedTabIndex,
+    setSelectedTabIndex,
+    typeFilter,
+    setTypeFilter,
+    filters,
+    subChips,
+  } = useGatheringFilters();
+
+  const { data: favoriteDate = [] } = useGetIdGatherings(filters);
+  const { clearFavorites } = useFavoriteStore();
 
   return (
     <div className="flex w-full flex-col pt-6 md:pt-8">
@@ -16,24 +32,46 @@ export default function LikePage() {
           width={72}
           height={72}
         />
+        <div className="flex flex-1 justify-between">
+          <div>
+            <p className="mt-1 text-2xl font-semibold">찜한 모임</p>
+            <p className="text-sm font-medium">
+              마감되기 전에 지금 바로 참여해보세요
+            </p>
+          </div>
+        </div>
+      </section>
+      {/*  카테고리 탭 */}
+      <section className="mb-[14px] flex flex-wrap items-center justify-between">
         <div>
-          <p className="mt-1 text-2xl font-semibold">찜한 모임</p>
-          <p className="text-sm font-medium">
-            마감되기 전에 지금 바로 참여해보세요
-          </p>
+          <TabMenu
+            hasIcon
+            tabs={TABS}
+            selectedIndex={selectedTabIndex}
+            onSelect={setSelectedTabIndex}
+          />
+        </div>
+        <div className="mt-2">
+          <Button text="모두 비우기" size="small" onClick={clearFavorites} />
         </div>
       </section>
 
-      {favoriteDate.length > 0 ? (
-        <section>
-          <GatheringList gatherings={favoriteDate} />
-        </section>
-      ) : (
-        <div className="mt-10 flex flex-col items-center justify-center">
-          <p className="text-lg font-semibold">💔 찜한 모임이 없습니다.</p>
-          <p className="text-sm text-gray-500">모임을 찾아 찜해보세요!</p>
-        </div>
-      )}
+      {/*  카테고리 필터 */}
+      <section className="flex justify-start gap-2">
+        {subChips.map((chip) => (
+          <Chip
+            key={chip.value}
+            label={chip.label}
+            selected={typeFilter === chip.value}
+            onClick={() => setTypeFilter(chip.value)}
+          />
+        ))}
+      </section>
+
+      <hr className="my-4 w-full border-t-2 border-gray-200" />
+
+      {/* 찜하기 목록 */}
+      <FavoriteGatheringList gatherings={favoriteDate} />
     </div>
   );
 }
