@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "@lib/axios";
 import { GatheringParams } from "@customTypes/gathering";
+import type { CreateGatheringValues } from "types/gathering";
 
 class GatheringApi {
   static getGatherings = (params?: GatheringParams): Promise<AxiosResponse> =>
@@ -29,6 +30,10 @@ class GatheringApi {
 
   static cancelGathering = (gatheringId: number): Promise<AxiosResponse> =>
     axiosInstance.put(`/gatherings/${gatheringId}/cancel`);
+
+  static createGathering = (
+    data: CreateGatheringValues,
+  ): Promise<AxiosResponse> => axiosInstance.post("/gatherings", data);
 }
 
 export default GatheringApi;

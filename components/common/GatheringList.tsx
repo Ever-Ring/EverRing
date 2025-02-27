@@ -1,8 +1,11 @@
 import GatheringItem from "@components/common/GatheringItem";
-import { Gathering, GatheringListProps } from "@customTypes/gathering";
+import { GatheringListProps } from "@customTypes/gathering";
+import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 
 export default function GatheringList({ gatherings }: GatheringListProps) {
-  console.log(gatherings, "📡 gatherings props");
+  const hiddenExpiredIds = useHiddenGatheringStore(
+    (state) => state.hiddenExpiredIds,
+  );
 
   if (!Array.isArray(gatherings) || gatherings.length === 0) {
     return (
@@ -13,8 +16,9 @@ export default function GatheringList({ gatherings }: GatheringListProps) {
     );
   }
 
-  const filteredGatherings: Gathering[] = gatherings.filter(
-    (gatheringItem) => gatheringItem.canceledAt === null,
+  const filteredGatherings = gatherings.filter(
+    (gathering) =>
+      gathering.canceledAt === null && !hiddenExpiredIds.includes(gathering.id),
   );
 
   if (filteredGatherings.length === 0) {

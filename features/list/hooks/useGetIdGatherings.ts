@@ -1,17 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import GatheringApi from "@apis/GatheringApi";
 import { useFavoriteStore } from "@stores/favoriteStore";
-import { Gathering } from "@customTypes/gathering";
+import { Gathering, GatheringParams } from "@customTypes/gathering";
 
-export function useGetIdGatherings() {
+export function useGetIdGatherings(filters: GatheringParams) {
   const favorites = useFavoriteStore((state) => state.favorites);
 
   return useQuery<Gathering[]>({
-    queryKey: ["favorite-gatherings", favorites],
+    queryKey: ["favorite-gatherings", favorites, filters],
     queryFn: async () => {
       if (favorites.length === 0) return [];
       const response = await GatheringApi.getGatherings({
         id: favorites.join(","),
+        ...filters,
       });
       return response.data;
     },
