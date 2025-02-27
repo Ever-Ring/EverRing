@@ -6,6 +6,9 @@ export default function InputForm({
   register,
   rules,
   errors,
+  value,
+  readOnly,
+  onChange,
   ...props
 }: InputFormProps) {
   const errorMessage = errors?.[name]?.message || "";
@@ -17,6 +20,9 @@ export default function InputForm({
         name={name}
         isInvalid={isInvalid}
         {...(register && register(name, rules))}
+        value={value}
+        readOnly={readOnly}
+        onChange={onChange}
         {...props}
       />
       {isInvalid && (

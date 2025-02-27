@@ -28,6 +28,11 @@ export interface InputFormProps {
   errors?: FieldErrors<FormValues> | undefined;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   options?: string[];
+  readOnly?: boolean;
+  value?: string;
+  onChange?: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => void;
 }
 
 export interface InputProps extends InputFormProps {

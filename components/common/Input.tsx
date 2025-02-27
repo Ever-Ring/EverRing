@@ -20,6 +20,7 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
       placeholder,
       isInvalid,
       onBlur,
+      onChange,
       labelTextSize = "base",
       options = [],
       ...props
@@ -46,7 +47,6 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
 
     // 드롭다운 상태 (select 타입)
     const [isOpen, setIsOpen] = useState(false);
-    const [selectedValue, setSelectedValue] = useState("");
 
     const togglePasswordVisibility = () => {
       setIsPasswordVisible((prev) => !prev);
@@ -54,11 +54,6 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
 
     const toggleDropdown = () => {
       setIsOpen((prev) => !prev);
-    };
-
-    const handleOptionClick = (option: string) => {
-      setSelectedValue(option);
-      setIsOpen(false);
     };
 
     const textSize = labelTextSize === "sm" ? "text-sm" : "text-base";
@@ -74,25 +69,32 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
 
         {type === "fileupload" && (
           <div className="flex w-full items-center gap-2">
+            {/* 숨겨진 파일 인풋 */}
             <input
               ref={fileInputRef}
               type="file"
               className="hidden"
               onChange={handleFileChange}
             />
-            <input
-              id={id}
-              name={name}
-              type="text"
-              placeholder={placeholder}
-              readOnly
-              value={selectedFileName || ""}
-              onBlur={onBlur}
-              ref={ref}
-              className="h-11 flex-1 rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-400 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
-              style={{ border: isInvalid ? "2px solid red" : "" }}
-              {...props}
-            />
+            {(() => {
+              const { value: ignoredValue, ...restProps } = props;
+              return (
+                <input
+                  id={id}
+                  name={name}
+                  type="text"
+                  placeholder={placeholder}
+                  readOnly
+                  value={selectedFileName || ""}
+                  onBlur={onBlur}
+                  ref={ref}
+                  className="h-11 flex-1 rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-400 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
+                  style={{ border: isInvalid ? "2px solid red" : "" }}
+                  {...restProps}
+                />
+              );
+            })()}
+
             <Button
               text="파일 찾기"
               onClick={handleFileButtonClick}
@@ -111,11 +113,11 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
               placeholder={placeholder}
               ref={ref}
               readOnly
-              value={selectedValue}
+              value={props.value}
               onBlur={onBlur}
+              onChange={onChange}
               className="h-11 w-full rounded-xl bg-gray-50 px-4 pr-10 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
               style={{ border: isInvalid ? "2px solid red" : "" }}
-              {...props}
             />
             <button
               type="button"
@@ -127,10 +129,18 @@ const Input = forwardRef<HTMLInputElement, ExtendedInputProps>(
             {isOpen && (
               <DropDown
                 items={options}
-                onSelect={handleOptionClick}
+                onSelect={(option) => {
+                  if (onChange) {
+                    const fakeEvent = {
+                      target: { value: option },
+                    } as unknown as React.ChangeEvent<HTMLInputElement>;
+                    onChange(fakeEvent);
+                  }
+                  setIsOpen(false);
+                }}
                 isOpen={isOpen}
                 setIsOpen={setIsOpen}
-                selectedItem={selectedValue}
+                selectedItem={props.value}
                 variant="solid"
                 textSize="large"
               />
