@@ -7,8 +7,6 @@ export interface FormValues {
   password?: string;
   passwordConfirm?: string;
   image?: string;
-  location?: string;
-  capacity?: string;
 }
 
 export interface Pattern {
@@ -27,12 +25,6 @@ export interface InputFormProps {
   rules?: RegisterOptions;
   errors?: FieldErrors<FormValues> | undefined;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  options?: string[];
-  readOnly?: boolean;
-  value?: string;
-  onChange?: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
-  ) => void;
 }
 
 export interface InputProps extends InputFormProps {

@@ -1,4 +1,5 @@
-// 부모 컴포넌트 (CreateGatheringModal.tsx)
+"use client";
+
 import React, { useState } from "react";
 import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
@@ -15,21 +16,43 @@ export default function CreateGatheringModal({
   isOpen,
   onClose,
 }: CreateGatheringModalProps) {
-  const [type, setType] = useState<string>(""); // 라디오 버튼 값
-  const [location, setLocation] = useState<string>(""); // 장소
+  // 각 필드를 부모에서 관리
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [image, setImage] = useState("");
+  const [capacity, setCapacity] = useState("");
+  const [type, setType] = useState("");
 
   if (!isOpen) return null;
 
-  // 최종 제출 핸들러...
+  // 모든 필드가 빈 문자열이 아닐 때만 폼 유효
+  const isFormValid =
+    name.trim() !== "" &&
+    location.trim() !== "" &&
+    image.trim() !== "" &&
+    capacity.trim() !== "" &&
+    type.trim() !== "";
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // WORKATION일 경우 실제 전송값은 "신림"
     let finalLocation = location;
     if (type === "WORKATION") {
       finalLocation = "신림";
     }
 
-    console.log("제출:", { type, location: finalLocation });
+    console.log("제출:", {
+      name,
+      location: finalLocation,
+      image,
+      capacity,
+      type,
+    });
+
+    // 여기서 실제 API 요청 or 로직 처리
+    // ...
+
     onClose();
   };
 
@@ -48,6 +71,7 @@ export default function CreateGatheringModal({
         />
         <div className="w-94 md:w-130 relative z-10 rounded-xl bg-white p-6 shadow-lg">
           <h2 className="mb-4 text-xl font-bold text-gray-900">모임 만들기</h2>
+
           <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             {/* 모임 이름 */}
             <InputForm
@@ -56,11 +80,13 @@ export default function CreateGatheringModal({
               type="text"
               label="모임 이름"
               placeholder="모임 이름을 작성해주세요."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
 
             {/* 장소 */}
             {type === "WORKATION" ? (
-              // 구름링이면 UI상 "온라인"으로 표시, 수정 불가
+              // 구름링이면 "온라인" 표시, 수정 불가
               <InputForm
                 id="location"
                 name="location"
@@ -71,7 +97,7 @@ export default function CreateGatheringModal({
                 value="온라인"
               />
             ) : (
-              // 그 외에는 장소 선택 가능하도록 value와 onChange 전달
+              // 그 외에는 select
               <InputForm
                 id="location"
                 name="location"
@@ -89,9 +115,11 @@ export default function CreateGatheringModal({
               id="image"
               name="image"
               type="fileupload"
-              readOnly
               label="이미지"
               placeholder="이미지를 첨부해주세요."
+              // 파일명도 부모가 관리
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
             />
 
             {/* 선택 서비스 (라디오 버튼) */}
@@ -120,11 +148,13 @@ export default function CreateGatheringModal({
               type="number"
               label="모임 정원"
               placeholder="최소 5인 이상 입력해주세요."
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
             />
 
             {/* 버튼들 */}
             <div className="mt-6 flex justify-end gap-2">
-              <Button text="확인" type="submit" />
+              <Button text="확인" type="submit" disabled={!isFormValid} />
             </div>
           </form>
         </div>
