@@ -77,6 +77,50 @@
   @apply !bg-white !text-mint-600;
 }
 
+
+/* --------- 시간 스타일링 --------- */
+.react-datepicker__time-container {
+  @apply !relative !bg-white !border-none !flex !flex-col !items-center !justify-start;
+}
+
+.react-datepicker__time-caption {
+  @apply !hidden;
+}
+
+.react-datepicker__time {
+  @apply !bg-white !p-0;
+}
+
+.react-datepicker__time-box {
+  @apply !overflow-y-auto !overflow-x-hidden !h-auto !max-h-48;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    display: none !important;
+  }
+
+  /* IE, Edge */
+  -ms-overflow-style: none !important;
+  /* Firefox */
+  scrollbar-width: none !important;
+}
+
+.react-datepicker__time-list {
+  @apply !m-0 !p-0 !list-none;
+}
+
+.react-datepicker__time-list-item {
+  @apply !relative !flex !items-center !justify-center !py-2 !px-4 !rounded-md !cursor-pointer !transition-colors !font-medium !text-sm !text-gray-900;
+}
+
+.react-datepicker__time-list-item:hover {
+  @apply !bg-mint-300 !text-white;
+}
+
+.react-datepicker__time-list-item--selected {
+  @apply !bg-mint-600 !text-white;
+}
+
+
 @font-face {
   font-family: "Pretendard";
   src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff")

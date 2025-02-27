@@ -32,3 +32,13 @@ export interface GatheringParams {
   sortOrder?: "asc" | "desc";
   createdBy?: number;
 }
+
+export interface CreateGatheringValues {
+  location: string;
+  type: string;
+  name: string;
+  dateTime: string;
+  registrationEnd: string;
+  capacity: number;
+  image: string;
+}
