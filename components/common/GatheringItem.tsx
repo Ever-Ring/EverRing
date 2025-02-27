@@ -20,7 +20,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
   return (
     <div className="relative w-full">
       <Link
-        href={`/gathering/${gathering.id}`}
+        href={`/list-detail/${gathering.id}`}
         className="z-10 flex min-h-[19.75rem] flex-col self-stretch overflow-hidden rounded-[1.5rem] border-2 border-gray-100 bg-white md:min-h-[9.75rem] md:flex-row"
       >
         {/* 위쪽영역 */}

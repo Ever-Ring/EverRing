@@ -1,10 +1,8 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import GatheringApi from "@apis/GatheringApi";
 import { Gathering } from "@customTypes/gathering";
 
-export default function useGetGatheringDetail(
-  id: number,
-): UseQueryResult<Gathering, Error> {
+export default function useGetGatheringDetail(id: number) {
   return useQuery<Gathering, Error>({
     queryKey: ["gatheringDetail", id],
     queryFn: async () => {

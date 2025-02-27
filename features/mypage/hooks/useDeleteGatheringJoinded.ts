@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import GatheringApi from "@apis/GatheringApi";
 
-export function useDeleteGatheringJoined() {
+export default function useDeleteGatheringJoined() {
   const queryClient = useQueryClient();
 
   return useMutation({
