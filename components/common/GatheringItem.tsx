@@ -6,15 +6,16 @@ import { GatheringItemProps } from "@customTypes/gathering";
 import { IMAGES } from "@constants/gathering";
 import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
 import { useFavoriteStore } from "@stores/favoriteStore";
+import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
   const { date, time } = formatDateTime2(gathering.registrationEnd);
   const isFull = gathering.participantCount >= gathering.capacity;
   const isGatheringOpen = gathering.participantCount >= 5;
   const expired = isExpired(gathering.registrationEnd);
-
   const { isFavorite, toggleFavorite } = useFavoriteStore();
   const isLiked = isFavorite(gathering.id);
+  const { hideExpiredGathering } = useHiddenGatheringStore();
 
   return (
     <div className="relative w-full">
@@ -139,7 +140,8 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
             alt="BYE"
             width={48}
             height={48}
-            className="absolute right-6 top-6"
+            className="absolute top-[64%] sm:right-6 sm:top-6"
+            onClick={() => hideExpiredGathering(gathering.id)}
           />
         </div>
       )}
