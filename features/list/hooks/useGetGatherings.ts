@@ -1,18 +1,19 @@
-// @features/list/hooks/useGetGatherings.ts
 import { useInfiniteQuery } from "@tanstack/react-query";
-import GatheringListApi from "@apis/GatheringListApi";
+import GatheringApi from "@apis/GatheringApi";
+import { GatheringParams } from "@customTypes/gathering";
 
 const LIMIT = 10;
 
-export function useGetGatherings() {
+export function useGetGatherings(filters: GatheringParams) {
   return useInfiniteQuery({
-    queryKey: ["gatherings"],
+    queryKey: ["gatherings", filters],
     queryFn: async ({ pageParam = 0 }) => {
-      const response = await GatheringListApi.getGatherings({
+      const response = await GatheringApi.getGatherings({
         limit: LIMIT,
         offset: pageParam,
+        ...filters,
       });
-      return { data: response, nextOffset: pageParam + LIMIT };
+      return { data: response.data, nextOffset: pageParam + LIMIT };
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {

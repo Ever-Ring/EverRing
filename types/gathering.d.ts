@@ -21,6 +21,18 @@ export interface GatheringListProps {
   gatherings: Gathering[];
 }
 
+export interface GatheringParams {
+  id?: string;
+  limit?: number;
+  offset?: number;
+  location?: string | null;
+  date?: string | null;
+  sortBy?: string | null;
+  type?: string | null;
+  sortOrder?: "asc" | "desc";
+  createdBy?: number;
+}
+
 export interface CreateGatheringValues {
   location: string;
   type: string;

@@ -11,6 +11,7 @@ import useIsAuthenticated from "@hooks/useIsAuthenticated";
 import useLogout from "@hooks/useLogout";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 import useUserStore from "@stores/userStore";
+import { useFavoriteStore } from "@stores/favoriteStore";
 
 interface NavLink {
   href: string;
@@ -83,9 +84,10 @@ function UserProfile() {
 function NavMenu() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
+  const { favorites } = useFavoriteStore();
 
   return (
-    <ul className="flex gap-x-6 pl-5">
+    <ul className="flex gap-x-3 pl-5 md:gap-x-6">
       {navLinks.map((link) => (
         <li key={link.href}>
           <Link
@@ -93,6 +95,11 @@ function NavMenu() {
             className={`transition-colors ${isActive(link.href) ? "font-bold text-mint-600" : "text-black"} hover:text-mint-600`}
           >
             {link.label}
+            {link.label === "찜한 모임" && (
+              <span className="ml-1 rounded-full bg-black px-2 text-xs font-semibold text-white">
+                {favorites.length}
+              </span>
+            )}
           </Link>
         </li>
       ))}
@@ -102,7 +109,7 @@ function NavMenu() {
 
 export default function Gnb() {
   return (
-    <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[15%]">
+    <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-4 text-sm font-medium md:h-[3.75rem] md:px-6 md:text-base lg:px-[15%]">
       <div className="flex">
         <Link href="/list" className="rounded-md border border-black">
           로고

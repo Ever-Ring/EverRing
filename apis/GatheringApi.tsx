@@ -1,11 +1,10 @@
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "@lib/axios";
+import { GatheringParams } from "@customTypes/gathering";
 import type { CreateGatheringValues } from "types/gathering";
 
 class GatheringApi {
-  static getGatherings = (params?: {
-    createdBy?: number;
-  }): Promise<AxiosResponse> =>
+  static getGatherings = (params?: GatheringParams): Promise<AxiosResponse> =>
     axiosInstance.get("/gatherings", {
       params: params || {},
     });
