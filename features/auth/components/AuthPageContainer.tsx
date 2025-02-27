@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import MainImage from "@assets/img_login.svg";
+import MainImage from "@assets/img-newlogin.svg";
 import { SIGN_UP, SIGN_IN } from "@constants/auth";
 
 interface FormContainerProps {
