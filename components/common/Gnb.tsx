@@ -87,7 +87,7 @@ function NavMenu() {
   const { favorites } = useFavoriteStore();
 
   return (
-    <ul className="flex gap-x-3 pl-5 md:gap-x-6">
+    <ul className="flex items-center gap-x-3 pl-5 md:gap-x-6">
       {navLinks.map((link) => (
         <li key={link.href}>
           <Link
@@ -95,7 +95,7 @@ function NavMenu() {
             className={`transition-colors ${isActive(link.href) ? "font-bold text-mint-600" : "text-black"} hover:text-mint-600`}
           >
             {link.label}
-            {link.label === "찜한 모임" && (
+            {link.label === "찜한 모임" && favorites.length > 0 && (
               <span className="ml-1 rounded-full bg-black px-2 text-xs font-semibold text-white">
                 {favorites.length}
               </span>
@@ -111,8 +111,24 @@ export default function Gnb() {
   return (
     <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-4 text-sm font-medium md:h-[3.75rem] md:px-6 md:text-base lg:px-[15%]">
       <div className="flex">
-        <Link href="/list" className="rounded-md border border-black">
-          로고
+        <Link
+          href="/list"
+          className="flex flex-row items-center justify-center"
+        >
+          <Image
+            src="/image/logo_plant.svg"
+            width={35}
+            height={35}
+            alt="logo"
+          />
+          <div className="relative h-[27px] w-[45px] md:h-[35px] md:w-[60px]">
+            <Image
+              src="/image/logo_title_large.svg"
+              alt="logo title"
+              fill
+              className="object-contain"
+            />
+          </div>
         </Link>
         <NavMenu />
       </div>
