@@ -78,13 +78,13 @@ export default function CreateGatheringModal({
                 <span className="mb-1 block text-sm font-semibold text-gray-900">
                   모임 날짜
                 </span>
-                <DateFilter />
+                <DateFilter showTimeSelect />
               </div>
               <div className="flex-1">
                 <span className="mb-1 block text-sm font-semibold text-gray-900">
                   마감 날짜
                 </span>
-                <DateFilter />
+                <DateFilter showTimeSelect />
               </div>
             </div>
 
@@ -99,8 +99,7 @@ export default function CreateGatheringModal({
 
             {/* 버튼들 */}
             <div className="mt-6 flex justify-end gap-2">
-              <Button text="취소" variant="outlined" onClick={onClose} />
-              <Button text="생성하기" type="submit" />
+              <Button text="확인" type="submit" />
             </div>
           </form>
         </div>
