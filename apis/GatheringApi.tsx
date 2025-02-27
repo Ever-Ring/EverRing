@@ -29,8 +29,6 @@ class GatheringApi {
 
   static cancelGathering = (gatheringId: number): Promise<AxiosResponse> =>
     axiosInstance.put(`/gatherings/${gatheringId}/cancel`);
-
-  static leaveGathering = (gatheringId: number): Promise<AxiosResponse> =>
-    axiosInstance.delete(`/gatherings/${gatheringId}/leave`);
 }
+
 export default GatheringApi;

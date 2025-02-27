@@ -7,7 +7,7 @@ import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
 import testImage from "@public/image/dummyImage.png";
 import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
-import useGetGatheringDetail from "@features/list-detail/hooks/useGatheringDetail";
+import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import { formatDateTime } from "@utils/dateFormatter";
 
 interface ListDetailContentProps {
