@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetGatherings } from "@features/list/hooks/useGetGatherings";
 import Button from "@components/common/Button";
+import CreateGatheringModal from "@components/common/CreateModal";
 import TabMenu from "@components/common/TabMenu";
 import HeartImage from "@assets/img-head-class.svg";
 import Chip from "@components/common/Chip";
@@ -25,6 +26,7 @@ export default function List() {
     filters,
     subChips,
   } = useGatheringFilters();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -89,7 +91,17 @@ export default function List() {
           />
         </div>
         <div className="flex items-center">
-          <Button text="모임 만들기" size="small" />
+          <Button
+            text="모임 만들기"
+            size="small"
+            onClick={() => setIsModalOpen(true)}
+          />
+          {isModalOpen && (
+            <CreateGatheringModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+            />
+          )}
         </div>
       </section>
 
