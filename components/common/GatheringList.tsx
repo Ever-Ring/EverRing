@@ -2,8 +2,6 @@ import GatheringItem from "@components/common/GatheringItem";
 import { Gathering, GatheringListProps } from "@customTypes/gathering";
 
 export default function GatheringList({ gatherings }: GatheringListProps) {
-  console.log(gatherings, "📡 gatherings props");
-
   if (!Array.isArray(gatherings) || gatherings.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center">
