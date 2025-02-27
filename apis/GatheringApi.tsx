@@ -23,5 +23,14 @@ class GatheringApi {
 
   static getGatheringDetail = (id: number): Promise<AxiosResponse> =>
     axiosInstance.get(`/gatherings/${id}`);
+
+  static joinGathering = (gatheringId: number): Promise<AxiosResponse> =>
+    axiosInstance.post(`/gatherings/${gatheringId}/join`);
+
+  static cancelGathering = (gatheringId: number): Promise<AxiosResponse> =>
+    axiosInstance.put(`/gatherings/${gatheringId}/cancel`);
+
+  static leaveGathering = (gatheringId: number): Promise<AxiosResponse> =>
+    axiosInstance.delete(`/gatherings/${gatheringId}/leave`);
 }
 export default GatheringApi;
