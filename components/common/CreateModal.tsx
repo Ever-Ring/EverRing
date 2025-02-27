@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
 import InputForm from "@components/common/InputForm";
 import DateFilter from "@components/common/DateFilter";
+import RadioButton from "@components/common/RadioButton";
 // import CreateGathering from "@apis/GatheringApi";
 
 interface CreateGatheringModalProps {
@@ -16,6 +17,8 @@ export default function CreateGatheringModal({
   isOpen,
   onClose,
 }: CreateGatheringModalProps) {
+  const [type, setType] = useState("");
+
   if (!isOpen) return null;
 
   return (
@@ -34,7 +37,7 @@ export default function CreateGatheringModal({
         />
 
         {/* 모달 컨테이너 */}
-        <div className="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+        <div className="w-94 md:w-130 relative z-10 rounded-xl bg-white p-6 shadow-lg">
           <h2 className="mb-4 text-xl font-bold text-gray-900">모임 만들기</h2>
 
           <form className="flex flex-col gap-6">
@@ -67,25 +70,7 @@ export default function CreateGatheringModal({
             />
 
             {/* 선택 서비스 (라디오 버튼) */}
-            <div>
-              <span className="mb-1 block text-sm font-semibold text-gray-900">
-                선택 서비스
-              </span>
-              <div className="flex items-center gap-4">
-                <span className="flex items-center gap-1 text-sm text-gray-700">
-                  <input type="radio" name="type" value="오픽 스터디룸" />
-                  오픽 스터디룸
-                </span>
-                <span className="flex items-center gap-1 text-sm text-gray-700">
-                  <input type="radio" name="type" value="마인드캠프" />
-                  마인드캠프
-                </span>
-                <span className="flex items-center gap-1 text-sm text-gray-700">
-                  <input type="radio" name="type" value="워케이션" />
-                  워케이션
-                </span>
-              </div>
-            </div>
+            <RadioButton selectedType={type} onChange={setType} />
 
             {/* 날짜 (2개를 가로로) */}
             <div className="flex flex-col gap-4 md:flex-row">
