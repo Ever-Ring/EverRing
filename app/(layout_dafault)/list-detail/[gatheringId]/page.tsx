@@ -1,18 +1,15 @@
 import { Gathering } from "@customTypes/gathering";
-import { notFound } from "next/navigation";
 import ListDetailContent from "@features/list-detail/components/ListDetailContent";
 import { axiosInstance } from "@lib/axios";
-
-interface ListDetailPageParams {
-  gatheringId: string;
-}
+import { notFound } from "next/navigation";
+import { JSX } from "react";
 
 export default async function ListDetailPage({
   params,
 }: {
-  params: ListDetailPageParams;
-}) {
-  const { gatheringId } = params;
+  params: Promise<{ gatheringId: string }>;
+}): Promise<JSX.Element> {
+  const { gatheringId } = await params;
 
   if (!gatheringId) {
     notFound();
@@ -20,8 +17,8 @@ export default async function ListDetailPage({
 
   try {
     const response = await axiosInstance.get(`/gatherings/${gatheringId}`);
-
     const gatheringData: Gathering = response.data;
+
     if (!gatheringData) {
       notFound();
     }
