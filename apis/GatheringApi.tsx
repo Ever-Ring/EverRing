@@ -34,6 +34,16 @@ class GatheringApi {
   static createGathering = (
     data: CreateGatheringValues,
   ): Promise<AxiosResponse> => axiosInstance.post("/gatherings", data);
+
+  static getParticipants = (
+    gatheringId: number,
+    limit: number = 5,
+    offset: number = 0,
+  ): Promise<AxiosResponse> => {
+    return axiosInstance.get(`/gatherings/${gatheringId}/participants`, {
+      params: { limit, offset, sortBy: "joinedAt", sortOrder: "asc" },
+    });
+  };
 }
 
 export default GatheringApi;

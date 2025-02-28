@@ -10,7 +10,7 @@ import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
 import useCancelGathering from "@features/list-detail/hooks/useCancelGathering";
-import useDeleteGatheringJoined from "@features/mypage/hooks/useDeleteGatheringJoinded";
+import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import { Gathering } from "@customTypes/gathering";
 import { formatDateTime } from "@utils/dateFormatter";
@@ -108,6 +108,7 @@ export default function ListDetailContent({
             location={gathering.location}
             date={dateString}
             time={timeString}
+            gatheringId={gatheringId}
           />
         </div>
         <ReviewSection />
