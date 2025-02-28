@@ -42,7 +42,9 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                   {gathering.name} |{" "}
                 </span>
                 <span className="text-sm font-medium">
-                  {gathering.location}
+                  {gathering.type === "WORKATION"
+                    ? "온라인"
+                    : gathering.location}
                 </span>
               </div>
 
