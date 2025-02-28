@@ -87,7 +87,7 @@ function NavMenu() {
   const { favorites } = useFavoriteStore();
 
   return (
-    <ul className="flex items-center gap-x-3 pl-5 md:gap-x-6">
+    <ul className="flex items-center gap-x-2 pl-3 md:gap-x-6 md:pl-5">
       {navLinks.map((link) => (
         <li key={link.href}>
           <Link
