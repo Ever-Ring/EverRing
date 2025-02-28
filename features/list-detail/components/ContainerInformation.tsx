@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
+import { useFavoriteStore } from "@stores/favoriteStore";
 import ChipInfo from "@components/common/ChipInfo";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
@@ -9,7 +11,7 @@ import Ellipse from "@assets/ellipse.svg";
 
 interface ContainerInformationProps {
   maxCount: number;
-  userImages?: { id: number; name: string; image: string }[];
+  gatheringId: number;
   title: string;
   location: string;
   date: string;
@@ -18,30 +20,33 @@ interface ContainerInformationProps {
 
 function ContainerInformation({
   maxCount,
-  userImages = [],
+  gatheringId,
   title,
   location,
   date,
   time,
 }: ContainerInformationProps) {
-  const [isSaved, setIsSaved] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
-  const toggleSave = () => {
-    setIsSaved((prev) => !prev);
+  const { data: participants = [] } = useGetParticipants(gatheringId);
+
+  const { isFavorite, toggleFavorite } = useFavoriteStore();
+  const isSaved = isFavorite(gatheringId);
+
+  const handleToggleSave = () => {
+    toggleFavorite(gatheringId);
   };
 
-  const currentCount = Math.min(userImages.length, maxCount);
+  const currentCount = participants.length;
   const isConfirmed = currentCount >= 5;
   const progress = Math.min((currentCount / maxCount) * 100, 100);
 
-  const visibleUsers =
-    userImages.length > 4 ? userImages.slice(0, 4) : userImages;
-  const hiddenUsers = userImages.length > 4 ? userImages.slice(4) : [];
-  const hiddenCount = Math.max(0, userImages.length - 4);
+  const visibleUsers = participants.slice(0, 4);
+  const hiddenUsers = participants.slice(4);
+  const hiddenCount = Math.max(0, participants.length - 4);
 
   return (
-    <div className="mx-auto flex w-[486px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6">
+    <div className="flex w-[343px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6 lg:h-[270px] lg:w-[468px]">
       <div className="mb-11 flex w-full px-6">
         <div className="relative flex w-full items-center justify-between">
           <div className="flex flex-col gap-3 pr-16">
@@ -60,18 +65,18 @@ function ContainerInformation({
           </div>
           <button
             type="button"
-            onClick={toggleSave}
+            onClick={handleToggleSave}
             className="absolute right-0 top-0 focus:outline-none"
           >
             {isSaved ? (
-              <HeartIconInActive
-                className="h-12 w-12"
-                aria-label="찜 아이콘 해제 상태"
-              />
-            ) : (
               <HeartIconActive
                 className="h-12 w-12"
                 aria-label="찜 아이콘 등록 상태"
+              />
+            ) : (
+              <HeartIconInActive
+                className="h-12 w-12"
+                aria-label="찜 아이콘 해제 상태"
               />
             )}
           </button>
@@ -92,18 +97,20 @@ function ContainerInformation({
                   </span>
                 </div>
                 <div className="flex items-center -space-x-[10px]">
-                  {visibleUsers.map((user) => (
-                    <div
-                      key={user.id}
-                      className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
-                      style={{
-                        backgroundImage: `url(${encodeURI(user.image)})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    />
-                  ))}
+                  {visibleUsers.map((user, index) =>
+                    user?.user?.image ? (
+                      <div
+                        key={user.user.id || index}
+                        className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
+                        style={{
+                          backgroundImage: `url(${encodeURI(user.user.image)})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      />
+                    ) : null,
+                  )}
                   {hiddenCount > 0 && (
                     <div
                       className="relative flex h-[29px] w-[29px] items-center justify-center"
@@ -127,24 +134,26 @@ function ContainerInformation({
                         >
                           <div className="grid grid-cols-2 gap-2">
                             {hiddenCount > 0 &&
-                              [...visibleUsers, ...hiddenUsers].map((user) => (
-                                <div
-                                  key={user.id}
-                                  className="flex items-center gap-2"
-                                >
+                              [...visibleUsers, ...hiddenUsers].map((user) =>
+                                user?.user?.image ? (
                                   <div
-                                    className="h-8 w-8 rounded-full bg-gray-300"
-                                    style={{
-                                      backgroundImage: `url(${encodeURI(user.image)})`,
-                                      backgroundSize: "cover",
-                                      backgroundPosition: "center",
-                                    }}
-                                  />
-                                  <span className="text-xs font-medium text-gray-700">
-                                    {user.name}
-                                  </span>
-                                </div>
-                              ))}
+                                    key={user.user.id}
+                                    className="flex items-center gap-2"
+                                  >
+                                    <div
+                                      className="h-8 w-8 rounded-full bg-gray-300"
+                                      style={{
+                                        backgroundImage: `url(${encodeURI(user.user.image)})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                      }}
+                                    />
+                                    <span className="text-xs font-medium text-gray-700">
+                                      {user.user.name}
+                                    </span>
+                                  </div>
+                                ) : null,
+                              )}
                           </div>
                         </div>
                       )}

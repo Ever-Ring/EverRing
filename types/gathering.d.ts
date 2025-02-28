@@ -42,3 +42,17 @@ export interface CreateGatheringValues {
   capacity: number;
   image: string;
 }
+
+export interface Participant {
+  teamId: number;
+  userId: number;
+  gatheringId: number;
+  joinedAt: string;
+  user: {
+    id: number;
+    email: string;
+    name: string;
+    companyName: string;
+    image: string;
+  };
+}

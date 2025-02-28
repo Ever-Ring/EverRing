@@ -17,7 +17,6 @@ export default function useGetReviewList(params: ReviewQueryParams) {
       const { data: reviews, totalItemCount, totalPages } = response.data;
       return { reviewData: reviews, totalItemCount, totalPages };
     },
-    staleTime: 1000 * 60 * 5,
     placeholderData: {
       reviewData: [],
       totalItemCount: 0,

@@ -5,13 +5,18 @@ import ReviewList from "@components/common/ReviewList";
 import Pagination from "@features/list-detail/components/Pagination";
 import useGetReviewList from "@features/list-detail/hooks/useGetReviewList";
 
-export default function ReviewSection() {
+export default function ReviewSection({
+  gatheringId,
+}: {
+  gatheringId: number;
+}) {
   const [currentPage, setCurrentPage] = useState(1);
   const limit = 4;
 
   const { data, isFetching, isError } = useGetReviewList({
     offset: (currentPage - 1) * limit,
     limit,
+    gatheringId,
   });
 
   const {
@@ -33,17 +38,18 @@ export default function ReviewSection() {
   const renderContent = () => {
     if (isError) return <p>에러가 발생했습니다.</p>;
     if (isFetching) return <p>불러 오는 중...</p>;
-    if (computedTotalPages === 0) return <p>리뷰가 없습니다.</p>;
+    if (computedTotalPages === 0)
+      return (
+        <p className="text-center text-sm text-gray-500">아직 리뷰가 없어요.</p>
+      );
     return <ReviewList reviewData={reviews} />;
   };
 
   useEffect(() => {
-    setCurrentPage((prevPage) => {
-      if (computedTotalPages === 0) return 1;
-      if (prevPage > computedTotalPages) return computedTotalPages;
-      return prevPage;
-    });
-  }, [computedTotalPages]);
+    if (computedTotalPages > 0 && currentPage > computedTotalPages) {
+      setCurrentPage(computedTotalPages);
+    }
+  }, [computedTotalPages, currentPage]);
 
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-6 border-t-2 border-gray-200 bg-white p-6">
