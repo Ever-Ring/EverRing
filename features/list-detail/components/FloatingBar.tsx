@@ -57,7 +57,13 @@ function FloatingBar({
                 <span className="text-base font-semibold text-gray-900">
                   더 건강한 나와 팀을 위한 프로그램 🏃‍️️
                 </span>
-                <span className="block text-xs font-medium text-gray-700">
+
+                <span className="hidden text-xs font-medium text-gray-700 md:block">
+                  국내 최고 웰니스 전문가와 프로그램을 통해 지친 몸과 마음을
+                  회복해봐요
+                </span>
+
+                <span className="block text-xs font-medium text-gray-700 md:hidden">
                   국내 최고 웰니스 전문가와 프로그램을
                   <br />
                   통해 지친 몸과 마음을 회복해봐요

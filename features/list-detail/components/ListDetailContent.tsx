@@ -52,6 +52,8 @@ export default function ListDetailContent({
 
   if (!data) return null;
 
+  const isCreator = userData?.data?.id === gathering.createdBy;
+
   const formattedDateTime = formatDateTime(data.dateTime);
   const [dateString, timeString] = formattedDateTime.split(" ・ ");
 
@@ -90,13 +92,13 @@ export default function ListDetailContent({
   return (
     <>
       <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
-        <div className="flex flex-row items-center justify-center gap-8">
+        <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
           <div className="relative">
             <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
             <Image
               src={gathering.image || testImage}
               alt="모임 장소 이미지"
-              className="h-[270px] w-[468px] rounded-[24px] border-2 border-gray-200 object-cover"
+              className="h-[180px] w-[343px] rounded-[24px] border-2 border-gray-200 object-cover md:h-[270px] lg:w-[468px]"
               width={468}
               height={270}
             />
@@ -112,6 +114,7 @@ export default function ListDetailContent({
         </div>
         <ReviewSection gatheringId={gatheringId} />
         <FloatingBar
+          isTwoButtonMode={isCreator}
           isJoined={isJoined}
           isFull={isFull}
           onJoin={handleJoinClick}

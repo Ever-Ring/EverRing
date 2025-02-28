@@ -46,7 +46,7 @@ function ContainerInformation({
   const hiddenCount = Math.max(0, participants.length - 4);
 
   return (
-    <div className="flex w-[486px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6">
+    <div className="flex w-[343px] flex-col items-start rounded-3xl border-2 border-gray-200 bg-white py-6 lg:h-[270px] lg:w-[468px]">
       <div className="mb-11 flex w-full px-6">
         <div className="relative flex w-full items-center justify-between">
           <div className="flex flex-col gap-3 pr-16">
