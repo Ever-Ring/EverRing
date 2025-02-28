@@ -14,6 +14,7 @@ import useDeleteGatheringJoined from "@features/mypage/hooks/useDeleteGatheringJ
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import { Gathering } from "@customTypes/gathering";
 import { formatDateTime } from "@utils/dateFormatter";
+import AlertModal from "@components/common/AlertModal"; // AlertModal 임포트
 
 interface ListDetailContentProps {
   gatheringId: number;
@@ -29,6 +30,7 @@ export default function ListDetailContent({
   const { data: userData } = useGetUserInfo(); // 로그인한 사용자 정보 가져오기
   const [isJoined, setIsJoined] = useState(false);
   const [isFull, setIsFull] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const { mutate: joinGathering, status: joinStatus } = useJoinGathering();
   const { mutate: cancelGathering, status: cancelStatus } =
@@ -54,9 +56,13 @@ export default function ListDetailContent({
   const [dateString, timeString] = formattedDateTime.split(" ・ ");
 
   const handleJoinClick = () => {
-    if (!isFull) {
-      joinGathering(gatheringId);
-      setIsJoined(true);
+    if (userData?.data?.id) {
+      if (!isFull) {
+        joinGathering(gatheringId);
+        setIsJoined(true);
+      }
+    } else {
+      setIsModalOpen(true); // 로그인하지 않은 상태면 모달 오픈
     }
   };
 
@@ -77,42 +83,52 @@ export default function ListDetailContent({
   const isJoining = joinStatus === "pending";
   const isCancelling = cancelStatus === "pending";
 
-  // 로그인한 사용자가 모임을 만든 사람인지 확인
-  const isCreator = userData?.data.id === gathering.createdBy;
+  // 로그인 상태가 아니면 모달로 알림
+  const handleModalConfirm = () => {
+    window.location.href = "/signin"; // 로그인 페이지로 이동
+  };
 
   return (
-    <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
-      <div className="flex flex-row items-center justify-center gap-8">
-        <div className="relative">
-          <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
-          <Image
-            src={gathering.image || testImage}
-            alt="모임 장소 이미지"
-            className="h-[270px] w-[468px] rounded-[24px] border-2 border-gray-200 object-cover"
-            width={468}
-            height={270}
+    <>
+      <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
+        <div className="flex flex-row items-center justify-center gap-8">
+          <div className="relative">
+            <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
+            <Image
+              src={gathering.image || testImage}
+              alt="모임 장소 이미지"
+              className="h-[270px] w-[468px] rounded-[24px] border-2 border-gray-200 object-cover"
+              width={468}
+              height={270}
+            />
+          </div>
+          <ContainerInformation
+            maxCount={gathering.capacity}
+            title={gathering.name}
+            location={gathering.location}
+            date={dateString}
+            time={timeString}
           />
         </div>
-        <ContainerInformation
-          maxCount={gathering.capacity}
-          title={gathering.name}
-          location={gathering.location}
-          date={dateString}
-          time={timeString}
+        <ReviewSection />
+        <FloatingBar
+          isJoined={isJoined}
+          isFull={isFull}
+          onJoin={handleJoinClick}
+          onCancel={handleCancelClick} // 모임 취소
+          onDeleteJoined={handleDeleteJoinedClick} // 참여 취소
+          isJoining={isJoining}
+          isCancelling={isCancelling}
+          onShare={handleShareClick} // 공유하기
         />
       </div>
-      <ReviewSection />
-      <FloatingBar
-        isJoined={isJoined}
-        isFull={isFull}
-        onJoin={handleJoinClick}
-        onCancel={handleCancelClick} // 모임 취소
-        onDeleteJoined={handleDeleteJoinedClick} // 참여 취소
-        isJoining={isJoining}
-        isCancelling={isCancelling}
-        onShare={handleShareClick} // 공유하기
-        isTwoButtonMode={isCreator} // 모임 만든 사람일 경우 투버튼 모드
+
+      <AlertModal
+        text="로그인이 필요해요."
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleModalConfirm}
       />
-    </div>
+    </>
   );
 }

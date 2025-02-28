@@ -66,7 +66,7 @@ function FloatingBar({
               {buttonElement}
             </div>
           ) : (
-            <div className="flex w-full flex-col items-center gap-3">
+            <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-between sm:gap-4">
               <div>
                 <span className="text-base font-semibold text-gray-900">
                   더 건강한 나와 팀을 위한 프로그램 🏃‍️️
@@ -76,7 +76,7 @@ function FloatingBar({
                   회복해봐요
                 </span>
               </div>
-              <div className="flex w-full max-w-xs gap-4">
+              <div className="flex w-full max-w-xs gap-4 sm:flex-row">
                 <Button
                   text="취소하기"
                   size="large"
