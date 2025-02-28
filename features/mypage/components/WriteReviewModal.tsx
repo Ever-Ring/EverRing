@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import SvgHeart from "@assets/icon-heart-default.svg";
 import useCreateReview from "@features/mypage/hooks/useCreateReview";
 import { useQueryClient } from "@tanstack/react-query";
+
 interface WriteReviewModalProps {
   gatheringId: number;
   isOpen: boolean;
@@ -17,22 +18,14 @@ export default function WriteReviewModal({
   isOpen,
   onClose,
 }: WriteReviewModalProps) {
-  if (!isOpen) return null;
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm<{ score: number; comment: string }>();
-
+  const { register, handleSubmit, watch, setValue } = useForm<{
+    score: number;
+    comment: string;
+  }>();
   const queryClient = useQueryClient();
-
   const { mutate: createReview } = useCreateReview();
 
   const onSubmit = async (data: { score: number; comment: string }) => {
-    console.log(data, "id:", gatheringId);
     createReview(
       {
         gatheringId,
@@ -41,15 +34,19 @@ export default function WriteReviewModal({
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+          ["myReviews", "gatheringsJoined"].forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] }),
+          );
           onClose();
         },
         onError: (error) => {
+          // TODO 에러 핸들링 어떻게 할 것인지
           console.error(error);
         },
       },
     );
   };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
