@@ -5,7 +5,6 @@ import Image from "next/image";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
 import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
-import testImage from "@public/image/dummyImage.png";
 import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
@@ -96,7 +95,7 @@ export default function ListDetailContent({
           <div className="relative">
             <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
             <Image
-              src={gathering.image || testImage}
+              src={gathering.image}
               alt="모임 장소 이미지"
               className="h-[180px] w-[343px] rounded-[24px] border-2 border-gray-200 object-cover md:h-[270px] lg:w-[468px]"
               width={468}
