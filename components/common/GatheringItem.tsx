@@ -9,7 +9,7 @@ import { useFavoriteStore } from "@stores/favoriteStore";
 import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
-  const { date, time } = formatDateTime2(gathering.registrationEnd);
+  const { date, time } = formatDateTime2(gathering.dateTime);
   const isFull = gathering.participantCount >= gathering.capacity;
   const isGatheringOpen = gathering.participantCount >= 5;
   const expired = isExpired(gathering.registrationEnd);
