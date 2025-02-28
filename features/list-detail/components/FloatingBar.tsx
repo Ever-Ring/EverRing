@@ -7,8 +7,10 @@ interface FloatingBarProps {
   isFull: boolean;
   onJoin: () => void;
   onCancel: () => void;
+  onDeleteJoined: () => void; // 참여 취소
   isJoining: boolean;
   isCancelling: boolean;
+  onShare: () => void;
 }
 
 function FloatingBar({
@@ -17,12 +19,13 @@ function FloatingBar({
   isFull,
   onJoin,
   onCancel,
+  onDeleteJoined,
   isJoining,
   isCancelling,
+  onShare,
 }: FloatingBarProps) {
   let buttonElement = null;
 
-  // 모집 정원이 찬 경우
   if (isFull) {
     buttonElement = <Button text="참여하기" size="small" disabled />;
   } else if (isJoined) {
@@ -32,12 +35,11 @@ function FloatingBar({
       <Button
         text="참여 취소하기"
         size="small"
-        onClick={onCancel}
+        onClick={onDeleteJoined} // 참여 취소
         variant="outlined"
       />
     );
   } else {
-    // 아직 참여하지 않은 경우, 참여하기 버튼
     buttonElement = isJoining ? (
       <Button text="참여 중..." size="small" disabled />
     ) : (
@@ -48,7 +50,7 @@ function FloatingBar({
   return (
     <div className="fixed bottom-0 left-0 flex w-full justify-center border-t border-gray-900 bg-white">
       <div className="mx-auto flex w-full items-center justify-between px-4 py-5 md:px-6 lg:px-[15%]">
-        <div className="w-full sm:hidden">
+        <div className="w-full">
           {!isTwoButtonMode ? (
             <div className="flex w-full items-center justify-between gap-4">
               <div>
@@ -74,7 +76,20 @@ function FloatingBar({
                   회복해봐요
                 </span>
               </div>
-              <div className="flex w-full max-w-xs gap-4">{buttonElement}</div>
+              <div className="flex w-full max-w-xs gap-4">
+                <Button
+                  text="취소하기"
+                  size="large"
+                  variant="outlined"
+                  onClick={onCancel}
+                />
+                <Button
+                  text="공유하기"
+                  size="large"
+                  variant="solid"
+                  onClick={onShare}
+                />
+              </div>
             </div>
           )}
         </div>
