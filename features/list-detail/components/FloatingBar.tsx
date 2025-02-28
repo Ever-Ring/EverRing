@@ -13,7 +13,7 @@ interface FloatingBarProps {
   onShare: () => void;
 }
 
-function FloatingBar({
+export default function FloatingBar({
   isTwoButtonMode = false,
   isJoined,
   isFull,
@@ -103,5 +103,3 @@ function FloatingBar({
     </div>
   );
 }
-
-export default FloatingBar;

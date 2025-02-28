@@ -18,7 +18,7 @@ interface ContainerInformationProps {
   time: string;
 }
 
-function ContainerInformation({
+export default function ContainerInformation({
   maxCount,
   gatheringId,
   title,
@@ -190,5 +190,3 @@ function ContainerInformation({
     </div>
   );
 }
-
-export default ContainerInformation;
