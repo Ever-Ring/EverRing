@@ -3,10 +3,14 @@ import { notFound } from "next/navigation";
 import ListDetailContent from "@features/list-detail/components/ListDetailContent";
 import { axiosInstance } from "@lib/axios";
 
+interface ListDetailPageParams {
+  gatheringId: string;
+}
+
 export default async function ListDetailPage({
   params,
 }: {
-  params: { gatheringId: string };
+  params: ListDetailPageParams;
 }) {
   const { gatheringId } = params;
 
