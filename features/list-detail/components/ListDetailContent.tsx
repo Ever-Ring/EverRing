@@ -14,7 +14,7 @@ import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGather
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import { Gathering } from "@customTypes/gathering";
 import { formatDateTime } from "@utils/dateFormatter";
-import AlertModal from "@components/common/AlertModal"; // AlertModal 임포트
+import AlertModal from "@components/common/AlertModal";
 
 interface ListDetailContentProps {
   gatheringId: number;
@@ -27,10 +27,10 @@ export default function ListDetailContent({
 }: ListDetailContentProps) {
   const { data, isLoading, isError, error } =
     useGetGatheringDetail(gatheringId);
-  const { data: userData } = useGetUserInfo(); // 로그인한 사용자 정보 가져오기
+  const { data: userData } = useGetUserInfo();
   const [isJoined, setIsJoined] = useState(false);
   const [isFull, setIsFull] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { mutate: joinGathering, status: joinStatus } = useJoinGathering();
   const { mutate: cancelGathering, status: cancelStatus } =
@@ -62,17 +62,17 @@ export default function ListDetailContent({
         setIsJoined(true);
       }
     } else {
-      setIsModalOpen(true); // 로그인하지 않은 상태면 모달 오픈
+      setIsModalOpen(true);
     }
   };
 
   const handleCancelClick = () => {
-    cancelGathering(gatheringId); // 모임 취소
+    cancelGathering(gatheringId);
     setIsJoined(false);
   };
 
   const handleDeleteJoinedClick = () => {
-    deleteJoined(gatheringId); // 참여 취소
+    deleteJoined(gatheringId);
     setIsJoined(false);
   };
 
@@ -83,9 +83,8 @@ export default function ListDetailContent({
   const isJoining = joinStatus === "pending";
   const isCancelling = cancelStatus === "pending";
 
-  // 로그인 상태가 아니면 모달로 알림
   const handleModalConfirm = () => {
-    window.location.href = "/signin"; // 로그인 페이지로 이동
+    window.location.href = "/signin";
   };
 
   return (
@@ -111,16 +110,16 @@ export default function ListDetailContent({
             gatheringId={gatheringId}
           />
         </div>
-        <ReviewSection />
+        <ReviewSection gatheringId={gatheringId} />
         <FloatingBar
           isJoined={isJoined}
           isFull={isFull}
           onJoin={handleJoinClick}
-          onCancel={handleCancelClick} // 모임 취소
-          onDeleteJoined={handleDeleteJoinedClick} // 참여 취소
+          onCancel={handleCancelClick}
+          onDeleteJoined={handleDeleteJoinedClick}
           isJoining={isJoining}
           isCancelling={isCancelling}
-          onShare={handleShareClick} // 공유하기
+          onShare={handleShareClick}
         />
       </div>
 
