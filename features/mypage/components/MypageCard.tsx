@@ -4,7 +4,6 @@ import StateChip from "@features/mypage/components/StateChip";
 import { formatDateTime } from "@utils/dateFormatter";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import useModalStore from "@stores/modalStore";
-
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
 
@@ -41,7 +40,7 @@ export default function MypageCard({
     setIsWriteReviewModalOpen(false);
   };
 
-  function handleClick(isCompleted: boolean) {
+  function handleClick() {
     if (isCompleted) {
       setIsWriteReviewModalOpen(true);
     } else {
@@ -50,6 +49,7 @@ export default function MypageCard({
         hasTwoButton: true,
         onConfirm: () => {
           deleteGatheringJoined(gatheringId);
+          // TODO 취소 후 알림 표시
           alert("모임 참여가 취소되었습니다.");
         },
       });
@@ -103,7 +103,7 @@ export default function MypageCard({
               variant={isCompleted ? "solid" : "outlined"}
               type="button"
               onClick={() => {
-                handleClick(isCompleted ?? false);
+                handleClick();
               }}
             />
           </div>
