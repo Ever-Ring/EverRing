@@ -91,7 +91,7 @@ export default function ListDetailContent({
   return (
     <>
       <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
-        <div className="flex flex-col items-center justify-center gap-8 md:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-center gap-8 md:flex-row lg:mt-10">
           <div className="relative">
             <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
             <Image
