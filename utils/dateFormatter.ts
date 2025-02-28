@@ -58,6 +58,13 @@ export const isExpired = (dateString?: string): boolean => {
   return targetDate < now;
 };
 
-export const extractHour = (dateString: string): number => {
-  return new Date(dateString).getHours();
+export const getRemainingHours = (dateString: string): number => {
+  if (!dateString) return 0;
+  const now = new Date();
+  const targetTime = new Date(dateString);
+
+  const diffInMs = targetTime.getTime() - now.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+
+  return diffInHours;
 };
