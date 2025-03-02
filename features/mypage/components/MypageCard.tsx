@@ -6,6 +6,7 @@ import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGather
 import useModalStore from "@stores/modalStore";
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
+import { MIN_PARTICIPANTS } from "@constants/gathering";
 
 interface MypageCardProps {
   gatheringId: number;
@@ -70,7 +71,7 @@ export default function MypageCard({
       <div className="relative flex w-full flex-1 flex-col gap-y-3">
         {isMyGatheringTab && (
           <StateChip
-            isPending={participantCount < capacity}
+            isPending={participantCount < MIN_PARTICIPANTS}
             isCompleted={isCompleted}
           />
         )}

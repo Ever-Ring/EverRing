@@ -8,3 +8,5 @@ export const IMAGES = {
   WATCH: "/image/Group 33855.svg",
   PERSON: "/image/person.svg",
 };
+
+export const MIN_PARTICIPANTS = 5;
