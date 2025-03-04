@@ -13,6 +13,7 @@ const config: Config = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   moduleNameMapper: {
+    "^@features/(.*)$": "<rootDir>/features/$1",
     "^@hooks/(.*)$": "<rootDir>/hooks/$1",
     "^@stores/(.*)$": "<rootDir>/stores/$1",
     "^.+\\.(svg)$": "<rootDir>/__mocks__/svg.ts",
