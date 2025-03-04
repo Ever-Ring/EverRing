@@ -1,20 +1,18 @@
 "use client";
 import { useState } from "react";
+import useIsAuthenticated from "@hooks/useIsAuthenticated";
 import Button from "@components/common/Button";
 import CreateGatheringModal from "@components/common/CreateModal";
 import AlertModal from "@components/common/AlertModal";
-import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 
 export default function CreateGatheringButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoginCheckModalOpen, setIsLoginCheckModalOpen] = useState(false);
 
-  const { data: userData, isLoading: isUserLoading } = useGetUserInfo();
+  const isAuthenticated = useIsAuthenticated();
 
   const handleCreateGatheringClick = () => {
-    if (isUserLoading) return;
-
-    if (!userData) {
+    if (!isAuthenticated) {
       setIsLoginCheckModalOpen(true);
     } else {
       setIsModalOpen(true);
