@@ -33,7 +33,18 @@ class GatheringApi {
 
   static createGathering = (
     data: CreateGatheringValues,
-  ): Promise<AxiosResponse> => axiosInstance.post("/gatherings", data);
+  ): Promise<AxiosResponse> => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("location", data.location);
+    formData.append("type", data.type);
+    formData.append("dateTime", data.dateTime);
+    formData.append("registrationEnd", data.registrationEnd);
+    formData.append("capacity", data.capacity.toString());
+    formData.append("image", data.image);
+
+    return axiosInstance.post("/gatherings", formData);
+  };
 
   static getParticipants = (
     gatheringId: number,

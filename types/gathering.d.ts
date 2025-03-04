@@ -40,7 +40,7 @@ export interface CreateGatheringValues {
   dateTime: string;
   registrationEnd: string;
   capacity: number;
-  image: string;
+  image: File;
 }
 
 export interface Participant {

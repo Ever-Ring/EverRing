@@ -11,6 +11,7 @@ export interface CreateModalInputProps {
   placeholder?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileChange?: (file: File) => void;
   options?: string[];
   readOnly?: boolean;
 }
@@ -21,6 +22,7 @@ export default function CreateModalInput({
   placeholder,
   value,
   onChange,
+  onFileChange,
   options = [],
   readOnly = false,
 }: CreateModalInputProps) {
@@ -31,29 +33,11 @@ export default function CreateModalInput({
   const [isOpen, setIsOpen] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setLocalFileName(file.name);
+    const file = e.target.files?.[0] || null;
+    setLocalFileName(file ? file.name : "");
 
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        if (onChange) {
-          const fakeEvent = {
-            target: { value: base64String },
-          } as unknown as React.ChangeEvent<HTMLInputElement>;
-          onChange(fakeEvent);
-        }
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setLocalFileName("");
-      if (onChange) {
-        const fakeEvent = {
-          target: { value: "" },
-        } as React.ChangeEvent<HTMLInputElement>;
-        onChange(fakeEvent);
-      }
+    if (file && onFileChange) {
+      onFileChange(file);
     }
   };
 
