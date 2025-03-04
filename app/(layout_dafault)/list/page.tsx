@@ -39,7 +39,6 @@ export default function List() {
       )
     : [];
 
-  // 스크롤 부분 디벨롭 예정
   useEffect(() => {
     if (!loadMoreRef.current) {
       return undefined;
