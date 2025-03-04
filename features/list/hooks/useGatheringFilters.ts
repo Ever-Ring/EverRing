@@ -17,6 +17,7 @@ export function useGatheringFilters() {
 
   useEffect(() => {
     setTypeFilter(selectedTabIndex === 0 ? "DALLAEMFIT" : "WORKATION");
+    setLocationFilter(null);
   }, [selectedTabIndex]);
 
   useEffect(() => {
