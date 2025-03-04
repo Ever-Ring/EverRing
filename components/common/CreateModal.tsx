@@ -49,11 +49,14 @@ export default function CreateGatheringModal({
 
   if (!isOpen) return null;
 
+  const capacityNum = parseInt(capacity, 10);
+  const isValidCapacity = !Number.isNaN(capacityNum) && capacityNum >= 5;
+
   const isFormValid =
     name.trim() !== "" &&
     location.trim() !== "" &&
     image !== null &&
-    capacity.trim() !== "" &&
+    isValidCapacity &&
     type.trim() !== "" &&
     meetingDate.trim() !== "" &&
     registrationEnd.trim() !== "";
@@ -65,8 +68,6 @@ export default function CreateGatheringModal({
     if (type === "WORKATION") {
       finalLocation = "신림";
     }
-
-    const capacityNum = parseInt(capacity, 10);
 
     const data: CreateGatheringValues = {
       name,

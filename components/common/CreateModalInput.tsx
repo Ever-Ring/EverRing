@@ -157,6 +157,7 @@ export default function CreateModalInput({
         readOnly={readOnly}
         value={value ?? ""}
         onChange={onChange}
+        {...(type === "number" ? { min: 5 } : {})}
         className="h-11 w-full rounded-xl bg-gray-50 px-4 text-sm font-medium text-gray-800 hover:border-2 hover:border-mint-300 focus:border-2 focus:border-mint-600 focus:outline-none"
       />
     </div>
