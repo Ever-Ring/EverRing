@@ -58,7 +58,7 @@ export default function List() {
         }
       },
       {
-        threshold: 0.1, // 10% 이상 보이면 실행
+        threshold: 0.1,
         rootMargin: "100px",
       },
     );
@@ -122,11 +122,13 @@ export default function List() {
       {/* 정렬 & 필터링 섹션 */}
       <section className="mb-4 flex justify-between sm:mb-6">
         <div className="flex gap-2">
-          <LocationFilter
-            onLocationChange={(selected) =>
-              setLocationFilter(selected === "지역전체" ? null : selected)
-            }
-          />
+          {selectedTabIndex === 0 && (
+            <LocationFilter
+              onLocationChange={(selected) =>
+                setLocationFilter(selected === "지역전체" ? null : selected)
+              }
+            />
+          )}
           <DateFilter onDateSelect={(date) => setDateFilter(date)} />
         </div>
         <SortFilter variant="list" onSortChange={setSortBy} />
