@@ -34,6 +34,17 @@ export default function CreateGatheringModal({
     }
   }, [type]);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const { mutate: createGathering } = useCreateGatheringMutation();
 
   if (!isOpen) return null;
@@ -94,7 +105,7 @@ export default function CreateGatheringModal({
             if (e.key === "Enter" || e.key === " ") onClose();
           }}
         />
-        <div className="w-94 md:w-130 relative z-10 rounded-xl bg-white p-6 shadow-lg">
+        <div className="w-94 h-209 md:w-130 relative z-10 max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-xl bg-white p-4 shadow-lg md:h-auto md:p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900">모임 만들기</h2>
             <button
@@ -143,16 +154,7 @@ export default function CreateGatheringModal({
 
             <RadioButton selectedType={type} onChange={setType} />
 
-            <div className="flex flex-col gap-4 md:flex-row">
-              <div className="flex-1">
-                <span className="mb-1 block text-sm font-semibold text-gray-900">
-                  모임 날짜
-                </span>
-                <DateFilter
-                  showTimeSelect
-                  onDateSelect={(val) => setMeetingDate(val || "")}
-                />
-              </div>
+            <div className="flex flex-col gap-6 md:flex-row md:gap-4">
               <div className="flex-1">
                 <span className="mb-1 block text-sm font-semibold text-gray-900">
                   마감 날짜
@@ -160,6 +162,15 @@ export default function CreateGatheringModal({
                 <DateFilter
                   showTimeSelect
                   onDateSelect={(val) => setRegistrationEnd(val || "")}
+                />
+              </div>
+              <div className="flex-1">
+                <span className="mb-1 block text-sm font-semibold text-gray-900">
+                  모임 날짜
+                </span>
+                <DateFilter
+                  showTimeSelect
+                  onDateSelect={(val) => setMeetingDate(val || "")}
                 />
               </div>
             </div>

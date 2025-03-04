@@ -43,7 +43,9 @@ function DatePickerModal({
   return (
     <div
       ref={modalRef}
-      className="absolute left-0 z-50 mt-1 w-[340px] rounded-md border bg-white p-6 shadow-md"
+      className={`absolute left-0 z-50 w-[340px] rounded-md border bg-white p-6 shadow-md ${
+        showTimeSelect ? "bottom-full mb-2" : "top-full mt-1"
+      }`}
     >
       <div className="flex flex-col items-center">
         <DatePicker
@@ -165,7 +167,7 @@ export default function DateFilter({
           value={displayValue}
           placeholder="날짜를 선택해주세요."
           onClick={openModal}
-          className="h-9 w-[10rem] rounded-lg border-2 border-gray-100 bg-white px-3 py-[0.375rem] pr-10 text-sm font-medium text-gray-900 focus:outline-none md:h-10 md:w-[12rem]"
+          className="h-9 w-[12rem] rounded-lg border-2 border-gray-100 bg-white px-3 py-[0.375rem] pr-10 text-sm font-medium text-gray-900 focus:outline-none md:h-10"
         />
         <button
           type="button"
