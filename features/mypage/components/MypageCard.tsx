@@ -68,7 +68,11 @@ export default function MypageCard({
           <div className="flex flex-row gap-x-2">
             <p className="text-lg font-semibold">{getheringData.name}</p>
             <p className="text-lg font-semibold">|</p>
-            <p>{getheringData.location}</p>
+            <p>
+              {getheringData.type === "WORKATION"
+                ? "온라인"
+                : getheringData.location}
+            </p>
           </div>
           <div className="flex flex-row items-center">
             <p className="mr-3">{formattedDateTime}</p>
