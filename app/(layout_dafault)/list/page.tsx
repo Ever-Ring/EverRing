@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useGetGatherings } from "@features/list/hooks/useGetGatherings";
-import Button from "@components/common/Button";
-import CreateGatheringModal from "@components/common/CreateModal";
 import TabMenu from "@components/common/TabMenu";
 import HeartImage from "@assets/img-head-class.svg";
 import Chip from "@components/common/Chip";
@@ -13,6 +11,7 @@ import LocationFilter from "@components/common/LocationFilter";
 import GatheringList from "@components/common/GatheringList";
 import { TABS } from "@constants/tab";
 import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
+import CreateGatheringButton from "@features/list/CreateGatheringButton";
 
 export default function List() {
   const {
@@ -26,7 +25,6 @@ export default function List() {
     filters,
     subChips,
   } = useGatheringFilters();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -41,9 +39,6 @@ export default function List() {
       )
     : [];
 
-  console.log("📡 현재 불러온 gatherings:", gatherings);
-
-  // 스크롤 부분 디벨롭 예정
   useEffect(() => {
     if (!loadMoreRef.current) {
       return undefined;
@@ -90,19 +85,7 @@ export default function List() {
             onSelect={setSelectedTabIndex}
           />
         </div>
-        <div className="flex items-center">
-          <Button
-            text="모임 만들기"
-            size="small"
-            onClick={() => setIsModalOpen(true)}
-          />
-          {isModalOpen && (
-            <CreateGatheringModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-            />
-          )}
-        </div>
+        <CreateGatheringButton />
       </section>
 
       {/*  카테고리 필터 */}
