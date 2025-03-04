@@ -11,20 +11,7 @@ import {
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import useGetMyReviews from "@features/mypage/hooks/useGetMyReviews";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
-
-// TODO: Gathering 타입 별도 분리된 파일로 옮길 예정
-interface Gathering {
-  id: number;
-  name: string;
-  location: string;
-  image: string;
-  isReviewed?: boolean;
-  isCompleted?: boolean;
-  dateTime: string;
-  participantCount: number;
-  capacity: number;
-  createdBy: number;
-}
+import { GatheringJoined } from "@customTypes/gathering";
 
 export default function MypageCardList({
   selectedIndex,
@@ -54,17 +41,10 @@ export default function MypageCardList({
   switch (selectedIndex) {
     case 0:
       return gatheringsJoined?.data?.length ? (
-        gatheringsJoined.data.map((gathering: Gathering) => (
+        gatheringsJoined.data.map((gathering: GatheringJoined) => (
           <MypageCard
             key={gathering.id}
-            gatheringId={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            image={gathering.image}
-            dateTime={gathering.dateTime}
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-            isCompleted={gathering.isCompleted}
+            getheringData={gathering}
             isMyGatheringTab
           />
         ))
@@ -88,50 +68,31 @@ export default function MypageCardList({
               onClick={() => setSelectedReviewTab("written")}
             />
           </div>
-
-          {selectedReviewTab === "writable" ? (
-            gatheringsIsNotReviewed?.data?.length ? (
-              gatheringsIsNotReviewed.data.map((gathering: Gathering) => (
-                <MypageCard
-                  key={gathering.id}
-                  gatheringId={gathering.id}
-                  name={gathering.name}
-                  location={gathering.location}
-                  image={gathering.image}
-                  dateTime={gathering.dateTime}
-                  participantCount={gathering.participantCount}
-                  capacity={gathering.capacity}
-                  isCompleted
-                />
+          {selectedReviewTab === "writable" &&
+            (gatheringsIsNotReviewed?.data?.length ? (
+              gatheringsIsNotReviewed.data.map((gathering: GatheringJoined) => (
+                <MypageCard key={gathering.id} getheringData={gathering} />
               ))
             ) : (
               <div className="flex h-full w-full flex-1 items-center justify-center">
                 아직 작성 가능한 리뷰가 없어요
               </div>
-            )
-          ) : gatheringsIsReviewed?.data?.length ? (
-            <ReviewListwithImage reviewData={gatheringsIsReviewed?.data} />
-          ) : (
-            <div className="flex h-full w-full flex-1 items-center justify-center">
-              아직 작성한 리뷰가 없어요
-            </div>
-          )}
+            ))}
+
+          {selectedReviewTab !== "writable" &&
+            (gatheringsIsReviewed?.data?.length ? (
+              <ReviewListwithImage reviewData={gatheringsIsReviewed.data} />
+            ) : (
+              <div className="flex h-full w-full flex-1 items-center justify-center">
+                아직 작성한 리뷰가 없어요
+              </div>
+            ))}
         </div>
       );
     case 2:
       return gatheringsCreatedByUser?.data?.length ? (
-        gatheringsCreatedByUser?.data?.map((gathering: Gathering) => (
-          <MypageCard
-            key={gathering.id}
-            gatheringId={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            image={gathering.image}
-            dateTime={gathering.dateTime}
-            isMadeByMe
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-          />
+        gatheringsCreatedByUser?.data?.map((gathering: GatheringJoined) => (
+          <MypageCard key={gathering.id} getheringData={gathering} isMadeByMe />
         ))
       ) : (
         <div className="flex h-full w-full items-center justify-center">
