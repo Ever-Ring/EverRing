@@ -20,7 +20,9 @@ export default function MypageCard({
   isMyGatheringTab,
   isMadeByMe,
 }: MypageCardProps) {
-  const formattedDateTime = formatDateTime(getheringData.dateTime ?? "");
+  const { date: formattedDate, time: formattedTime } = formatDateTime(
+    getheringData.dateTime ?? "",
+  );
   const { mutate: deleteGatheringJoined } = useDeleteGatheringJoined();
   const { openModal } = useModalStore();
   const [isWriteReviewModalOpen, setIsWriteReviewModalOpen] = useState(false);
@@ -71,7 +73,9 @@ export default function MypageCard({
             <p>{getheringData.location}</p>
           </div>
           <div className="flex flex-row items-center">
-            <p className="mr-3">{formattedDateTime}</p>
+            <p className="mr-3">
+              {formattedDate} ・ {formattedTime}
+            </p>
             <Image
               src="/image/person.svg"
               alt="participant icon"

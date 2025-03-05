@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatDateTime2, isExpired } from "@utils/dateFormatter";
+import { formatDateTime, isExpired } from "@utils/dateFormatter";
 import ChipInfo from "@components/common/ChipInfo";
 import { GatheringItemProps } from "@customTypes/gathering";
 import { IMAGES } from "@constants/gathering";
@@ -9,7 +9,7 @@ import { useFavoriteStore } from "@stores/favoriteStore";
 import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
-  const { date, time } = formatDateTime2(gathering.dateTime);
+  const { date, time } = formatDateTime(gathering.dateTime);
   const isFull = gathering.participantCount >= gathering.capacity;
   const isGatheringOpen = gathering.participantCount >= 5;
   const expired = isExpired(gathering.registrationEnd);
