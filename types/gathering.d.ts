@@ -30,7 +30,7 @@ export interface GatheringParams {
   sortBy?: string | null;
   type?: string | null;
   sortOrder?: "asc" | "desc";
-  createdBy?: number;
+  createdBy?: number | null;
 }
 
 export interface CreateGatheringValues {

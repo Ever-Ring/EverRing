@@ -1,4 +1,5 @@
 // TODO: 로딩 처리는 어떻게 할 것 인지. 필요한지 아닌지 고려해야 함.
+
 "use client";
 
 import MypageCard from "@features/mypage/components/MypageCard";
@@ -8,17 +9,17 @@ import {
   useGetGatheringsCreatedByUser,
   useGetGatheringsJoined,
 } from "@features/mypage/hooks/useGetGatheringsJoined";
-import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import useGetMyReviews from "@features/mypage/hooks/useGetMyReviews";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
 import { GatheringJoined } from "@customTypes/gathering";
+import useUserStore from "@stores/userStore";
 
 export default function MypageCardList({
   selectedIndex,
 }: {
   selectedIndex: number;
 }) {
-  const { data: userInfo, isLoading: isUserInfoLoading } = useGetUserInfo();
+  const { id: userId } = useUserStore();
   const { data: gatheringsJoined, isLoading: isGatheringJoinedLoading } =
     useGetGatheringsJoined({ reviewed: false });
   const {
@@ -28,11 +29,11 @@ export default function MypageCardList({
   const {
     data: gatheringsIsReviewed,
     isLoading: isGatheringIsReviewedLoading,
-  } = useGetMyReviews({ userId: userInfo?.data?.id });
+  } = useGetMyReviews({ userId: userId ?? null });
   const {
     data: gatheringsCreatedByUser,
     isLoading: isGatheringsCreatedByUserLoading,
-  } = useGetGatheringsCreatedByUser({ createdBy: userInfo?.data?.id });
+  } = useGetGatheringsCreatedByUser({ createdBy: userId ?? null });
 
   const [selectedReviewTab, setSelectedReviewTab] = useState<
     "writable" | "written"

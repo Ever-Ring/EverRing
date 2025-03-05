@@ -4,7 +4,7 @@ export interface CommonReviewParams {
 }
 
 export interface ReviewQueryParams extends CommonReviewParams {
-  userId?: number;
+  userId?: number | null;
   type?: GatheringType;
   location?: string;
   date?: string;
