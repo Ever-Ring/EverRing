@@ -20,7 +20,7 @@ export default function MypageContent() {
     <>
       <section className="flex flex-1 flex-col bg-white">
         <div
-          className={`sticky top-[136px] z-10 border-t-2 border-gray-900 bg-white px-4 pt-6 md:top-[156px] md:px-6 ${
+          className={`sticky top-[136px] z-50 border-t-2 border-gray-900 bg-white px-4 pt-6 md:top-[156px] md:px-6 ${
             selectedIndex === 1 ? "pb-3" : "pb-6"
           }`}
         >
