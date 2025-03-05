@@ -51,7 +51,9 @@ export default function EditProfileModal({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    if (file && file.size <= MAX_FILE_SIZE) {
+    const isFileInvalid = file && file.size > MAX_FILE_SIZE;
+
+    if (isFileInvalid) {
       setValue("image", URL.createObjectURL(file));
     } else {
       alert("파일 크기는 5MB 이하이어야 합니다.");
