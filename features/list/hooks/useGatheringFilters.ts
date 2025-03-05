@@ -13,10 +13,16 @@ export function useGatheringFilters() {
   const [locationFilter, setLocationFilter] = useState<string | null>(null);
   const [dateFilter, setDateFilter] = useState<string | undefined>(undefined);
   const [sortBy, setSortBy] = useState<string>("정렬");
+  const [sortOrder, setSortOrder] = useState<"desc" | undefined>(undefined);
 
   useEffect(() => {
     setTypeFilter(selectedTabIndex === 0 ? "DALLAEMFIT" : "WORKATION");
+    setLocationFilter(null);
   }, [selectedTabIndex]);
+
+  useEffect(() => {
+    setSortOrder(sortBy === "참여 인원순" ? "desc" : undefined);
+  }, [sortBy]);
 
   //유즈메모 처리 예정
   const subChips =
@@ -34,6 +40,7 @@ export function useGatheringFilters() {
     location: locationFilter,
     date: dateFilter,
     sortBy: sortMap[sortBy],
+    sortOrder,
   };
 
   return {

@@ -54,7 +54,7 @@ export default function ListDetailContent({
   const isCreator = userData?.data?.id === gathering.createdBy;
 
   const formattedDateTime = formatDateTime(data.dateTime);
-  const [dateString, timeString] = formattedDateTime.split(" ・ ");
+  const { date: dateString, time: timeString } = formattedDateTime;
 
   const handleJoinClick = () => {
     if (userData?.data?.id) {

@@ -85,21 +85,43 @@ export default function DateFilter({
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const dateFormat = showTimeSelect ? "yyyy-MM-dd HH:mm" : "yyyy-MM-dd";
-
   const handleSelect = (date: Date | null) => {
     setTempDate(date);
   };
 
   const handleApply = () => {
+    if (!tempDate) {
+      setAppliedDate(null);
+      setIsOpen(false);
+      onDateSelect?.(undefined);
+      return;
+    }
+
+    const utcDate = showTimeSelect
+      ? new Date(tempDate.getTime() - 9 * 60 * 60 * 1000)
+      : tempDate;
+    const formatted = format(
+      utcDate,
+      showTimeSelect ? "yyyy-MM-dd'T'HH:mm'Z'" : "yyyy-MM-dd",
+    );
+
+    console.log("formatted", formatted);
+
     setAppliedDate(tempDate);
     setIsOpen(false);
-
-    if (onDateSelect) {
-      const formatted = tempDate ? format(tempDate, dateFormat) : undefined;
-      onDateSelect(formatted);
-    }
+    onDateSelect?.(formatted);
   };
+
+  const getDisplayValue = () => {
+    if (!appliedDate) return "";
+    if (showTimeSelect) {
+      const utcDate = new Date(appliedDate.getTime() - 9 * 60 * 60 * 1000);
+      return format(utcDate, "yyyy-MM-dd HH:mm");
+    }
+    return format(appliedDate, "yyyy-MM-dd");
+  };
+
+  const displayValue = getDisplayValue();
 
   const handleReset = () => {
     setTempDate(null);
@@ -115,8 +137,6 @@ export default function DateFilter({
     setTempDate(appliedDate);
     setIsOpen(true);
   };
-
-  const displayValue = appliedDate ? format(appliedDate, dateFormat) : "";
 
   if (!showTimeSelect) {
     return (
