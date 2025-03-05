@@ -45,7 +45,7 @@ export default function MypageCardList({
         gatheringsJoined.data.map((gathering: GatheringJoined) => (
           <MypageCard
             key={gathering.id}
-            getheringData={gathering}
+            gatheringData={gathering}
             isMyGatheringTab
           />
         ))
@@ -72,7 +72,7 @@ export default function MypageCardList({
           {selectedReviewTab === "writable" &&
             (gatheringsIsNotReviewed?.data?.length ? (
               gatheringsIsNotReviewed.data.map((gathering: GatheringJoined) => (
-                <MypageCard key={gathering.id} getheringData={gathering} />
+                <MypageCard key={gathering.id} gatheringData={gathering} />
               ))
             ) : (
               <div className="flex h-full w-full flex-1 items-center justify-center">
@@ -93,7 +93,7 @@ export default function MypageCardList({
     case 2:
       return gatheringsCreatedByUser?.data?.length ? (
         gatheringsCreatedByUser?.data?.map((gathering: GatheringJoined) => (
-          <MypageCard key={gathering.id} getheringData={gathering} isMadeByMe />
+          <MypageCard key={gathering.id} gatheringData={gathering} isMadeByMe />
         ))
       ) : (
         <div className="flex h-full w-full items-center justify-center">
