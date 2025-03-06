@@ -5,7 +5,6 @@ import { GATHERING_TYPE, GatheringType } from "@constants/gatheringType";
 import { sortMap, ASC, DESC } from "@features/review/constants/review";
 import useGetReviewData from "@features/review/hooks/useGetReviewData";
 import useGetReviewScore from "@features/review/hooks/useGetReviewScore";
-import { Review, Scores } from "@customTypes/review";
 
 interface ReviewListState {
   tabIndex: number;
@@ -16,17 +15,13 @@ interface ReviewListState {
   sort: string;
 }
 
-export default function useReviewListViewModel(
-  initialData: Review[],
-  totalItemCount: number,
-  initialScore: Scores,
-) {
+export default function useReviewListViewModel() {
   const [filters, setFilters] = useState<ReviewListState>({
     tabIndex: 0,
     chipIndex: 0,
     type: GATHERING_TYPE.DALLAEMFIT,
     location: "지역전체",
-    date: undefined,
+    date: undefined as string | undefined,
     sort: "정렬",
   });
 
@@ -59,7 +54,7 @@ export default function useReviewListViewModel(
     hasNextPage,
     isError,
     isFetchingNextPage,
-  } = useGetReviewData(reviewFilter, { initialData, totalItemCount });
+  } = useGetReviewData(reviewFilter);
 
   const { data: scoreData } = useGetReviewScore({ type: filters.type });
 
@@ -86,7 +81,7 @@ export default function useReviewListViewModel(
   return {
     filters,
     reviews,
-    scoreData: scoreData ?? initialScore,
+    scoreData,
     hasNextPage,
     isError,
     isFetchingNextPage,
