@@ -8,20 +8,21 @@ import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
 import { MIN_PARTICIPANTS } from "@constants/gathering";
 import { GatheringJoined } from "@customTypes/gathering";
+import GatheringClosureNotice from "@components/common/GatheringClosureNotice";
 
 interface MypageCardProps {
-  getheringData: GatheringJoined;
+  gatheringData: GatheringJoined;
   isMyGatheringTab?: boolean;
   isMadeByMe?: boolean;
 }
 
 export default function MypageCard({
-  getheringData,
+  gatheringData,
   isMyGatheringTab,
   isMadeByMe,
 }: MypageCardProps) {
   const { date: formattedDate, time: formattedTime } = formatDateTime(
-    getheringData.dateTime ?? "",
+    gatheringData.dateTime ?? "",
   );
   const { mutate: deleteGatheringJoined } = useDeleteGatheringJoined();
   const { openModal } = useModalStore();
@@ -30,17 +31,17 @@ export default function MypageCard({
     setIsWriteReviewModalOpen(false);
   };
   const isRegistrationEnded =
-    new Date(getheringData.registrationEnd) < new Date();
+    new Date(gatheringData.registrationEnd) < new Date();
 
   function handleClick() {
-    if (getheringData.isCompleted) {
+    if (gatheringData.isCompleted) {
       setIsWriteReviewModalOpen(true);
     } else {
       openModal({
         text: "정말 모임 참여를 취소하시겠습니까?",
         hasTwoButton: true,
         onConfirm: () => {
-          deleteGatheringJoined(getheringData.id);
+          deleteGatheringJoined(gatheringData.id);
           // TODO 취소 후 알림 표시
           alert("모임 참여가 취소되었습니다.");
         },
@@ -49,10 +50,10 @@ export default function MypageCard({
   }
 
   return (
-    <div className="mb-6 flex flex-col gap-4 border-b-2 border-dotted pb-6 md:flex-row">
+    <div className="relative mb-6 flex flex-col gap-4 border-b-2 border-dotted pb-6 md:flex-row">
       <div className="relative h-[9.75rem] w-full rounded-3xl md:w-[17.5rem]">
         <Image
-          src={getheringData.image}
+          src={gatheringData.image}
           alt="gathering image"
           fill
           sizes="100%"
@@ -62,18 +63,18 @@ export default function MypageCard({
       <div className="relative flex w-full flex-1 flex-col gap-y-3">
         {isMyGatheringTab && (
           <StateChip
-            isPending={getheringData.participantCount < MIN_PARTICIPANTS}
-            isCompleted={getheringData.isCompleted}
+            isPending={gatheringData.participantCount < MIN_PARTICIPANTS}
+            isCompleted={gatheringData.isCompleted}
           />
         )}
         <div className="flex flex-col gap-y-1">
           <div className="flex flex-row gap-x-2">
-            <p className="text-lg font-semibold">{getheringData.name}</p>
+            <p className="text-lg font-semibold">{gatheringData.name}</p>
             <p className="text-lg font-semibold">|</p>
             <p>
-              {getheringData.type === "WORKATION"
+              {gatheringData.type === "WORKATION"
                 ? "온라인"
-                : getheringData.location}
+                : gatheringData.location}
             </p>
           </div>
           <div className="flex flex-row items-center">
@@ -88,7 +89,7 @@ export default function MypageCard({
               className="mr-1"
             />
             <p>
-              {getheringData.participantCount}/{getheringData.capacity}
+              {gatheringData.participantCount}/{gatheringData.capacity}
             </p>
           </div>
         </div>
@@ -96,11 +97,11 @@ export default function MypageCard({
           <div className="md:absolute md:bottom-0 md:left-0">
             <Button
               text={
-                getheringData.isCompleted ? "리뷰 작성하기" : "예약 취소하기"
+                gatheringData.isCompleted ? "리뷰 작성하기" : "예약 취소하기"
               }
               size="small"
-              disabled={isRegistrationEnded && !getheringData.isCompleted}
-              variant={getheringData.isCompleted ? "solid" : "outlined"}
+              disabled={isRegistrationEnded && !gatheringData.isCompleted}
+              variant={gatheringData.isCompleted ? "solid" : "outlined"}
               type="button"
               onClick={() => {
                 handleClick();
@@ -109,11 +110,12 @@ export default function MypageCard({
           </div>
         )}
       </div>
+      <GatheringClosureNotice isCanceled={!!gatheringData.canceledAt} />
       {isWriteReviewModalOpen && (
         <WriteReviewModal
           isOpen={isWriteReviewModalOpen}
           onClose={closeWriteReviewModal}
-          gatheringId={getheringData.id}
+          gatheringId={gatheringData.id}
         />
       )}
     </div>
