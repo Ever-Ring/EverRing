@@ -20,7 +20,7 @@ export default function ReviewItem({ review }: ReviewItemProps) {
         </div>
         <div className="flex flex-row items-center gap-3">
           <p className="flex flex-row items-center gap-2">
-            <span className="relative size-6">
+            <span className="relative size-6 overflow-hidden rounded-full">
               <Image
                 alt="user-profile"
                 fill
