@@ -43,6 +43,8 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   useEffect(() => {
     if (type === "WORKATION") {
       setLocation("온라인");
+    } else {
+      setLocation("");
     }
   }, [type]);
 
