@@ -8,10 +8,10 @@ import { getDehydratedQuery } from "@lib/reactQueryUtils";
 export default async function Review() {
   const { queryKey, queryFn } = getServerReviewQuery();
 
-  const query = await getDehydratedQuery({ queryKey, queryFn });
+  const state = await getDehydratedQuery({ queryKey, queryFn });
 
   return (
-    <HydrationBoundary state={{ queries: [query] }}>
+    <HydrationBoundary state={state}>
       <div className="flex h-full w-full flex-col items-start pt-6 md:pt-8">
         <section className="flex items-center gap-4">
           <Image

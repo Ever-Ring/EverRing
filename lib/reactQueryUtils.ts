@@ -19,11 +19,5 @@ export async function getDehydratedQuery<Q extends QueryProps>({
     initialPageParam: 0,
   });
 
-  const { queries } = dehydrate(queryClient);
-
-  const [dehydratedQuery] = queries.filter(
-    (query) => JSON.stringify(query.queryKey) === JSON.stringify(queryKey),
-  );
-
-  return dehydratedQuery;
+  return dehydrate(queryClient);
 }
