@@ -11,15 +11,12 @@ import type { CreateGatheringValues } from "types/gathering";
 import axios from "axios";
 import CloseButton from "@assets/Group 33597.svg";
 
-interface CreateGatheringModalProps {
+interface CreateModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function CreateGatheringModal({
-  isOpen,
-  onClose,
-}: CreateGatheringModalProps) {
+export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -27,6 +24,21 @@ export default function CreateGatheringModal({
   const [type, setType] = useState("");
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
+
+  const parseDate = (val: string) => {
+    if (!val) return null;
+    return new Date(val);
+  };
+
+  const meetingDateObj = parseDate(meetingDate);
+  const meetingMinDate = new Date();
+  const now = new Date();
+  const deadlineMinDate = now;
+  let deadlineMaxDate;
+
+  if (meetingDateObj) {
+    deadlineMaxDate = new Date(meetingDateObj.getTime() - 60 * 1000);
+  }
 
   useEffect(() => {
     if (type === "WORKATION") {
@@ -162,6 +174,8 @@ export default function CreateGatheringModal({
                 </span>
                 <DateFilter
                   showTimeSelect
+                  minDate={deadlineMinDate}
+                  maxDate={deadlineMaxDate}
                   onDateSelect={(val) => setRegistrationEnd(val || "")}
                 />
               </div>
@@ -171,6 +185,7 @@ export default function CreateGatheringModal({
                 </span>
                 <DateFilter
                   showTimeSelect
+                  minDate={meetingMinDate}
                   onDateSelect={(val) => setMeetingDate(val || "")}
                 />
               </div>

@@ -9,7 +9,7 @@ interface DropDownItemsProps {
   textSize?: "large" | "small";
 }
 
-function DropDownItems({
+export default function DropDownItems({
   item,
   isSelected = false,
   onSelect,
@@ -34,5 +34,3 @@ function DropDownItems({
     </li>
   );
 }
-
-export default DropDownItems;

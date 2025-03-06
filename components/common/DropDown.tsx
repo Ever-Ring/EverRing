@@ -12,7 +12,7 @@ interface DropDownProps {
   textSize?: "large" | "small";
 }
 
-function DropDown({
+export default function DropDown({
   items,
   onSelect,
   isOpen,
@@ -62,5 +62,3 @@ function DropDown({
     </div>
   );
 }
-
-export default DropDown;

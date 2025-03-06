@@ -4,7 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
+import DateTimePicker from "@components/common/DateTimePicker";
 import DropDefault from "@assets/icon-arrow-default-down.svg";
 import DropInverse from "@assets/icon-arrow-inverse-down.svg";
 import CalendarIcon from "@assets/calendar.svg";
@@ -43,9 +45,7 @@ function DatePickerModal({
   return (
     <div
       ref={modalRef}
-      className={`absolute left-0 z-50 w-[340px] rounded-md border bg-white p-6 shadow-md ${
-        showTimeSelect ? "bottom-full mb-2" : "top-full mt-1"
-      }`}
+      className="absolute left-0 z-50 mt-1 w-[340px] rounded-md border bg-white p-6 shadow-md"
     >
       <div className="flex flex-col items-center">
         <DatePicker
@@ -75,15 +75,32 @@ function DatePickerModal({
 interface DateFilterProps {
   onDateSelect?: (date: string | undefined) => void;
   showTimeSelect?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export default function DateFilter({
   onDateSelect,
   showTimeSelect,
+  minDate,
+  maxDate,
 }: DateFilterProps) {
   const [appliedDate, setAppliedDate] = useState<Date | null>(null);
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen && showTimeSelect) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen, showTimeSelect]);
+
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (date: Date | null) => {
     setTempDate(date);
@@ -115,8 +132,7 @@ export default function DateFilter({
   const getDisplayValue = () => {
     if (!appliedDate) return "";
     if (showTimeSelect) {
-      const utcDate = new Date(appliedDate.getTime() - 9 * 60 * 60 * 1000);
-      return format(utcDate, "yyyy-MM-dd HH:mm");
+      return format(appliedDate, "yyyy-MM-dd HH:mm");
     }
     return format(appliedDate, "yyyy-MM-dd");
   };
@@ -171,17 +187,34 @@ export default function DateFilter({
   return (
     <div className="relative inline-block">
       {isOpen && (
-        <DatePickerModal
-          tempDate={tempDate}
-          onClose={() => setIsOpen(false)}
-          onSelect={handleSelect}
-          onApply={handleApply}
-          onReset={handleReset}
-          showTimeSelect
-        />
+        <ModalPortal>
+          <DateTimePicker
+            initialDate={tempDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            onClose={() => setIsOpen(false)}
+            onApply={(date) => {
+              if (!date) {
+                setAppliedDate(null);
+                setIsOpen(false);
+                onDateSelect?.(undefined);
+                return;
+              }
+              const utcDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
+              const formatted = format(utcDate, "yyyy-MM-dd'T'HH:mm'Z'");
+              console.log("formatted", formatted);
+
+              setAppliedDate(date);
+              setIsOpen(false);
+              onDateSelect?.(formatted);
+            }}
+            onReset={handleReset}
+            anchorRef={anchorRef}
+          />
+        </ModalPortal>
       )}
 
-      <div className="relative">
+      <div className="relative" ref={anchorRef}>
         <input
           readOnly
           value={displayValue}

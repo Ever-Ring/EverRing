@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useIsAuthenticated from "@hooks/useIsAuthenticated";
 import Button from "@components/common/Button";
-import CreateGatheringModal from "@components/common/CreateModal";
+import CreateModal from "@components/common/CreateModal";
 import AlertModal from "@components/common/AlertModal";
 
 export default function CreateGatheringButton() {
@@ -32,7 +32,7 @@ export default function CreateGatheringButton() {
       />
 
       {isModalOpen && (
-        <CreateGatheringModal
+        <CreateModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />
