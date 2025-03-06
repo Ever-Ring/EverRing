@@ -15,7 +15,8 @@ interface DateTimePickerProps {
   onClose: () => void;
   onApply: (date: Date | null) => void;
   onReset: () => void;
-  anchorRef?: React.RefObject<HTMLDivElement | null>;
+  left: number;
+  top: number;
 }
 
 export default function DateTimePicker({
@@ -25,14 +26,13 @@ export default function DateTimePicker({
   onClose,
   onApply,
   onReset,
-  anchorRef,
+  left,
+  top,
 }: DateTimePickerProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [selectedDate, setSelectedDate] = useState<Date>(() => {
     return initialDate || new Date();
   });
-
-  const [pos, setPos] = useState({ left: 0, top: 0 });
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -43,17 +43,6 @@ export default function DateTimePicker({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
-
-  useEffect(() => {
-    if (!anchorRef?.current) return;
-    const rect = anchorRef.current.getBoundingClientRect();
-    const calendarHeight = 300;
-    const offset = 8;
-    const x = rect.left;
-    const y = rect.top - calendarHeight - offset;
-
-    setPos({ left: x, top: y });
-  }, [anchorRef]);
 
   const currentHours = selectedDate.getHours();
   const currentHour12 = currentHours % 12 || 12;
@@ -132,8 +121,8 @@ export default function DateTimePicker({
       ref={modalRef}
       style={{
         position: "fixed",
-        left: pos.left,
-        top: pos.top,
+        left,
+        top,
         maxWidth: "100%",
         zIndex: 9999,
       }}

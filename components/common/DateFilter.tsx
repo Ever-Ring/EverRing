@@ -89,16 +89,10 @@ export default function DateFilter({
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (isOpen && showTimeSelect) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen, showTimeSelect]);
+  const [popupPos, setPopupPos] = useState<{
+    left: number;
+    top: number;
+  } | null>(null);
 
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -151,6 +145,17 @@ export default function DateFilter({
 
   const openModal = () => {
     setTempDate(appliedDate);
+
+    if (anchorRef.current) {
+      const rect = anchorRef.current.getBoundingClientRect();
+      const calendarHeight = 300;
+      const offset = 8;
+      const x = rect.left;
+      const y = rect.top - calendarHeight - offset;
+
+      setPopupPos({ left: x, top: y });
+    }
+
     setIsOpen(true);
   };
 
@@ -192,6 +197,8 @@ export default function DateFilter({
             initialDate={tempDate}
             minDate={minDate}
             maxDate={maxDate}
+            left={popupPos!.left}
+            top={popupPos!.top}
             onClose={() => setIsOpen(false)}
             onApply={(date) => {
               if (!date) {
@@ -209,7 +216,6 @@ export default function DateFilter({
               onDateSelect?.(formatted);
             }}
             onReset={handleReset}
-            anchorRef={anchorRef}
           />
         </ModalPortal>
       )}
