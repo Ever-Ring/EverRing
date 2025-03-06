@@ -4,7 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
+import DateTimePicker from "@components/common/DateTimePicker";
 import DropDefault from "@assets/icon-arrow-default-down.svg";
 import DropInverse from "@assets/icon-arrow-inverse-down.svg";
 import CalendarIcon from "@assets/calendar.svg";
@@ -73,15 +75,26 @@ function DatePickerModal({
 interface DateFilterProps {
   onDateSelect?: (date: string | undefined) => void;
   showTimeSelect?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export default function DateFilter({
   onDateSelect,
   showTimeSelect,
+  minDate,
+  maxDate,
 }: DateFilterProps) {
   const [appliedDate, setAppliedDate] = useState<Date | null>(null);
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+
+  const [popupPos, setPopupPos] = useState<{
+    left: number;
+    top: number;
+  } | null>(null);
+
+  const anchorRef = useRef<HTMLDivElement>(null);
 
   const handleSelect = (date: Date | null) => {
     setTempDate(date);
@@ -113,8 +126,7 @@ export default function DateFilter({
   const getDisplayValue = () => {
     if (!appliedDate) return "";
     if (showTimeSelect) {
-      const utcDate = new Date(appliedDate.getTime() - 9 * 60 * 60 * 1000);
-      return format(utcDate, "yyyy-MM-dd HH:mm");
+      return format(appliedDate, "yyyy-MM-dd HH:mm");
     }
     return format(appliedDate, "yyyy-MM-dd");
   };
@@ -133,6 +145,17 @@ export default function DateFilter({
 
   const openModal = () => {
     setTempDate(appliedDate);
+
+    if (anchorRef.current) {
+      const rect = anchorRef.current.getBoundingClientRect();
+      const calendarHeight = 300;
+      const offset = 8;
+      const x = rect.left;
+      const y = rect.top - calendarHeight - offset;
+
+      setPopupPos({ left: x, top: y });
+    }
+
     setIsOpen(true);
   };
 
@@ -169,23 +192,41 @@ export default function DateFilter({
   return (
     <div className="relative inline-block">
       {isOpen && (
-        <DatePickerModal
-          tempDate={tempDate}
-          onClose={() => setIsOpen(false)}
-          onSelect={handleSelect}
-          onApply={handleApply}
-          onReset={handleReset}
-          showTimeSelect
-        />
+        <ModalPortal>
+          <DateTimePicker
+            initialDate={tempDate}
+            minDate={minDate}
+            maxDate={maxDate}
+            left={popupPos!.left}
+            top={popupPos!.top}
+            onClose={() => setIsOpen(false)}
+            onApply={(date) => {
+              if (!date) {
+                setAppliedDate(null);
+                setIsOpen(false);
+                onDateSelect?.(undefined);
+                return;
+              }
+              const utcDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
+              const formatted = format(utcDate, "yyyy-MM-dd'T'HH:mm'Z'");
+              console.log("formatted", formatted);
+
+              setAppliedDate(date);
+              setIsOpen(false);
+              onDateSelect?.(formatted);
+            }}
+            onReset={handleReset}
+          />
+        </ModalPortal>
       )}
 
-      <div className="relative">
+      <div className="relative" ref={anchorRef}>
         <input
           readOnly
           value={displayValue}
           placeholder="날짜를 선택해주세요."
           onClick={openModal}
-          className="h-9 w-[10rem] rounded-lg border-2 border-gray-100 bg-white px-3 py-[0.375rem] pr-10 text-sm font-medium text-gray-900 focus:outline-none md:h-10 md:w-[12rem]"
+          className="h-9 w-[12rem] rounded-lg border-2 border-gray-100 bg-white px-3 py-[0.375rem] pr-10 text-sm font-medium text-gray-900 focus:outline-none md:h-10"
         />
         <button
           type="button"

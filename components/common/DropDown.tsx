@@ -12,7 +12,7 @@ interface DropDownProps {
   textSize?: "large" | "small";
 }
 
-function DropDown({
+export default function DropDown({
   items,
   onSelect,
   isOpen,
@@ -42,7 +42,7 @@ function DropDown({
       {isOpen && items.length > 0 && (
         <ul
           className={`absolute right-0 z-50 mt-1 ${
-            variant === "solid" ? "w-[472px]" : "w-[120px]"
+            variant === "solid" ? "w-full" : "w-[120px]"
           } rounded-md border bg-white shadow-md`}
         >
           {items.map((item) => (
@@ -62,5 +62,3 @@ function DropDown({
     </div>
   );
 }
-
-export default DropDown;
