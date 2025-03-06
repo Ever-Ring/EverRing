@@ -29,7 +29,10 @@ export default function ReviewItemWithImage({
         <div className="flex flex-col items-start gap-2 self-stretch">
           <div className="flex flex-col items-start gap-[0.625rem] self-stretch">
             <ReviewRating score={review?.score} />
-            <p className="text-sm font-medium">{review?.comment}</p>
+            {/* // TODO height&overflow 임시 적용 */}
+            <p className="h-[3.75rem] overflow-hidden text-sm font-medium md:h-[2.5rem]">
+              {review?.comment}
+            </p>
             <p className="flex flex-row items-center gap-[0.375rem] text-xs font-medium">
               <span>
                 {gatheringType} {review?.Gathering?.name} 이용
@@ -41,7 +44,7 @@ export default function ReviewItemWithImage({
           <div className="flex flex-row items-center gap-3">
             {hasUserInfo && (
               <p className="flex flex-row items-center gap-2">
-                <span className="relative size-6">
+                <span className="relative size-6 overflow-hidden rounded-full">
                   <Image
                     alt="user-profile"
                     fill

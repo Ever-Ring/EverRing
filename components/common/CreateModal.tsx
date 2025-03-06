@@ -22,7 +22,7 @@ export default function CreateGatheringModal({
 }: CreateGatheringModalProps) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [capacity, setCapacity] = useState("");
   const [type, setType] = useState("");
   const [meetingDate, setMeetingDate] = useState("");
@@ -41,7 +41,7 @@ export default function CreateGatheringModal({
   const isFormValid =
     name.trim() !== "" &&
     location.trim() !== "" &&
-    image.trim() !== "" &&
+    image !== null &&
     capacity.trim() !== "" &&
     type.trim() !== "" &&
     meetingDate.trim() !== "" &&
@@ -64,7 +64,7 @@ export default function CreateGatheringModal({
       dateTime: meetingDate,
       registrationEnd,
       capacity: capacityNum,
-      image,
+      image: image!,
     };
 
     createGathering(data, {
@@ -138,9 +138,7 @@ export default function CreateGatheringModal({
               type="fileupload"
               label="이미지"
               placeholder="이미지를 첨부해주세요."
-              onChange={(e) => {
-                setImage(e.target.value);
-              }}
+              onFileChange={(file) => setImage(file)}
             />
 
             <RadioButton selectedType={type} onChange={setType} />

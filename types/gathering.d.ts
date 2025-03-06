@@ -30,7 +30,7 @@ export interface GatheringParams {
   sortBy?: string | null;
   type?: string | null;
   sortOrder?: "asc" | "desc";
-  createdBy?: number;
+  createdBy?: number | null;
 }
 
 export interface CreateGatheringValues {
@@ -40,7 +40,7 @@ export interface CreateGatheringValues {
   dateTime: string;
   registrationEnd: string;
   capacity: number;
-  image: string;
+  image: File;
 }
 
 export interface Participant {
@@ -55,4 +55,21 @@ export interface Participant {
     companyName: string;
     image: string;
   };
+}
+
+export interface GatheringJoined {
+  id: number;
+  type: string;
+  name: string;
+  dateTime: string;
+  registrationEnd: string;
+  location: string;
+  participantCount: number;
+  capacity: number;
+  image: string;
+  createdBy: number;
+  canceledAt: string | null;
+  joinedAt: string;
+  isCompleted: boolean;
+  isReviewed: boolean;
 }
