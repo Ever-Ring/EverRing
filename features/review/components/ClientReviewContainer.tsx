@@ -9,23 +9,12 @@ import TabMenu from "@components/common/TabMenu";
 import { TABS } from "@constants/tab";
 import { chipOptions } from "@features/review/constants/review";
 import useReviewListViewModel from "@features/review/hooks/useReviewListViewModel";
-import { Review, Scores } from "@customTypes/review";
 import { memo } from "react";
 
-interface ClientReviewContainerProps {
-  initialData: Review[];
-  totalItemCount: number;
-  initialScore: Scores;
-}
-
-function ClientReviewContainer({
-  initialData,
-  totalItemCount,
-  initialScore,
-}: ClientReviewContainerProps) {
+function ClientReviewContainer() {
   const {
     filters,
-    reviews,
+    reviews = [],
     scoreData,
     hasNextPage,
     isError,
@@ -36,7 +25,7 @@ function ClientReviewContainer({
     handleChangeLocation,
     handleChangeDate,
     handleChangeSort,
-  } = useReviewListViewModel(initialData, totalItemCount, initialScore);
+  } = useReviewListViewModel();
 
   const { ref: loadMoreRef } = useInView({
     triggerOnce: false,
@@ -90,7 +79,7 @@ function ClientReviewContainer({
         </div>
 
         <div className="w-full px-4 pb-6 md:px-6">
-          {reviews.length > 0 ? (
+          {reviews?.length ? (
             <>
               <ReviewListwithImage reviewData={reviews} hasUserInfo />
               <div ref={loadMoreRef} className="h-1" />
