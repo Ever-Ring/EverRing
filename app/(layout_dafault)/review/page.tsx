@@ -1,11 +1,10 @@
 import Image from "next/image";
-import ReviewContentContainer from "@features/review/components/ReviewContentContainer";
 import ReviewApi from "@apis/ReviewApi";
 import { GATHERING_TYPE } from "@constants/gatheringType";
 import { INITIAL_PARAMS } from "@features/review/constants/query";
+import ClientReviewContainer from "@features/review/components/ClientReviewContainer";
 
 export default async function Review() {
-  // TODO 아직 데이터가 많이 없어서 임시로 limit 작게 설정
   const params = INITIAL_PARAMS;
   const reviewDataResponse = await ReviewApi.getReviewData(params);
   const initialData = reviewDataResponse.data?.data ?? [];
@@ -34,7 +33,8 @@ export default async function Review() {
           </h2>
         </div>
       </section>
-      <ReviewContentContainer
+
+      <ClientReviewContainer
         initialData={initialData}
         totalItemCount={totalItemCount}
         initialScore={initialScore}
