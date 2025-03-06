@@ -30,7 +30,7 @@
       "@customTypes/*": ["types/*"],
       "@features/*": ["features/*"],
       "@constants/*": ["constants/*"],
-      "@providers/*": ["providers/*"],
+      "@providers/*": ["app/providers/*"],
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@apis/*": ["apis/*"],

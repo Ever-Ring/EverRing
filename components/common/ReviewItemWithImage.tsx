@@ -44,7 +44,7 @@ export default function ReviewItemWithImage({
           <div className="flex flex-row items-center gap-3">
             {hasUserInfo && (
               <p className="flex flex-row items-center gap-2">
-                <span className="relative size-6">
+                <span className="relative size-6 overflow-hidden rounded-full">
                   <Image
                     alt="user-profile"
                     fill
