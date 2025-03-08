@@ -29,7 +29,7 @@ export interface GatheringParams {
   date?: string | null;
   sortBy?: string | null;
   type?: string | null;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: string | null;
   createdBy?: number | null;
 }
 
