@@ -10,13 +10,14 @@ import SortFilter from "@components/common/SortFilter";
 import LocationFilter from "@components/common/LocationFilter";
 import GatheringList from "@components/common/GatheringList";
 import { TABS } from "@constants/tab";
+import { LOCATION_ITEMS, SORT_ITEMS } from "@constants/filter";
 import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
 import CreateGatheringButton from "@features/list/CreateGatheringButton";
 
 export default function List() {
   const {
     selectedTabIndex,
-    setSelectedTabIndex,
+    setTabIndex,
     typeFilter,
     setTypeFilter,
     setLocationFilter,
@@ -24,6 +25,7 @@ export default function List() {
     setSortBy,
     filters,
     subChips,
+    sortBy,
   } = useGatheringFilters();
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -46,16 +48,11 @@ export default function List() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        console.log("스크롤 감지됨:", entries[0]);
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          console.log("추가 데이터 요청 중");
           fetchNextPage();
         }
       },
-      {
-        threshold: 0.1,
-        rootMargin: "100px",
-      },
+      { threshold: 0.1, rootMargin: "100px" },
     );
 
     observer.observe(loadMoreRef.current);
@@ -64,7 +61,6 @@ export default function List() {
 
   return (
     <div className="flex w-full flex-col pt-6 md:pt-8">
-      {/* 헤더 */}
       <section className="mb-6 flex items-center justify-start gap-4 sm:mb-8">
         <HeartImage className="w-18 h-18" />
         <div>
@@ -74,21 +70,15 @@ export default function List() {
           </p>
         </div>
       </section>
-
-      {/*  카테고리 탭 */}
       <section className="mb-[14px] flex flex-wrap items-center justify-between">
-        <div>
-          <TabMenu
-            hasIcon
-            tabs={TABS}
-            selectedIndex={selectedTabIndex}
-            onSelect={setSelectedTabIndex}
-          />
-        </div>
+        <TabMenu
+          hasIcon
+          tabs={TABS}
+          selectedIndex={selectedTabIndex}
+          onSelect={setTabIndex}
+        />
         <CreateGatheringButton />
       </section>
-
-      {/*  카테고리 필터 */}
       <section className="flex justify-start gap-2">
         {subChips.map((chip) => (
           <Chip
@@ -99,35 +89,33 @@ export default function List() {
           />
         ))}
       </section>
-
       <hr className="my-4 w-full border-t-2 border-gray-200" />
-
-      {/* 정렬 & 필터링 섹션 */}
       <section className="mb-4 flex justify-between sm:mb-6">
         <div className="flex gap-2">
           {selectedTabIndex === 0 && (
             <LocationFilter
-              onLocationChange={(selected) =>
-                setLocationFilter(selected === "지역전체" ? null : selected)
-              }
+              selectedLocation={filters.location}
+              onLocationChange={setLocationFilter}
+              locations={LOCATION_ITEMS}
             />
           )}
-          <DateFilter onDateSelect={(date) => setDateFilter(date)} />
+          <DateFilter
+            onDateSelect={(date) => setDateFilter(date)}
+            loadDate={filters.date}
+          />
         </div>
-        <SortFilter variant="list" onSortChange={setSortBy} />
+        <SortFilter
+          selectedSort={sortBy}
+          onSortChange={setSortBy}
+          sortOptions={SORT_ITEMS.list}
+        />
       </section>
-
-      {/*  모임 리스트 */}
       <section>
         <GatheringList gatherings={gatherings} />
       </section>
-
-      {/*  무한 스크롤 트리거 */}
       <div ref={loadMoreRef} className="bg-red-500 w-30 z-10 h-10 text-center">
         {isFetchingNextPage ? "로딩 중..." : ""}
       </div>
-
-      {/*  API 요청 오류 표시 */}
       {error && (
         <div className="text-red-500">❌ API 요청 오류: {error.message}</div>
       )}

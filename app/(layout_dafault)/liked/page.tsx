@@ -13,7 +13,7 @@ import { TABS } from "@constants/tab";
 export default function LikePage() {
   const {
     selectedTabIndex,
-    setSelectedTabIndex,
+    setTabIndex,
     typeFilter,
     setTypeFilter,
     filters,
@@ -41,14 +41,13 @@ export default function LikePage() {
           </div>
         </div>
       </section>
-      {/*  카테고리 탭 */}
       <section className="mb-[14px] flex flex-wrap items-center justify-between">
         <div>
           <TabMenu
             hasIcon
             tabs={TABS}
             selectedIndex={selectedTabIndex}
-            onSelect={setSelectedTabIndex}
+            onSelect={setTabIndex}
           />
         </div>
         <div className="mt-2">
@@ -56,7 +55,6 @@ export default function LikePage() {
         </div>
       </section>
 
-      {/*  카테고리 필터 */}
       <section className="flex justify-start gap-2">
         {subChips.map((chip) => (
           <Chip
@@ -70,7 +68,6 @@ export default function LikePage() {
 
       <hr className="my-4 w-full border-t-2 border-gray-200" />
 
-      {/* 찜하기 목록 */}
       <FavoriteGatheringList gatherings={favoriteDate} />
     </div>
   );
