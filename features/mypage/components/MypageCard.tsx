@@ -6,9 +6,10 @@ import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGather
 import useModalStore from "@stores/modalStore";
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
-import { MIN_PARTICIPANTS } from "@constants/gathering";
+import { MIN_PARTICIPANTS, IMAGES } from "@constants/gathering";
 import { GatheringJoined } from "@customTypes/gathering";
 import GatheringClosureNotice from "@components/common/GatheringClosureNotice";
+import Link from "next/link";
 
 interface MypageCardProps {
   gatheringData: GatheringJoined;
@@ -93,8 +94,8 @@ export default function MypageCard({
             </p>
           </div>
         </div>
-        {!isMadeByMe && (
-          <div className="md:absolute md:bottom-0 md:left-0">
+        <div className="bottom-0 flex w-full items-center justify-between md:absolute">
+          {!isMadeByMe && (
             <Button
               text={
                 gatheringData.isCompleted ? "리뷰 작성하기" : "예약 취소하기"
@@ -107,8 +108,20 @@ export default function MypageCard({
                 handleClick();
               }}
             />
-          </div>
-        )}
+          )}
+          <Link
+            href={`/list-detail/${gatheringData.id}`}
+            className="absolute bottom-0 right-0 flex gap-x-2"
+          >
+            <p className="text-base font-semibold text-mint-600">자세히 보기</p>
+            <Image
+              alt="join_arrow"
+              src={IMAGES.ARROW_RIGHT}
+              width={18}
+              height={18}
+            />
+          </Link>
+        </div>
       </div>
       <GatheringClosureNotice isCanceled={!!gatheringData.canceledAt} />
       {isWriteReviewModalOpen && (
