@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import LikePageContent from "@features/liked/LikePageContent";
+import LikePageContent from "@features/liked/components/LikePageContent";
 
 export default function LikedPage() {
   return (
