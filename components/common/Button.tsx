@@ -10,7 +10,7 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-function Button({
+export default function Button({
   text,
   size = "large",
   disabled = false,
@@ -61,5 +61,3 @@ function Button({
     </button>
   );
 }
-
-export default Button;

@@ -11,15 +11,12 @@ import type { CreateGatheringValues } from "types/gathering";
 import axios from "axios";
 import CloseButton from "@assets/Group 33597.svg";
 
-interface CreateGatheringModalProps {
+interface CreateModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function CreateGatheringModal({
-  isOpen,
-  onClose,
-}: CreateGatheringModalProps) {
+export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -28,21 +25,52 @@ export default function CreateGatheringModal({
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
 
+  const parseDate = (val: string) => {
+    if (!val) return null;
+    return new Date(val);
+  };
+
+  const meetingDateObj = parseDate(meetingDate);
+  const meetingMinDate = new Date();
+  const now = new Date();
+  const deadlineMinDate = now;
+  let deadlineMaxDate;
+
+  if (meetingDateObj) {
+    deadlineMaxDate = new Date(meetingDateObj.getTime() - 60 * 1000);
+  }
+
   useEffect(() => {
     if (type === "WORKATION") {
       setLocation("온라인");
+    } else {
+      setLocation("");
     }
   }, [type]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
 
   const { mutate: createGathering } = useCreateGatheringMutation();
 
   if (!isOpen) return null;
 
+  const capacityNum = parseInt(capacity, 10);
+  const isValidCapacity = !Number.isNaN(capacityNum) && capacityNum >= 5;
+
   const isFormValid =
     name.trim() !== "" &&
     location.trim() !== "" &&
     image !== null &&
-    capacity.trim() !== "" &&
+    isValidCapacity &&
     type.trim() !== "" &&
     meetingDate.trim() !== "" &&
     registrationEnd.trim() !== "";
@@ -54,8 +82,6 @@ export default function CreateGatheringModal({
     if (type === "WORKATION") {
       finalLocation = "신림";
     }
-
-    const capacityNum = parseInt(capacity, 10);
 
     const data: CreateGatheringValues = {
       name,
@@ -94,7 +120,7 @@ export default function CreateGatheringModal({
             if (e.key === "Enter" || e.key === " ") onClose();
           }}
         />
-        <div className="w-94 md:w-130 relative z-10 rounded-xl bg-white p-6 shadow-lg">
+        <div className="w-94 h-209 md:w-130 relative z-10 max-h-[90vh] overflow-y-auto overflow-x-hidden rounded-xl bg-white p-4 shadow-lg md:h-auto md:p-6">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900">모임 만들기</h2>
             <button
@@ -143,23 +169,26 @@ export default function CreateGatheringModal({
 
             <RadioButton selectedType={type} onChange={setType} />
 
-            <div className="flex flex-col gap-4 md:flex-row">
-              <div className="flex-1">
-                <span className="mb-1 block text-sm font-semibold text-gray-900">
-                  모임 날짜
-                </span>
-                <DateFilter
-                  showTimeSelect
-                  onDateSelect={(val) => setMeetingDate(val || "")}
-                />
-              </div>
+            <div className="flex flex-col gap-6 md:flex-row md:gap-4">
               <div className="flex-1">
                 <span className="mb-1 block text-sm font-semibold text-gray-900">
                   마감 날짜
                 </span>
                 <DateFilter
                   showTimeSelect
+                  minDate={deadlineMinDate}
+                  maxDate={deadlineMaxDate}
                   onDateSelect={(val) => setRegistrationEnd(val || "")}
+                />
+              </div>
+              <div className="flex-1">
+                <span className="mb-1 block text-sm font-semibold text-gray-900">
+                  모임 날짜
+                </span>
+                <DateFilter
+                  showTimeSelect
+                  minDate={meetingMinDate}
+                  onDateSelect={(val) => setMeetingDate(val || "")}
                 />
               </div>
             </div>

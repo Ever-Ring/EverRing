@@ -1,51 +1,80 @@
-import { useEffect, useMemo, useState } from "react";
+"use client";
 
-const sortMap: Record<string, string | undefined> = {
-  정렬: undefined,
-  최신순: "dateTime",
-  "마감 임박": "registrationEnd",
-  "참여 인원순": "participantCount",
-};
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useMemo, useCallback } from "react";
+import { sortMap } from "@constants/filter";
+import { updateParams } from "@utils/url";
+import { setSelectedTabIndex } from "@utils/url";
 
 export function useGatheringFilters() {
-  const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
-  const [typeFilter, setTypeFilter] = useState<string | null>("DALLAEMFIT");
-  const [locationFilter, setLocationFilter] = useState<string | null>(null);
-  const [dateFilter, setDateFilter] = useState<string | undefined>(undefined);
-  const [sortBy, setSortBy] = useState<string>("정렬");
-  const [sortOrder, setSortOrder] = useState<"desc" | undefined>(undefined);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
 
-  useEffect(() => {
-    setTypeFilter(selectedTabIndex === 0 ? "DALLAEMFIT" : "WORKATION");
-    setLocationFilter(null);
-  }, [selectedTabIndex]);
+  const selectedTabIndex = Number(searchParams.get("tab") || 0);
+  const typeFilter = searchParams.get("type") || "DALLAEMFIT";
+  const locationFilter = searchParams.get("location") || null;
+  const dateFilter = searchParams.get("date") || null;
+  const sortBy = searchParams.get("sort") || null;
 
-  useEffect(() => {
-    setSortOrder(sortBy === "참여 인원순" ? "desc" : undefined);
-  }, [sortBy]);
+  const sortOrder = sortBy === "참여 인원순" ? "desc" : null;
 
-  //유즈메모 처리 예정
-  const subChips =
-    selectedTabIndex === 0
-      ? [
-          { label: "전체", value: "DALLAEMFIT" },
-          { label: "에버 스트레칭", value: "OFFICE_STRETCHING" },
-          { label: "에버 푸드트립", value: "MINDFULNESS" },
-        ]
-      : [{ label: "전체", value: "WORKATION" }];
+  const setTabIndex = useCallback(
+    (index: number) =>
+      setSelectedTabIndex(index, searchParams, router, pathname),
+    [searchParams, router, pathname],
+  );
 
-  //유즈메모 처리 예정
-  const filters = {
-    type: typeFilter,
-    location: locationFilter,
-    date: dateFilter,
-    sortBy: sortMap[sortBy],
-    sortOrder,
-  };
+  const setTypeFilter = useCallback(
+    (type: string | null) =>
+      updateParams("type", type, searchParams, router, pathname),
+    [searchParams, router, pathname],
+  );
+
+  const setLocationFilter = useCallback(
+    (location: string | null) =>
+      updateParams("location", location, searchParams, router, pathname),
+    [searchParams, router, pathname],
+  );
+
+  const setDateFilter = useCallback(
+    (date: string | null) =>
+      updateParams("date", date, searchParams, router, pathname),
+    [searchParams, router, pathname],
+  );
+
+  const setSortBy = useCallback(
+    (sort: string | null) =>
+      updateParams("sort", sort, searchParams, router, pathname),
+    [searchParams, router, pathname],
+  );
+
+  const subChips = useMemo(
+    () =>
+      selectedTabIndex === 0
+        ? [
+            { label: "전체", value: "DALLAEMFIT" },
+            { label: "에버 스트레칭", value: "OFFICE_STRETCHING" },
+            { label: "에버 푸드트립", value: "MINDFULNESS" },
+          ]
+        : [{ label: "전체", value: "WORKATION" }],
+    [selectedTabIndex],
+  );
+
+  const filters = useMemo(
+    () => ({
+      type: typeFilter,
+      location: locationFilter,
+      date: dateFilter,
+      sortBy: sortBy ? (sortMap[sortBy] ?? null) : null,
+      sortOrder,
+    }),
+    [typeFilter, locationFilter, dateFilter, sortBy, sortOrder],
+  );
 
   return {
     selectedTabIndex,
-    setSelectedTabIndex,
+    setTabIndex,
     typeFilter,
     setTypeFilter,
     locationFilter,

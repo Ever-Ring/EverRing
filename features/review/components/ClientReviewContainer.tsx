@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import RatingContainer from "@features/review/components/RatingContainer";
-import FilterBar from "@features/review/components/FilterBar";
+// import FilterBar from "@features/review/components/FilterBar";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
 import Chip from "@components/common/Chip";
 import TabMenu from "@components/common/TabMenu";
@@ -22,9 +22,9 @@ function ClientReviewContainer() {
     fetchNextPage,
     handleChangeTabIndex,
     handleChangeChipIndex,
-    handleChangeLocation,
-    handleChangeDate,
-    handleChangeSort,
+    // handleChangeLocation,
+    // handleChangeDate,
+    // handleChangeSort,
   } = useReviewListViewModel();
 
   const { ref: loadMoreRef } = useInView({
@@ -71,11 +71,11 @@ function ClientReviewContainer() {
 
       <div className="flex h-full w-full flex-col items-start bg-white">
         <div className="sticky top-[174px] z-10 w-full md:top-[190px] lg:top-[194px]">
-          <FilterBar
+          {/* <FilterBar
             onLocationChange={handleChangeLocation}
             onDateChange={handleChangeDate}
             onSortChange={handleChangeSort}
-          />
+          /> */}
         </div>
 
         <div className="w-full px-4 pb-6 md:px-6">
