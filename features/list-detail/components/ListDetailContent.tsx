@@ -50,10 +50,6 @@ export default function ListDetailContent({
     useCancelGathering();
   const { mutate: deleteJoined } = useDeleteGatheringJoined();
 
-  const handleModalConfirm = () => {
-    window.location.href = "/signin";
-  };
-
   const {
     handleJoinClick,
     handleDeleteJoinedClick,
@@ -70,7 +66,6 @@ export default function ListDetailContent({
     deleteJoined,
     setIsJoined,
     setModalConfig,
-    handleModalConfirm,
   });
 
   useEffect(() => {

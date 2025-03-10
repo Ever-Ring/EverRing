@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface UserData {
   data?: {
@@ -25,7 +26,6 @@ interface UseClickHandlersProps {
       onClose: () => void;
     }>
   >;
-  handleModalConfirm: () => void;
 }
 
 export default function useClickHandlers({
@@ -39,8 +39,9 @@ export default function useClickHandlers({
   deleteJoined,
   setIsJoined,
   setModalConfig,
-  handleModalConfirm,
 }: UseClickHandlersProps) {
+  const router = useRouter();
+
   const handleJoinClick = useCallback(() => {
     if (userData?.data?.id) {
       if (!isFull && joinStatus !== "pending") {
@@ -64,7 +65,7 @@ export default function useClickHandlers({
         isOpen: true,
         text: "로그인이 필요해요.",
         hasTwoButton: false,
-        onConfirm: handleModalConfirm,
+        onConfirm: () => router.push("/signin"),
         onClose: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
       });
     }
@@ -76,7 +77,7 @@ export default function useClickHandlers({
     gatheringId,
     setIsJoined,
     setModalConfig,
-    handleModalConfirm,
+    router,
   ]);
 
   const handleDeleteJoinedClick = useCallback(() => {
@@ -121,10 +122,8 @@ export default function useClickHandlers({
                 isOpen: true,
                 text: "모임 취소되었습니다!",
                 hasTwoButton: false,
-                onConfirm: () =>
-                  setModalConfig((prev) => ({ ...prev, isOpen: false })),
-                onClose: () =>
-                  setModalConfig((prev) => ({ ...prev, isOpen: false })),
+                onConfirm: () => router.push("/list"),
+                onClose: () => router.push("/list"),
               });
             },
           });
@@ -132,7 +131,7 @@ export default function useClickHandlers({
         onClose: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
       });
     }
-  }, [cancelGathering, cancelStatus, gatheringId, setModalConfig]);
+  }, [cancelGathering, cancelStatus, gatheringId, setModalConfig, router]);
 
   const handleShareClick = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
