@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 import AlertModal from "@components/common/AlertModal";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
@@ -13,6 +13,7 @@ import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDe
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
 import useCancelGathering from "@features/list-detail/hooks/useCancelGathering";
 import useClickHandlers from "@features/list-detail/hooks/useClickHandlers";
+import useModalState from "@features/list-detail/hooks/useModalState";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import { Gathering } from "@customTypes/gathering";
 import { formatDateTime } from "@utils/dateFormatter";
@@ -31,22 +32,7 @@ export default function ListDetailContent({
   const { data: userData } = useGetUserInfo();
   const { data: participants } = useGetParticipants(gatheringId);
 
-  const [isJoined, setIsJoined] = useState(false);
-  const [isFull, setIsFull] = useState(false);
-
-  const [modalConfig, setModalConfig] = useState<{
-    isOpen: boolean;
-    text: string;
-    hasTwoButton: boolean;
-    onConfirm: () => void;
-    onClose: () => void;
-  }>({
-    isOpen: false,
-    text: "",
-    hasTwoButton: false,
-    onConfirm: () => {},
-    onClose: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
-  });
+  const { modalConfig, setModalConfig } = useModalState();
 
   const { mutate: joinGathering, status: joinStatus } = useJoinGathering();
   const { mutate: cancelGathering, status: cancelStatus } =
@@ -60,42 +46,34 @@ export default function ListDetailContent({
     handleShareClick,
   } = useClickHandlers({
     userData,
-    isFull,
+    isFull: data ? data.participantCount >= data.capacity : false,
     joinStatus,
     cancelStatus,
     gatheringId,
     joinGathering,
     cancelGathering,
     deleteJoined,
-    setIsJoined,
+    setIsJoined: () => {},
     setModalConfig,
   });
 
-  useEffect(() => {
-    if (data) {
-      setIsFull(data.participantCount >= data.capacity);
-    }
-
-    if (participants && userData?.data?.id) {
-      const joined = participants.some((p) => p.userId === userData.data!.id);
-      setIsJoined(joined);
-    }
-  }, [data, participants, userData]);
+  const isFull = data ? data.participantCount >= data.capacity : false;
+  const isJoined =
+    participants && userData?.data?.id
+      ? participants.some((p) => p.userId === userData.data.id)
+      : false;
 
   if (isLoading) {
     return <div>로딩 중...</div>;
   }
-
   if (isError) {
     return <div>에러 발생: {(error as Error).message}</div>;
   }
-
   if (!data) {
     return null;
   }
 
   const isCreator = userData?.data?.id === gathering.createdBy;
-
   const formattedDateTime = formatDateTime(data.dateTime);
   const { date: dateString, time: timeString } = formattedDateTime;
 
