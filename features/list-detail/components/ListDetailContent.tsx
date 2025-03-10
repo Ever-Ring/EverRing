@@ -9,6 +9,7 @@ import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
 import useCancelGathering from "@features/list-detail/hooks/useCancelGathering";
+import useClickHandlers from "@features/list-detail/hooks/useClickHandlers";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import { Gathering } from "@customTypes/gathering";
@@ -27,14 +28,50 @@ export default function ListDetailContent({
   const { data, isLoading, isError, error } =
     useGetGatheringDetail(gatheringId);
   const { data: userData } = useGetUserInfo();
+
   const [isJoined, setIsJoined] = useState(false);
   const [isFull, setIsFull] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean;
+    text: string;
+    hasTwoButton: boolean;
+    onConfirm: () => void;
+    onClose: () => void;
+  }>({
+    isOpen: false,
+    text: "",
+    hasTwoButton: false,
+    onConfirm: () => {},
+    onClose: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
+  });
 
   const { mutate: joinGathering, status: joinStatus } = useJoinGathering();
   const { mutate: cancelGathering, status: cancelStatus } =
     useCancelGathering();
   const { mutate: deleteJoined } = useDeleteGatheringJoined();
+
+  const handleModalConfirm = () => {
+    window.location.href = "/signin";
+  };
+
+  const {
+    handleJoinClick,
+    handleDeleteJoinedClick,
+    handleCancelClick,
+    handleShareClick,
+  } = useClickHandlers({
+    userData,
+    isFull,
+    joinStatus,
+    cancelStatus,
+    gatheringId,
+    joinGathering,
+    cancelGathering,
+    deleteJoined,
+    setIsJoined,
+    setModalConfig,
+    handleModalConfirm,
+  });
 
   useEffect(() => {
     if (data) {
@@ -43,50 +80,21 @@ export default function ListDetailContent({
     }
   }, [data]);
 
-  if (isLoading) return <div>로딩 중...</div>;
+  if (isLoading) {
+    return <div>로딩 중...</div>;
+  }
 
   if (isError) {
     return <div>에러 발생: {(error as Error).message}</div>;
   }
 
-  if (!data) return null;
+  if (!data) {
+    return null;
+  }
 
   const isCreator = userData?.data?.id === gathering.createdBy;
-
   const formattedDateTime = formatDateTime(data.dateTime);
   const { date: dateString, time: timeString } = formattedDateTime;
-
-  const handleJoinClick = () => {
-    if (userData?.data?.id) {
-      if (!isFull) {
-        joinGathering(gatheringId);
-        setIsJoined(true);
-      }
-    } else {
-      setIsModalOpen(true);
-    }
-  };
-
-  const handleCancelClick = () => {
-    cancelGathering(gatheringId);
-    setIsJoined(false);
-  };
-
-  const handleDeleteJoinedClick = () => {
-    deleteJoined(gatheringId);
-    setIsJoined(false);
-  };
-
-  const handleShareClick = () => {
-    navigator.clipboard.writeText(window.location.href);
-  };
-
-  const isJoining = joinStatus === "pending";
-  const isCancelling = cancelStatus === "pending";
-
-  const handleModalConfirm = () => {
-    window.location.href = "/signin";
-  };
 
   return (
     <>
@@ -119,17 +127,18 @@ export default function ListDetailContent({
           onJoin={handleJoinClick}
           onCancel={handleCancelClick}
           onDeleteJoined={handleDeleteJoinedClick}
-          isJoining={isJoining}
-          isCancelling={isCancelling}
+          isJoining={joinStatus === "pending"}
+          isCancelling={cancelStatus === "pending"}
           onShare={handleShareClick}
         />
       </div>
 
       <AlertModal
-        text="로그인이 필요해요."
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={handleModalConfirm}
+        text={modalConfig.text}
+        isOpen={modalConfig.isOpen}
+        hasTwoButton={modalConfig.hasTwoButton}
+        onConfirm={modalConfig.onConfirm}
+        onClose={modalConfig.onClose}
       />
     </>
   );
