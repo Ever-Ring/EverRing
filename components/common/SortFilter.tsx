@@ -16,7 +16,7 @@ export default function SortFilter({
 }: SortFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isSelected = selectedSort !== null && selectedSort !== "정렬";
+  const isSelected = !!selectedSort && selectedSort !== "정렬";
 
   const handleSelect = useCallback(
     (selected: string) => {

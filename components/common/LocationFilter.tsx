@@ -16,8 +16,11 @@ export default function LocationFilter({
 }: LocationFilterProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const isSelected =
-    selectedLocation !== null && selectedLocation !== "지역전체";
+  const SELECTED_LOCATIONS = ["건대입구", "을지로3가", "신림", "홍대입구"];
+
+  const isSelected = selectedLocation
+    ? SELECTED_LOCATIONS.includes(selectedLocation)
+    : false;
 
   const handleSelect = useCallback(
     (selected: string) => {
