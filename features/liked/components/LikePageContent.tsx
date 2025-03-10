@@ -4,8 +4,8 @@ import { useGetIdGatherings } from "@features/list/hooks/useGetIdGatherings";
 import Image from "next/image";
 import Button from "@components/common/Button";
 import { useFavoriteStore } from "@stores/favoriteStore";
-import FavoriteGatheringList from "@features/liked/FavoriteGatheringList";
-import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
+import FavoriteGatheringList from "@features/liked/components/FavoriteGatheringList";
+import { GatheringFiltersViewModel } from "@features/list/hooks/GatheringFiltersViewModel";
 import TabMenu from "@components/common/TabMenu";
 import Chip from "@components/common/Chip";
 import { TABS } from "@constants/tab";
@@ -18,7 +18,7 @@ export default function LikePageContent() {
     setTypeFilter,
     filters,
     subChips,
-  } = useGatheringFilters();
+  } = GatheringFiltersViewModel();
 
   const { data: favoriteDate = [] } = useGetIdGatherings(filters);
   const { clearFavorites } = useFavoriteStore();

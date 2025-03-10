@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ListContent from "@features/liked/ListContent";
+import ListContent from "@features/list/components/ListContent";
 
 export default function List() {
   return (
