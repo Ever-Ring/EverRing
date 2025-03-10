@@ -4,6 +4,7 @@ import { useState } from "react";
 import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
 import { useFavoriteStore } from "@stores/favoriteStore";
 import ChipInfo from "@components/common/ChipInfo";
+import ParticipantImage from "@features/list-detail/components/ParticipantImage";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
 import IconCheck from "@assets/ic-check-variant.svg";
@@ -97,20 +98,20 @@ function ContainerInformation({
                   </span>
                 </div>
                 <div className="flex items-center -space-x-[10px]">
-                  {visibleUsers.map((user, index) =>
-                    user?.user?.image ? (
-                      <div
-                        key={user.user.id || index}
-                        className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
-                        style={{
-                          backgroundImage: `url(${encodeURI(user.user.image)})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                        }}
+                  {visibleUsers.map((participant, index) => {
+                    const userNestedId = participant.User?.id;
+                    const imageUrl =
+                      participant.User?.image ||
+                      "/image/img-profile-large-default.svg";
+
+                    return (
+                      <ParticipantImage
+                        key={userNestedId || index}
+                        imageUrl={imageUrl}
                       />
-                    ) : null,
-                  )}
+                    );
+                  })}
+
                   {hiddenCount > 0 && (
                     <div
                       className="relative flex h-[29px] w-[29px] items-center justify-center"
@@ -134,26 +135,22 @@ function ContainerInformation({
                         >
                           <div className="grid grid-cols-2 gap-2">
                             {hiddenCount > 0 &&
-                              [...visibleUsers, ...hiddenUsers].map((user) =>
-                                user?.user?.image ? (
+                              [...visibleUsers, ...hiddenUsers].map((user) => {
+                                const imageUrl =
+                                  user.User?.image ||
+                                  "/image/img-profile-large-default.svg";
+                                return (
                                   <div
-                                    key={user.user.id}
+                                    key={user.User?.id}
                                     className="flex items-center gap-2"
                                   >
-                                    <div
-                                      className="h-8 w-8 rounded-full bg-gray-300"
-                                      style={{
-                                        backgroundImage: `url(${encodeURI(user.user.image)})`,
-                                        backgroundSize: "cover",
-                                        backgroundPosition: "center",
-                                      }}
-                                    />
+                                    <ParticipantImage imageUrl={imageUrl} />
                                     <span className="text-xs font-medium text-gray-700">
-                                      {user.user.name}
+                                      {user.User?.name}
                                     </span>
                                   </div>
-                                ) : null,
-                              )}
+                                );
+                              })}
                           </div>
                         </div>
                       )}

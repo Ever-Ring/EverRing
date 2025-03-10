@@ -7,8 +7,11 @@ export function useDeleteGatheringJoined() {
   return useMutation({
     mutationFn: (gatheringId: number) =>
       GatheringApi.deleteGatheringJoined(gatheringId),
-    onSuccess: () => {
+    onSuccess: (data, gatheringId) => {
       queryClient.invalidateQueries({ queryKey: ["gatheringsJoined"] });
+      queryClient.invalidateQueries({
+        queryKey: ["participants", gatheringId],
+      });
     },
     onError: (error) => {
       console.error(error);

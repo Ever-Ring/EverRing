@@ -48,7 +48,7 @@ export interface Participant {
   userId: number;
   gatheringId: number;
   joinedAt: string;
-  user: {
+  User: {
     id: number;
     email: string;
     name: string;
