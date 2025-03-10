@@ -25,7 +25,6 @@ export function GatheringFiltersViewModel() {
         : [{ label: "전체", value: "WORKATION" }],
     [selectedTabIndex],
   );
-  console.log(typeFilter, "typeFilter");
 
   useEffect(() => {
     const newType = selectedTabIndex === 0 ? "DALLAEMFIT" : "WORKATION";
