@@ -2,19 +2,20 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import AlertModal from "@components/common/AlertModal";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
 import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
 import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
+import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
+import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
 import useCancelGathering from "@features/list-detail/hooks/useCancelGathering";
 import useClickHandlers from "@features/list-detail/hooks/useClickHandlers";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
-import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import { Gathering } from "@customTypes/gathering";
 import { formatDateTime } from "@utils/dateFormatter";
-import AlertModal from "@components/common/AlertModal";
 
 interface ListDetailContentProps {
   gatheringId: number;
@@ -28,9 +29,11 @@ export default function ListDetailContent({
   const { data, isLoading, isError, error } =
     useGetGatheringDetail(gatheringId);
   const { data: userData } = useGetUserInfo();
+  const { data: participants } = useGetParticipants(gatheringId);
 
   const [isJoined, setIsJoined] = useState(false);
   const [isFull, setIsFull] = useState(false);
+
   const [modalConfig, setModalConfig] = useState<{
     isOpen: boolean;
     text: string;
@@ -71,9 +74,13 @@ export default function ListDetailContent({
   useEffect(() => {
     if (data) {
       setIsFull(data.participantCount >= data.capacity);
-      setIsJoined(false);
     }
-  }, [data]);
+
+    if (participants && userData?.data?.id) {
+      const joined = participants.some((p) => p.userId === userData.data!.id);
+      setIsJoined(joined);
+    }
+  }, [data, participants, userData]);
 
   if (isLoading) {
     return <div>로딩 중...</div>;
@@ -88,6 +95,7 @@ export default function ListDetailContent({
   }
 
   const isCreator = userData?.data?.id === gathering.createdBy;
+
   const formattedDateTime = formatDateTime(data.dateTime);
   const { date: dateString, time: timeString } = formattedDateTime;
 
@@ -114,7 +122,9 @@ export default function ListDetailContent({
             gatheringId={gatheringId}
           />
         </div>
+
         <ReviewSection gatheringId={gatheringId} />
+
         <FloatingBar
           isTwoButtonMode={isCreator}
           isJoined={isJoined}
