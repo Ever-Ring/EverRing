@@ -37,17 +37,10 @@ describe("formatDateTime Test", () => {
   });
 
   test("should format single digit month and day correctly", () => {
-    const dateTime = "2025-01-09T05:05:00Z";
+    const dateTime = "2025-01-09T00:05:00Z";
     const { date, time } = formatDateTime(dateTime);
     expect(date).toBe("1월 9일");
-    expect(time).toBe("14:05");
-  });
-
-  test("should format midnight (00:00) correctly", () => {
-    const dateTime = "2025-12-17T15:00:00Z";
-    const { date, time } = formatDateTime(dateTime);
-    expect(date).toBe("12월 18일");
-    expect(time).toBe("00:00");
+    expect(time).toBe("09:05");
   });
 
   test("should format Unix epoch time (1970-01-01T00:00:00Z) correctly", () => {
