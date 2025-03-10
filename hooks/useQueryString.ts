@@ -3,7 +3,7 @@ import { useSearchParams } from "next/navigation";
 
 export const useQueryString = (
   key: string,
-  defaultValue: string | null = null, // ✅ 기본값을 null로 변경
+  defaultValue: string | null = null,
 ): [string | null, (value: string | null) => void] => {
   const searchParams = useSearchParams();
   const [search, setSearch] = useState<string | null>(

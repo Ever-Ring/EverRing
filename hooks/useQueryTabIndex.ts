@@ -11,7 +11,7 @@ export const useQueryTabIndex = (): [number, (index: number) => void] => {
 
   const setTabIndex = useCallback(
     (index: number) => {
-      setTabIndexState(index); // ✅ 즉시 상태 업데이트
+      setTabIndexState(index);
 
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.set("tab", String(index));
