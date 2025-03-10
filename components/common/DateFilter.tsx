@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { format } from "date-fns";
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { format, parseISO } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ModalPortal from "@components/common/ModalPortal";
@@ -73,10 +73,11 @@ function DatePickerModal({
 }
 
 interface DateFilterProps {
-  onDateSelect?: (date: string | undefined) => void;
+  onDateSelect?: (date: string | null) => void;
   showTimeSelect?: boolean;
   minDate?: Date;
   maxDate?: Date;
+  loadDate?: string | null;
 }
 
 export default function DateFilter({
@@ -84,8 +85,14 @@ export default function DateFilter({
   showTimeSelect,
   minDate,
   maxDate,
+  loadDate,
 }: DateFilterProps) {
-  const [appliedDate, setAppliedDate] = useState<Date | null>(null);
+  const initialDate = useMemo(
+    () => (loadDate ? parseISO(loadDate) : null),
+    [loadDate],
+  );
+  const [appliedDate, setAppliedDate] = useState<Date | null>(initialDate);
+
   const [tempDate, setTempDate] = useState<Date | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -104,7 +111,7 @@ export default function DateFilter({
     if (!tempDate) {
       setAppliedDate(null);
       setIsOpen(false);
-      onDateSelect?.(undefined);
+      onDateSelect?.(null);
       return;
     }
 
@@ -139,9 +146,13 @@ export default function DateFilter({
     setIsOpen(false);
 
     if (onDateSelect) {
-      onDateSelect(undefined);
+      onDateSelect(null);
     }
   };
+
+  useEffect(() => {
+    setAppliedDate(initialDate);
+  }, [initialDate]);
 
   const openModal = () => {
     setTempDate(appliedDate);
@@ -204,7 +215,7 @@ export default function DateFilter({
               if (!date) {
                 setAppliedDate(null);
                 setIsOpen(false);
-                onDateSelect?.(undefined);
+                onDateSelect?.(null);
                 return;
               }
               const utcDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
