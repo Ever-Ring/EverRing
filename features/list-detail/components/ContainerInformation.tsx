@@ -5,6 +5,7 @@ import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
 import { useFavoriteStore } from "@stores/favoriteStore";
 import ChipInfo from "@components/common/ChipInfo";
 import ParticipantImage from "@features/list-detail/components/ParticipantImage";
+import { DEFAULT_USER_IMAGE } from "@constants/user";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
 import IconCheck from "@assets/ic-check-variant.svg";
@@ -101,8 +102,7 @@ function ContainerInformation({
                   {visibleUsers.map((participant, index) => {
                     const userNestedId = participant.User?.id;
                     const imageUrl =
-                      participant.User?.image ||
-                      "/image/img-profile-large-default.svg";
+                      participant.User?.image || DEFAULT_USER_IMAGE;
 
                     return (
                       <ParticipantImage
@@ -137,8 +137,7 @@ function ContainerInformation({
                             {hiddenCount > 0 &&
                               [...visibleUsers, ...hiddenUsers].map((user) => {
                                 const imageUrl =
-                                  user.User?.image ||
-                                  "/image/img-profile-large-default.svg";
+                                  user.User?.image || DEFAULT_USER_IMAGE;
                                 return (
                                   <div
                                     key={user.User?.id}
