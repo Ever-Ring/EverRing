@@ -55,18 +55,18 @@ export default function FloatingBar({
             <div className="flex w-full items-center justify-between gap-4">
               <div>
                 <span className="text-base font-semibold text-gray-900">
-                  더 건강한 나와 팀을 위한 프로그램 🏃‍️️
+                  건강한 삶을 위한 저속노화 모임 🏃‍️️
                 </span>
 
                 <span className="hidden text-xs font-medium text-gray-700 md:block">
-                  국내 최고 웰니스 전문가와 프로그램을 통해 지친 몸과 마음을
-                  회복해봐요
+                  몸과 마음의 활력을 되찾을 수 있는 저속노화 모임에 참여해
+                  보세요.
                 </span>
 
                 <span className="block text-xs font-medium text-gray-700 md:hidden">
-                  국내 최고 웰니스 전문가와 프로그램을
+                  몸과 마음의 활력을 되찾을 수 있는
                   <br />
-                  통해 지친 몸과 마음을 회복해봐요
+                  저속노화 모임에 참여해 보세요.
                 </span>
               </div>
               {buttonElement}
@@ -75,11 +75,11 @@ export default function FloatingBar({
             <div className="flex w-full flex-col items-center gap-3 sm:flex-row sm:justify-between sm:gap-4">
               <div>
                 <span className="text-base font-semibold text-gray-900">
-                  더 건강한 나와 팀을 위한 프로그램 🏃‍️️
+                  건강한 삶을 위한 저속노화 모임 🏃‍️️
                 </span>
                 <span className="block text-xs font-medium text-gray-700">
-                  국내 최고 웰니스 전문가와 프로그램을 통해 지친 몸과 마음을
-                  회복해봐요
+                  몸과 마음의 활력을 되찾을 수 있는 저속노화 모임에 참여해
+                  보세요.
                 </span>
               </div>
               <div className="flex w-full max-w-xs gap-4 sm:flex-row">
