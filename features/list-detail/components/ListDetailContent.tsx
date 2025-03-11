@@ -6,7 +6,7 @@ import AlertModal from "@components/common/AlertModal";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
 import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
-import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
+import GatheringStatusBadge from "@features/list/components/GatheringStatusBadge";
 import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";

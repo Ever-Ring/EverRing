@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useGetGatherings } from "@features/list/hooks/useGetGatherings";
+import { useInfiniteGetGatherings } from "@features/list/hooks/useInfiniteGetGatherings";
 import TabMenu from "@components/common/TabMenu";
 import HeartImage from "@assets/img-head-class.svg";
 import Chip from "@components/common/Chip";
@@ -11,8 +11,9 @@ import LocationFilter from "@components/common/LocationFilter";
 import GatheringList from "@components/common/GatheringList";
 import { TABS } from "@constants/tab";
 import { LOCATION_ITEMS, SORT_ITEMS } from "@constants/filter";
-import { useGatheringFilters } from "@features/list/hooks/useGatheringFilters";
-import CreateGatheringButton from "@features/list/CreateGatheringButton";
+import { GatheringFiltersViewModel } from "@features/list/hooks/GatheringFiltersViewModel";
+import CreateGatheringButton from "@features/list/components/CreateGatheringButton";
+import { Gathering } from "@customTypes/gathering";
 
 export default function ListContent() {
   const {
@@ -26,20 +27,15 @@ export default function ListContent() {
     filters,
     subChips,
     sortBy,
-  } = useGatheringFilters();
+  } = GatheringFiltersViewModel();
 
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
-    useGetGatherings(filters);
+    useInfiniteGetGatherings(filters);
 
-  const gatherings = Array.isArray(data?.pages)
-    ? data.pages.flatMap((page) =>
-        Array.isArray(page.data)
-          ? page.data.filter((item) => item.canceledAt === null)
-          : [],
-      )
-    : [];
+  const gatherings: Gathering[] =
+    data?.pages?.flatMap((page) => page.data) || [];
 
   useEffect(() => {
     if (!loadMoreRef.current) {

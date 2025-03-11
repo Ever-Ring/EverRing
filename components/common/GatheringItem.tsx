@@ -4,7 +4,7 @@ import { formatDateTime, isExpired } from "@utils/dateFormatter";
 import ChipInfo from "@components/common/ChipInfo";
 import { GatheringItemProps } from "@customTypes/gathering";
 import { IMAGES } from "@constants/gathering";
-import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
+import GatheringStatusBadge from "@features/list/components/GatheringStatusBadge";
 import { useFavoriteStore } from "@stores/favoriteStore";
 import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 

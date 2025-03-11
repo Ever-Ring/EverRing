@@ -17,12 +17,14 @@ export function formatDateTime(dateTimeString: string) {
   const date = new Intl.DateTimeFormat("ko-KR", {
     month: "long",
     day: "numeric",
+    timeZone: "Asia/Seoul",
   }).format(dateObj);
 
   const time = dateObj.toLocaleTimeString("ko-KR", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    timeZone: "Asia/Seoul",
   });
 
   return { date, time };
