@@ -16,16 +16,21 @@ import useClickHandlers from "@features/list-detail/hooks/useClickHandlers";
 import useModalState from "@features/list-detail/hooks/useModalState";
 import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGatheringJoinded";
 import { Gathering } from "@customTypes/gathering";
+import { InitialReviewData } from "@customTypes/review";
 import { formatDateTime } from "@utils/dateFormatter";
 
 interface ListDetailContentProps {
   gatheringId: number;
   gathering: Gathering;
+  initialReviewData: InitialReviewData;
+  initialPage: number;
 }
 
 export default function ListDetailContent({
   gatheringId,
   gathering,
+  initialReviewData,
+  initialPage,
 }: ListDetailContentProps) {
   const userData = useUserStore();
   const { data, isLoading, isError, error } =
@@ -106,7 +111,11 @@ export default function ListDetailContent({
           />
         </div>
 
-        <ReviewSection gatheringId={gatheringId} />
+        <ReviewSection
+          gatheringId={gatheringId}
+          initialReviewData={initialReviewData}
+          initialPage={initialPage}
+        />
 
         <FloatingBar
           isTwoButtonMode={isCreator}

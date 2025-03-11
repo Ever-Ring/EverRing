@@ -40,6 +40,13 @@ export interface Scores {
   fiveStars: number;
 }
 
+interface InitialReviewData {
+  reviewData: Review[];
+  totalItemCount: number;
+  currentPage: number;
+  totalPages: number;
+}
+
 // TODO: Gathering과 User는 추후 다른 곳에서 사용될 때 관련 파일로 옮길 예정
 export interface Gathering {
   teamId: number;
