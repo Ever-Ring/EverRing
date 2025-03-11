@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ModalPortal from "@components/common/ModalPortal";
 import Button from "@components/common/Button";
+import ModalPortal from "@components/common/ModalPortal";
+import AlertModal from "@components/common/AlertModal";
 import CreateModalInput from "@components/common/CreateModalInput";
 import DateFilter from "@components/common/DateFilter";
 import RadioButton from "@components/common/RadioButton";
@@ -23,6 +24,7 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const [type, setType] = useState("");
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const parseDate = (val: string) => {
     if (!val) return null;
@@ -95,6 +97,7 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     createGathering(data, {
       onSuccess: () => {
         onClose();
+        setShowSuccess(true);
       },
       onError: (err) => {
         console.error("모임 생성 실패:", err);
@@ -104,6 +107,17 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
 
   return (
     <ModalPortal>
+      <AlertModal
+        text="모임이 생성되었습니다!"
+        isOpen={showSuccess}
+        hasTwoButton={false}
+        onConfirm={() => {
+          setShowSuccess(false);
+        }}
+        onClose={() => {
+          setShowSuccess(false);
+        }}
+      />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           role="button"
