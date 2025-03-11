@@ -57,7 +57,12 @@ export default function ListDetailContent({
     setModalConfig,
   });
 
-  const isFull = data ? data.participantCount >= data.capacity : false;
+  const isRegistrationEnded = new Date(gathering.registrationEnd) < new Date();
+
+  const isFull = data
+    ? data.participantCount >= data.capacity || isRegistrationEnded
+    : false;
+
   const isJoined =
     participants && userData?.data?.id
       ? participants.some((p) => p.userId === userData.data.id)

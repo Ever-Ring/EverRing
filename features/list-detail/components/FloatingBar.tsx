@@ -7,7 +7,7 @@ interface FloatingBarProps {
   isFull: boolean;
   onJoin: () => void;
   onCancel: () => void;
-  onDeleteJoined: () => void; // 참여 취소
+  onDeleteJoined: () => void;
   isJoining: boolean;
   isCancelling: boolean;
   onShare: () => void;
@@ -35,7 +35,7 @@ export default function FloatingBar({
       <Button
         text="참여 취소하기"
         size="small"
-        onClick={onDeleteJoined} // 참여 취소
+        onClick={onDeleteJoined}
         variant="outlined"
       />
     );
