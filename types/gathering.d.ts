@@ -29,7 +29,7 @@ export interface GatheringParams {
   date?: string | null;
   sortBy?: string | null;
   type?: string | null;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: string | null;
   createdBy?: number | null;
 }
 
@@ -48,7 +48,7 @@ export interface Participant {
   userId: number;
   gatheringId: number;
   joinedAt: string;
-  user: {
+  User: {
     id: number;
     email: string;
     name: string;
@@ -68,7 +68,7 @@ export interface GatheringJoined {
   capacity: number;
   image: string;
   createdBy: number;
-  canceledAt: string;
+  canceledAt: string | null;
   joinedAt: string;
   isCompleted: boolean;
   isReviewed: boolean;

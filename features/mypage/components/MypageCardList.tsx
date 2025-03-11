@@ -45,7 +45,7 @@ export default function MypageCardList({
         gatheringsJoined.data.map((gathering: GatheringJoined) => (
           <MypageCard
             key={gathering.id}
-            getheringData={gathering}
+            gatheringData={gathering}
             isMyGatheringTab
           />
         ))
@@ -71,9 +71,13 @@ export default function MypageCardList({
           </div>
           {selectedReviewTab === "writable" &&
             (gatheringsIsNotReviewed?.data?.length ? (
-              gatheringsIsNotReviewed.data.map((gathering: GatheringJoined) => (
-                <MypageCard key={gathering.id} getheringData={gathering} />
-              ))
+              gatheringsIsNotReviewed.data
+                .filter(
+                  (gathering: GatheringJoined) => gathering.canceledAt === null,
+                )
+                .map((gathering: GatheringJoined) => (
+                  <MypageCard key={gathering.id} gatheringData={gathering} />
+                ))
             ) : (
               <div className="flex h-full w-full flex-1 items-center justify-center">
                 아직 작성 가능한 리뷰가 없어요
@@ -82,7 +86,9 @@ export default function MypageCardList({
 
           {selectedReviewTab !== "writable" &&
             (gatheringsIsReviewed?.data?.length ? (
-              <ReviewListwithImage reviewData={gatheringsIsReviewed.data} />
+              <div className="pb-6">
+                <ReviewListwithImage reviewData={gatheringsIsReviewed.data} />
+              </div>
             ) : (
               <div className="flex h-full w-full flex-1 items-center justify-center">
                 아직 작성한 리뷰가 없어요
@@ -93,7 +99,7 @@ export default function MypageCardList({
     case 2:
       return gatheringsCreatedByUser?.data?.length ? (
         gatheringsCreatedByUser?.data?.map((gathering: GatheringJoined) => (
-          <MypageCard key={gathering.id} getheringData={gathering} isMadeByMe />
+          <MypageCard key={gathering.id} gatheringData={gathering} isMadeByMe />
         ))
       ) : (
         <div className="flex h-full w-full items-center justify-center">

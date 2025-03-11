@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import GatheringApi from "@apis/GatheringApi";
-import { GatheringParams } from "@customTypes/gathering";
+import { GatheringParams, Gathering } from "@customTypes/gathering";
 
 const LIMIT = 10;
 
-export function useGetGatherings(filters: GatheringParams) {
+export function useInfiniteGetGatherings(filters: GatheringParams) {
   return useInfiniteQuery({
     queryKey: ["gatherings", filters],
     queryFn: async ({ pageParam = 0 }) => {
@@ -13,7 +13,11 @@ export function useGetGatherings(filters: GatheringParams) {
         offset: pageParam,
         ...filters,
       });
-      return { data: response.data, nextOffset: pageParam + LIMIT };
+
+      const filteredData: Gathering[] =
+        response.data?.filter((item: Gathering) => item.canceledAt === null) ||
+        [];
+      return { data: filteredData, nextOffset: pageParam + LIMIT };
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage) => {

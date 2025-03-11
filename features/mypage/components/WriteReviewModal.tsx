@@ -24,6 +24,7 @@ export default function WriteReviewModal({
   }>();
   const queryClient = useQueryClient();
   const { mutate: createReview } = useCreateReview();
+  const MAX_RATING = 5;
 
   const onSubmit = async (data: { score: number; comment: string }) => {
     createReview(
@@ -68,23 +69,27 @@ export default function WriteReviewModal({
               만족스러운 경험이었나요?
             </p>
             <div className="flex items-center gap-x-2">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <button
-                  key={value}
-                  onClick={() => setValue("score", value)}
-                  className="cursor-pointer"
-                  type="button"
-                >
-                  {/* TODO 애니메이션 구현. 피그마상의 애니메이션 구현하려면 단순히 하나의 svg로는 안될 것 같음. */}
-                  <SvgHeart
-                    className={`transition-all duration-300 ease-in-out ${
-                      watch("score") >= value
-                        ? "fill-mint-400"
-                        : "fill-gray-300"
-                    }`}
-                  />
-                </button>
-              ))}
+              {Array.from({ length: MAX_RATING }, (_, index) => index + 1).map(
+                (value) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setValue("score", value);
+                    }}
+                    className="relative cursor-pointer"
+                    type="button"
+                  >
+                    <SvgHeart className="fill-gray-300" />
+                    <SvgHeart
+                      className={`absolute left-0 top-0 transition-all duration-500 ease-in-out ${
+                        watch("score") >= value
+                          ? "scale-100 fill-mint-400"
+                          : "scale-0 fill-gray-300"
+                      }`}
+                    />
+                  </button>
+                ),
+              )}
             </div>
           </div>
           <div className="mb-6">

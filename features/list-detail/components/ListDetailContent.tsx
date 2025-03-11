@@ -5,7 +5,7 @@ import Image from "next/image";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
 import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
-import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
+import GatheringStatusBadge from "@features/list/components/GatheringStatusBadge";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
 import useCancelGathering from "@features/list-detail/hooks/useCancelGathering";
