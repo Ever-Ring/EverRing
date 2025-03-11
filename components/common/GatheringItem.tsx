@@ -1,21 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatDateTime2, isExpired } from "@utils/dateFormatter";
+import { formatDateTime, isExpired } from "@utils/dateFormatter";
 import ChipInfo from "@components/common/ChipInfo";
 import { GatheringItemProps } from "@customTypes/gathering";
 import { IMAGES } from "@constants/gathering";
-import GatheringStatusBadge from "@features/list/GatheringStatusBadge";
+import GatheringStatusBadge from "@features/list/components/GatheringStatusBadge";
+import { useFavoriteStore } from "@stores/favoriteStore";
+import { useHiddenGatheringStore } from "@stores/hiddenGatheringStore";
 
 export default function GatheringItem({ gathering }: GatheringItemProps) {
-  const { date, time } = formatDateTime2(gathering.registrationEnd);
+  const { date, time } = formatDateTime(gathering.dateTime);
   const isFull = gathering.participantCount >= gathering.capacity;
   const isGatheringOpen = gathering.participantCount >= 5;
   const expired = isExpired(gathering.registrationEnd);
+  const { isFavorite, toggleFavorite } = useFavoriteStore();
+  const isLiked = isFavorite(gathering.id);
+  const { hideExpiredGathering } = useHiddenGatheringStore();
 
   return (
     <div className="relative w-full">
       <Link
-        href={`/gathering/${gathering.id}`}
+        href={`/list-detail/${gathering.id}`}
         className="z-10 flex min-h-[19.75rem] flex-col self-stretch overflow-hidden rounded-[1.5rem] border-2 border-gray-100 bg-white md:min-h-[9.75rem] md:flex-row"
       >
         {/* 위쪽영역 */}
@@ -37,7 +42,9 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                   {gathering.name} |{" "}
                 </span>
                 <span className="text-sm font-medium">
-                  {gathering.location}
+                  {gathering.type === "WORKATION"
+                    ? "온라인"
+                    : gathering.location}
                 </span>
               </div>
 
@@ -47,15 +54,26 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                 <ChipInfo info={time} variant="mint" />
               </div>
             </div>
-            {/* 하트 부분 설정 필요 */}
-            <div className="flex items-center justify-center">
+
+            {/* ✅ 하트 버튼 (찜하기) */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault(); // ✅ 부모 Link 클릭 방지
+                toggleFavorite(gathering.id); // ✅ 찜하기 상태 업데이트
+              }}
+              className="flex items-center justify-center"
+            >
               <Image
-                alt={gathering.name || "list-default"}
-                src={IMAGES.HEART_INACTIVE}
+                alt="찜하기"
+                src={isLiked ? IMAGES.HEART_ACTIVE : IMAGES.HEART_INACTIVE}
                 width={48}
                 height={48}
+                className={`transition-all duration-200 ${
+                  isLiked ? "scale-110 opacity-100" : "scale-100 opacity-80"
+                }`}
               />
-            </div>
+            </button>
           </div>
 
           <div className="items-beween flex h-9 justify-between gap-6">
@@ -124,7 +142,8 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
             alt="BYE"
             width={48}
             height={48}
-            className="absolute right-6 top-6"
+            className="absolute top-[64%] sm:right-6 sm:top-6"
+            onClick={() => hideExpiredGathering(gathering.id)}
           />
         </div>
       )}

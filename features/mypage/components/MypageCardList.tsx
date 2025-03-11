@@ -1,4 +1,5 @@
 // TODO: 로딩 처리는 어떻게 할 것 인지. 필요한지 아닌지 고려해야 함.
+
 "use client";
 
 import MypageCard from "@features/mypage/components/MypageCard";
@@ -8,30 +9,17 @@ import {
   useGetGatheringsCreatedByUser,
   useGetGatheringsJoined,
 } from "@features/mypage/hooks/useGetGatheringsJoined";
-import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import useGetMyReviews from "@features/mypage/hooks/useGetMyReviews";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
-
-// TODO: Gathering 타입 별도 분리된 파일로 옮길 예정
-interface Gathering {
-  id: number;
-  name: string;
-  location: string;
-  image: string;
-  isReviewed?: boolean;
-  isCompleted?: boolean;
-  dateTime: string;
-  participantCount: number;
-  capacity: number;
-  createdBy: number;
-}
+import { GatheringJoined } from "@customTypes/gathering";
+import useUserStore from "@stores/userStore";
 
 export default function MypageCardList({
   selectedIndex,
 }: {
   selectedIndex: number;
 }) {
-  const { data: userInfo, isLoading: isUserInfoLoading } = useGetUserInfo();
+  const { id: userId } = useUserStore();
   const { data: gatheringsJoined, isLoading: isGatheringJoinedLoading } =
     useGetGatheringsJoined({ reviewed: false });
   const {
@@ -41,11 +29,11 @@ export default function MypageCardList({
   const {
     data: gatheringsIsReviewed,
     isLoading: isGatheringIsReviewedLoading,
-  } = useGetMyReviews({ userId: userInfo?.data?.id });
+  } = useGetMyReviews({ userId: userId ?? null });
   const {
     data: gatheringsCreatedByUser,
     isLoading: isGatheringsCreatedByUserLoading,
-  } = useGetGatheringsCreatedByUser({ createdBy: userInfo?.data?.id });
+  } = useGetGatheringsCreatedByUser({ createdBy: userId ?? null });
 
   const [selectedReviewTab, setSelectedReviewTab] = useState<
     "writable" | "written"
@@ -54,17 +42,10 @@ export default function MypageCardList({
   switch (selectedIndex) {
     case 0:
       return gatheringsJoined?.data?.length ? (
-        gatheringsJoined.data.map((gathering: Gathering) => (
+        gatheringsJoined.data.map((gathering: GatheringJoined) => (
           <MypageCard
             key={gathering.id}
-            gatheringId={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            image={gathering.image}
-            dateTime={gathering.dateTime}
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-            isCompleted={gathering.isCompleted}
+            gatheringData={gathering}
             isMyGatheringTab
           />
         ))
@@ -88,50 +69,37 @@ export default function MypageCardList({
               onClick={() => setSelectedReviewTab("written")}
             />
           </div>
-
-          {selectedReviewTab === "writable" ? (
-            gatheringsIsNotReviewed?.data?.length ? (
-              gatheringsIsNotReviewed.data.map((gathering: Gathering) => (
-                <MypageCard
-                  key={gathering.id}
-                  gatheringId={gathering.id}
-                  name={gathering.name}
-                  location={gathering.location}
-                  image={gathering.image}
-                  dateTime={gathering.dateTime}
-                  participantCount={gathering.participantCount}
-                  capacity={gathering.capacity}
-                  isCompleted
-                />
-              ))
+          {selectedReviewTab === "writable" &&
+            (gatheringsIsNotReviewed?.data?.length ? (
+              gatheringsIsNotReviewed.data
+                .filter(
+                  (gathering: GatheringJoined) => gathering.canceledAt === null,
+                )
+                .map((gathering: GatheringJoined) => (
+                  <MypageCard key={gathering.id} gatheringData={gathering} />
+                ))
             ) : (
               <div className="flex h-full w-full flex-1 items-center justify-center">
                 아직 작성 가능한 리뷰가 없어요
               </div>
-            )
-          ) : gatheringsIsReviewed?.data?.length ? (
-            <ReviewListwithImage reviewData={gatheringsIsReviewed?.data} />
-          ) : (
-            <div className="flex h-full w-full flex-1 items-center justify-center">
-              아직 작성한 리뷰가 없어요
-            </div>
-          )}
+            ))}
+
+          {selectedReviewTab !== "writable" &&
+            (gatheringsIsReviewed?.data?.length ? (
+              <div className="pb-6">
+                <ReviewListwithImage reviewData={gatheringsIsReviewed.data} />
+              </div>
+            ) : (
+              <div className="flex h-full w-full flex-1 items-center justify-center">
+                아직 작성한 리뷰가 없어요
+              </div>
+            ))}
         </div>
       );
     case 2:
       return gatheringsCreatedByUser?.data?.length ? (
-        gatheringsCreatedByUser?.data?.map((gathering: Gathering) => (
-          <MypageCard
-            key={gathering.id}
-            gatheringId={gathering.id}
-            name={gathering.name}
-            location={gathering.location}
-            image={gathering.image}
-            dateTime={gathering.dateTime}
-            isMadeByMe
-            participantCount={gathering.participantCount}
-            capacity={gathering.capacity}
-          />
+        gatheringsCreatedByUser?.data?.map((gathering: GatheringJoined) => (
+          <MypageCard key={gathering.id} gatheringData={gathering} isMadeByMe />
         ))
       ) : (
         <div className="flex h-full w-full items-center justify-center">

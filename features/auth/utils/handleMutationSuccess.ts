@@ -30,7 +30,7 @@ export const handleSigninMutationSuccess = async (
       companyName: userData.companyName,
       email: userData.email,
     });
-    router.push("/list");
+    router.replace("/list");
   } catch (error) {
     console.error("Error fetching user data:", error);
   }
@@ -45,7 +45,7 @@ export const handleSignupMutaionSuccess = async (
     console.log(openModal);
     openModal({
       text: "회원가입이 완료되었습니다!",
-      onConfirm: () => router.push("/signin"),
+      onConfirm: () => router.replace("/signin"),
     });
   }
 };

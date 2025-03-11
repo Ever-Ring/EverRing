@@ -50,7 +50,7 @@ export default function TabMenu({
         className="h-[2px] rounded-md bg-black transition-all duration-300 ease-in-out"
         style={{
           width: `${tabWidths[selectedIndex]}px`,
-          transform: `translateX(${tabWidths.slice(0, selectedIndex).reduce((acc, width) => acc + width, 0) + selectedIndex * 12}px)`, // (이전 탭들의 너비+gap)만큼 이동
+          transform: `translateX(${tabWidths.slice(0, selectedIndex).reduce((acc, width) => acc + width, 0) + selectedIndex * 12}px)`,
         }}
       />
     </div>

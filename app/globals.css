@@ -77,6 +77,16 @@
   @apply !bg-white !text-mint-600;
 }
 
+.hidescrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hidescrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
 @font-face {
   font-family: "Pretendard";
   src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff")

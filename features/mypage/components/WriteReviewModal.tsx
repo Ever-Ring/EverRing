@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import SvgHeart from "@assets/icon-heart-default.svg";
 import useCreateReview from "@features/mypage/hooks/useCreateReview";
 import { useQueryClient } from "@tanstack/react-query";
+
 interface WriteReviewModalProps {
   gatheringId: number;
   isOpen: boolean;
@@ -17,22 +18,15 @@ export default function WriteReviewModal({
   isOpen,
   onClose,
 }: WriteReviewModalProps) {
-  if (!isOpen) return null;
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    setValue,
-  } = useForm<{ score: number; comment: string }>();
-
+  const { register, handleSubmit, watch, setValue } = useForm<{
+    score: number;
+    comment: string;
+  }>();
   const queryClient = useQueryClient();
-
   const { mutate: createReview } = useCreateReview();
+  const MAX_RATING = 5;
 
   const onSubmit = async (data: { score: number; comment: string }) => {
-    console.log(data, "id:", gatheringId);
     createReview(
       {
         gatheringId,
@@ -41,15 +35,19 @@ export default function WriteReviewModal({
       },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+          ["myReviews", "gatheringsJoined"].forEach((key) =>
+            queryClient.invalidateQueries({ queryKey: [key] }),
+          );
           onClose();
         },
         onError: (error) => {
+          // TODO 에러 핸들링 어떻게 할 것인지
           console.error(error);
         },
       },
     );
   };
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -71,23 +69,27 @@ export default function WriteReviewModal({
               만족스러운 경험이었나요?
             </p>
             <div className="flex items-center gap-x-2">
-              {[1, 2, 3, 4, 5].map((value) => (
-                <button
-                  key={value}
-                  onClick={() => setValue("score", value)}
-                  className="cursor-pointer"
-                  type="button"
-                >
-                  {/* TODO 애니메이션 구현. 피그마상의 애니메이션 구현하려면 단순히 하나의 svg로는 안될 것 같음. */}
-                  <SvgHeart
-                    className={`transition-all duration-300 ease-in-out ${
-                      watch("score") >= value
-                        ? "fill-mint-400"
-                        : "fill-gray-300"
-                    }`}
-                  />
-                </button>
-              ))}
+              {Array.from({ length: MAX_RATING }, (_, index) => index + 1).map(
+                (value) => (
+                  <button
+                    key={value}
+                    onClick={() => {
+                      setValue("score", value);
+                    }}
+                    className="relative cursor-pointer"
+                    type="button"
+                  >
+                    <SvgHeart className="fill-gray-300" />
+                    <SvgHeart
+                      className={`absolute left-0 top-0 transition-all duration-500 ease-in-out ${
+                        watch("score") >= value
+                          ? "scale-100 fill-mint-400"
+                          : "scale-0 fill-gray-300"
+                      }`}
+                    />
+                  </button>
+                ),
+              )}
             </div>
           </div>
           <div className="mb-6">

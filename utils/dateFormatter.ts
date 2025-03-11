@@ -1,5 +1,8 @@
 export function formatDate(dateString: string) {
   const date = new Date(dateString);
+  if (!date || Number.isNaN(date.getTime())) {
+    return "Invalid Date";
+  }
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -8,36 +11,20 @@ export function formatDate(dateString: string) {
   return `${year}.${month}.${day}`;
 }
 
-export function formatDateTime(dateTimeString: string): string {
-  const date = new Date(dateTimeString);
-
-  const formattedDate = new Intl.DateTimeFormat("ko-KR", {
-    month: "long",
-    day: "numeric",
-  }).format(date);
-
-  const formattedTime = date.toLocaleTimeString("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-
-  return `${formattedDate} ・ ${formattedTime}`;
-}
-
-// formatDateTime 임시 유틸 사용 수정 후 삭제예정
-export function formatDateTime2(dateTimeString: string) {
+export function formatDateTime(dateTimeString: string) {
   const dateObj = new Date(dateTimeString);
 
   const date = new Intl.DateTimeFormat("ko-KR", {
     month: "long",
     day: "numeric",
+    timeZone: "Asia/Seoul",
   }).format(dateObj);
 
   const time = dateObj.toLocaleTimeString("ko-KR", {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    timeZone: "Asia/Seoul",
   });
 
   return { date, time };
@@ -55,6 +42,13 @@ export const isExpired = (dateString?: string): boolean => {
   return targetDate < now;
 };
 
-export const extractHour = (dateString: string): number => {
-  return new Date(dateString).getHours();
+export const getRemainingHours = (dateString: string): number => {
+  if (!dateString) return 0;
+  const now = new Date();
+  const targetTime = new Date(dateString);
+
+  const diffInMs = targetTime.getTime() - now.getTime();
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+
+  return diffInHours;
 };

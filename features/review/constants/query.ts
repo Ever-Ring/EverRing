@@ -8,6 +8,5 @@ export const INITIAL_PARAMS = {
   date: undefined,
   sortBy: undefined,
   sortOrder: DESC,
-  limit: 2,
-  offset: 0,
+  limit: 10,
 };

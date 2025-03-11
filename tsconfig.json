@@ -30,7 +30,7 @@
       "@customTypes/*": ["types/*"],
       "@features/*": ["features/*"],
       "@constants/*": ["constants/*"],
-      "@providers/*": ["providers/*"],
+      "@providers/*": ["app/providers/*"],
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@apis/*": ["apis/*"],
@@ -42,7 +42,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "types/**/*.d.ts"
+    "types/**/*.d.ts",
+    "__mock__/svg.ts"
   ],
   "exclude": ["node_modules"]
 }

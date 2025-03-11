@@ -1,10 +1,17 @@
+// TODO 비지니스 로직과 뷰 분리
+
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
-import { useCookies } from "react-cookie";
-import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import useIsMounted from "@hooks/useIsMounted";
+import useIsAuthenticated from "@hooks/useIsAuthenticated";
+import useLogout from "@hooks/useLogout";
+import { DEFAULT_USER_IMAGE } from "@constants/user";
+import useUserStore from "@stores/userStore";
+import { useFavoriteStore } from "@stores/favoriteStore";
 
 interface NavLink {
   href: string;
@@ -18,21 +25,15 @@ const navLinks: NavLink[] = [
 ];
 
 function UserProfile() {
-  const [cookies, , removeCookie] = useCookies(["token"]);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useIsMounted();
+  const isLoggedIn = useIsAuthenticated();
+  const logout = useLogout();
+  const { image: userImage } = useUserStore();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const isLoggedIn = !!cookies.token;
-  const profileImageSrc = "/image/img-profile-large-default.svg";
-  const router = useRouter();
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  const handleLogout = () => {
-    removeCookie("token");
+  const handleLogout = async () => {
+    logout();
     setIsDropdownOpen(false);
-    router.push("/");
   };
 
   if (!isMounted) {
@@ -45,14 +46,14 @@ function UserProfile() {
       <button
         type="button"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center justify-center focus:outline-none"
+        className="flex h-10 w-10 items-center justify-center focus:outline-none"
       >
         <Image
-          src={profileImageSrc}
+          src={userImage || DEFAULT_USER_IMAGE}
           alt="user profile image"
           width={40}
           height={40}
-          className="rounded-full"
+          className="h-full w-full rounded-full object-cover"
         />
       </button>
 
@@ -80,12 +81,13 @@ function UserProfile() {
   );
 }
 
-function NavLinks() {
+function NavMenu() {
   const pathname = usePathname();
   const isActive = (href: string) => pathname === href;
+  const { favorites } = useFavoriteStore();
 
   return (
-    <ul className="flex gap-x-6 pl-5">
+    <ul className="flex items-center gap-x-2 pl-3 md:gap-x-6 md:pl-5">
       {navLinks.map((link) => (
         <li key={link.href}>
           <Link
@@ -93,6 +95,11 @@ function NavLinks() {
             className={`transition-colors ${isActive(link.href) ? "font-bold text-mint-600" : "text-black"} hover:text-mint-600`}
           >
             {link.label}
+            {link.label === "찜한 모임" && favorites.length > 0 && (
+              <span className="ml-1 rounded-full bg-black px-2 text-xs font-semibold text-white">
+                {favorites.length}
+              </span>
+            )}
           </Link>
         </li>
       ))}
@@ -102,12 +109,28 @@ function NavLinks() {
 
 export default function Gnb() {
   return (
-    <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-6 text-sm font-medium sm:h-[3.75rem] sm:text-base lg:px-[15%]">
+    <nav className="flex h-14 flex-row items-center justify-between border-b-2 border-gray-300 bg-white px-4 text-sm font-medium md:h-[3.75rem] md:px-6 md:text-base lg:px-[15%]">
       <div className="flex">
-        <Link href="/list" className="rounded-md border border-black">
-          로고
+        <Link
+          href="/list"
+          className="flex flex-row items-center justify-center"
+        >
+          <Image
+            src="/image/logo_plant.svg"
+            width={35}
+            height={35}
+            alt="logo"
+          />
+          <div className="relative h-[27px] w-[45px] md:h-[35px] md:w-[60px]">
+            <Image
+              src="/image/logo_title_large.svg"
+              alt="logo title"
+              fill
+              className="object-contain"
+            />
+          </div>
         </Link>
-        <NavLinks />
+        <NavMenu />
       </div>
       <UserProfile />
     </nav>

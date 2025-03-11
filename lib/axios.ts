@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosHeaders } from "axios";
 import { getCookie } from "@utils/cookieUtils";
 import { TOKEN } from "@constants/auth";
+import { ErrorResponse, UnauthorizedError } from "@customTypes/error";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const isServer = typeof window === "undefined";
@@ -36,7 +37,15 @@ axiosInstance.interceptors.request.use(async (config) => {
 axiosInstance.interceptors.response.use(
   (res) => res,
 
-  async (error: AxiosError) => {
+  async (error: AxiosError<ErrorResponse>) => {
+    if (error.response) {
+      const { code } = error.response.data;
+
+      if (code === "UNAUTHORIZED") {
+        const unauthorizedError = new UnauthorizedError("Unauthorized");
+        return Promise.reject(unauthorizedError);
+      }
+    }
     return Promise.reject(error);
   },
 );
