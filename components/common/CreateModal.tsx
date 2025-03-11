@@ -8,7 +8,6 @@ import DateFilter from "@components/common/DateFilter";
 import RadioButton from "@components/common/RadioButton";
 import useCreateGatheringMutation from "@hooks/useCreateGathering";
 import type { CreateGatheringValues } from "types/gathering";
-import axios from "axios";
 import CloseButton from "@assets/Group 33597.svg";
 
 interface CreateModalProps {
@@ -94,15 +93,11 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     };
 
     createGathering(data, {
-      onSuccess: (res) => {
-        console.log("제출 성공:", res.data);
+      onSuccess: () => {
         onClose();
       },
       onError: (err) => {
         console.error("모임 생성 실패:", err);
-        if (axios.isAxiosError(err)) {
-          console.log("서버 에러 메시지:", err.response?.data);
-        }
       },
     });
   };

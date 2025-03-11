@@ -116,8 +116,6 @@ export default function DateFilter({
       showTimeSelect ? "yyyy-MM-dd'T'HH:mm'Z'" : "yyyy-MM-dd",
     );
 
-    console.log("formatted", formatted);
-
     setAppliedDate(tempDate);
     setIsOpen(false);
     onDateSelect?.(formatted);
@@ -209,7 +207,6 @@ export default function DateFilter({
               }
               const utcDate = new Date(date.getTime() - 9 * 60 * 60 * 1000);
               const formatted = format(utcDate, "yyyy-MM-dd'T'HH:mm'Z'");
-              console.log("formatted", formatted);
 
               setAppliedDate(date);
               setIsOpen(false);
