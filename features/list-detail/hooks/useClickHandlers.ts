@@ -1,14 +1,16 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 
-interface UserData {
-  data?: {
-    id: number;
-  };
+interface UserStore {
+  id: number | null;
+  name: string | null;
+  image: string | null;
+  email: string | null;
+  companyName: string | null;
 }
 
 interface UseClickHandlersProps {
-  userData: UserData | undefined;
+  userData: UserStore;
   isFull: boolean;
   joinStatus: string;
   cancelStatus: string;
@@ -43,7 +45,7 @@ export default function useClickHandlers({
   const router = useRouter();
 
   const handleJoinClick = useCallback(() => {
-    if (userData?.data?.id) {
+    if (userData?.id) {
       if (!isFull && joinStatus !== "pending") {
         joinGathering(gatheringId, {
           onSuccess: () => {

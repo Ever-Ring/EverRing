@@ -3,11 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import AlertModal from "@components/common/AlertModal";
+import useUserStore from "@stores/userStore";
 import ContainerInformation from "@features/list-detail/components/ContainerInformation";
 import ReviewSection from "@features/list-detail/components/ReviewSection";
 import FloatingBar from "@features/list-detail/components/FloatingBar";
 import GatheringStatusBadge from "@features/list/components/GatheringStatusBadge";
-import useGetUserInfo from "@features/mypage/hooks/useGetUserInfo";
 import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
 import useGetGatheringDetail from "@features/list-detail/hooks/useGetGatheringDetail";
 import useJoinGathering from "@features/list-detail/hooks/useJoinGathering";
@@ -27,9 +27,9 @@ export default function ListDetailContent({
   gatheringId,
   gathering,
 }: ListDetailContentProps) {
+  const userData = useUserStore();
   const { data, isLoading, isError, error } =
     useGetGatheringDetail(gatheringId);
-  const { data: userData } = useGetUserInfo();
   const { data: participants } = useGetParticipants(gatheringId);
 
   const { modalConfig, setModalConfig } = useModalState();
@@ -64,8 +64,8 @@ export default function ListDetailContent({
     : false;
 
   const isJoined =
-    participants && userData?.data?.id
-      ? participants.some((p) => p.userId === userData.data.id)
+    participants && userData.id
+      ? participants.some((p) => p.userId === userData.id)
       : false;
 
   if (isLoading) {
@@ -78,7 +78,7 @@ export default function ListDetailContent({
     return null;
   }
 
-  const isCreator = userData?.data?.id === gathering.createdBy;
+  const isCreator = userData.id === gathering.createdBy;
   const formattedDateTime = formatDateTime(data.dateTime);
   const { date: dateString, time: timeString } = formattedDateTime;
 
