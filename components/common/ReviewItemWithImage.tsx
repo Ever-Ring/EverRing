@@ -7,6 +7,7 @@ import { formatDate } from "@utils/dateFormatter";
 
 import { GATHERING_TYPE_MAP, GatheringType } from "@constants/gatheringType";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
+import Link from "next/link";
 
 export default function ReviewItemWithImage({
   review,
@@ -33,13 +34,16 @@ export default function ReviewItemWithImage({
             <p className="h-[3.75rem] overflow-hidden text-sm font-medium md:h-[2.5rem]">
               {review?.comment}
             </p>
-            <p className="flex flex-row items-center gap-[0.375rem] text-xs font-medium">
-              <span>
-                {gatheringType} {review?.Gathering?.name} 이용
-              </span>
-              <span>·</span>
-              <span>{review?.Gathering?.location}</span>
-            </p>
+            <Link href={`/list-detail/${review?.Gathering?.id}`}>
+              <p className="flex flex-row items-center gap-[0.375rem] text-xs font-medium">
+                <span>
+                  {gatheringType} {review?.Gathering?.name} 이용
+                </span>
+                <span>·</span>
+                <span>{review?.Gathering?.location}</span>
+                <span className="pl-1 font-semibold text-gray-500"> 〉 </span>
+              </p>
+            </Link>
           </div>
           <div className="flex flex-row items-center gap-3">
             {hasUserInfo && (

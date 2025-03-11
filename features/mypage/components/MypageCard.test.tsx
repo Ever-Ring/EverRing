@@ -76,6 +76,12 @@ describe("MypageCard Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  beforeAll(() => {
+    global.alert = jest.fn();
+  });
+  afterAll(() => {
+    (global.alert as jest.Mock).mockRestore();
+  });
 
   test("should display gathering name, location, and participant count", () => {
     render(<MypageCard gatheringData={completedGatheringData} />);
@@ -93,12 +99,12 @@ describe("MypageCard Component", () => {
     expect(screen.getByText("5/10")).toBeInTheDocument();
   });
 
-  test("should navigate to list-detail page when '자세히 보기' is clicked", () => {
+  test("should navigate to list-detail page when gathering name is clicked", () => {
     render(<MypageCard gatheringData={completedGatheringData} />, {
       wrapper: MemoryRouterProvider,
     });
 
-    fireEvent.click(screen.getByText("자세히 보기"));
+    fireEvent.click(screen.getByText("테스트 모임"));
 
     expect(mockRouter.asPath).toEqual(
       `/list-detail/${completedGatheringData.id}`,

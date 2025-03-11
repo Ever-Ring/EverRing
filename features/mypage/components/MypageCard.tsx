@@ -6,7 +6,7 @@ import { useDeleteGatheringJoined } from "@features/mypage/hooks/useDeleteGather
 import useModalStore from "@stores/modalStore";
 import WriteReviewModal from "@features/mypage/components/WriteReviewModal";
 import { useState } from "react";
-import { MIN_PARTICIPANTS, IMAGES } from "@constants/gathering";
+import { MIN_PARTICIPANTS } from "@constants/gathering";
 import { GatheringJoined } from "@customTypes/gathering";
 import GatheringClosureNotice from "@components/common/GatheringClosureNotice";
 import Link from "next/link";
@@ -69,15 +69,18 @@ export default function MypageCard({
           />
         )}
         <div className="flex flex-col gap-y-1">
-          <div className="flex flex-row gap-x-2">
-            <p className="text-lg font-semibold">{gatheringData.name}</p>
-            <p className="text-lg font-semibold">|</p>
-            <p>
-              {gatheringData.type === "WORKATION"
-                ? "온라인"
-                : gatheringData.location}
-            </p>
-          </div>
+          <Link href={`/list-detail/${gatheringData.id}`}>
+            <div className="flex flex-row gap-x-2">
+              <p className="text-lg font-semibold">{gatheringData.name}</p>
+              <p className="text-lg font-semibold">|</p>
+              <p>
+                {gatheringData.type === "WORKATION"
+                  ? "온라인"
+                  : gatheringData.location}
+              </p>
+              <span className="pl-1 font-semibold text-gray-500"> 〉 </span>
+            </div>
+          </Link>
           <div className="flex flex-row items-center">
             <p className="mr-3">
               {formattedDate} ・ {formattedTime}
@@ -109,18 +112,6 @@ export default function MypageCard({
               }}
             />
           )}
-          <Link
-            href={`/list-detail/${gatheringData.id}`}
-            className="absolute bottom-0 right-0 flex gap-x-2"
-          >
-            <p className="text-base font-semibold text-mint-600">자세히 보기</p>
-            <Image
-              alt="join_arrow"
-              src={IMAGES.ARROW_RIGHT}
-              width={18}
-              height={18}
-            />
-          </Link>
         </div>
       </div>
       <GatheringClosureNotice isCanceled={!!gatheringData.canceledAt} />
