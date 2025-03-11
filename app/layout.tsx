@@ -17,12 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="flex h-screen flex-col bg-gray-100 font-pretendard antialiased">
+      <body className="flex h-screen flex-col bg-white font-pretendard antialiased">
         <ReactQueryProvider>
           <div className="fixed left-0 top-0 z-20 w-full">
             <Gnb />
           </div>
-          <div className="flex w-full flex-1 pt-[54px] md:pt-[60px] lg:px-[15%]">
+          <div className="flex w-full flex-1 pt-[54px] md:pt-[60px]">
             {children}
           </div>
         </ReactQueryProvider>
