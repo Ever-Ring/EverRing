@@ -114,7 +114,7 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     return (
       <ModalPortal>
         <AlertModal
-          text="모임 생성되었습니다!"
+          text="모임이 생성되었습니다!"
           isOpen
           hasTwoButton={false}
           onConfirm={() => {
