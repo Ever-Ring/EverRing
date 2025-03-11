@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import Button from "@components/common/Button";
 import ModalPortal from "@components/common/ModalPortal";
@@ -25,6 +26,10 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [createdGatheringId, setCreatedGatheringId] = useState<number | null>(
+    null,
+  );
+  const router = useRouter();
 
   const parseDate = (val: string) => {
     if (!val) return null;
@@ -95,8 +100,8 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     };
 
     createGathering(data, {
-      onSuccess: () => {
-        onClose();
+      onSuccess: (resData) => {
+        setCreatedGatheringId(resData.data.id);
         setShowSuccess(true);
       },
       onError: (err) => {
@@ -105,19 +110,32 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
     });
   };
 
+  if (showSuccess) {
+    return (
+      <ModalPortal>
+        <AlertModal
+          text="모임 생성되었습니다!"
+          isOpen
+          hasTwoButton={false}
+          onConfirm={() => {
+            setShowSuccess(false);
+            if (createdGatheringId !== null) {
+              router.push(`/list-detail/${createdGatheringId}`);
+            }
+          }}
+          onClose={() => {
+            setShowSuccess(false);
+            if (createdGatheringId !== null) {
+              router.push(`/list-detail/${createdGatheringId}`);
+            }
+          }}
+        />
+      </ModalPortal>
+    );
+  }
+
   return (
     <ModalPortal>
-      <AlertModal
-        text="모임이 생성되었습니다!"
-        isOpen={showSuccess}
-        hasTwoButton={false}
-        onConfirm={() => {
-          setShowSuccess(false);
-        }}
-        onClose={() => {
-          setShowSuccess(false);
-        }}
-      />
       <div className="fixed inset-0 z-50 flex items-center justify-center">
         <div
           role="button"
