@@ -4,8 +4,8 @@ import { axiosInstance } from "@lib/axios";
 import { Gathering } from "@customTypes/gathering";
 
 interface PageProps {
-  params: { gatheringId: string };
-  searchParams: { page?: string };
+  params: Promise<{ gatheringId: string }>; // 상세페이지 주소
+  searchParams: Promise<{ page?: string }>; // 리뷰 페이지네이션 페이지
 }
 
 async function Wrapper({ params, searchParams }: PageProps) {
