@@ -29,3 +29,13 @@ export async function getGatherings(
     return { data: [], nextOffset: pageParam };
   }
 }
+
+export function getServerInfiniteGatheringsQuery() {
+  return {
+    queryKey: getGatheringsQueryKey(),
+    queryFn: async () => {
+      const result = await getGatherings(INITIAL_GATHERINGS_FILTERS, 0);
+      return result ?? { data: [], nextOffset: 0 };
+    },
+  };
+}
