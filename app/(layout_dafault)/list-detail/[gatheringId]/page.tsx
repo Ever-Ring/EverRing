@@ -4,14 +4,20 @@ import { axiosInstance } from "@lib/axios";
 import { Gathering } from "@customTypes/gathering";
 
 interface PageProps {
-  params: { gatheringId: string };
-  searchParams: { page?: string };
+  params: { gatheringId: string }; // 상세페이지 주소
+  searchParams: { page?: string }; // 페이지네이션 페이지
 }
 
-export default async function ListDetailPage(props: Promise<PageProps>) {
-  const { params, searchParams } = await props;
-  const { gatheringId } = params;
-  const currentPage = searchParams.page ? Number(searchParams.page) : 1;
+async function Wrapper({ params, searchParams }: PageProps) {
+  const resolvedParams = await Promise.resolve(params);
+  const resolvedSearchParams = await Promise.resolve(searchParams);
+
+  const { gatheringId } = resolvedParams;
+
+  const currentPage = resolvedSearchParams.page
+    ? Number(resolvedSearchParams.page)
+    : 1;
+
   const limit = 4;
 
   if (!gatheringId) {
@@ -26,6 +32,7 @@ export default async function ListDetailPage(props: Promise<PageProps>) {
   const reviewResponse = await axiosInstance.get(`/reviews`, {
     params: { gatheringId, offset: (currentPage - 1) * limit, limit },
   });
+
   const reviewData = reviewResponse.data;
 
   return (
@@ -36,4 +43,8 @@ export default async function ListDetailPage(props: Promise<PageProps>) {
       initialPage={currentPage}
     />
   );
+}
+
+export default function Page({ params, searchParams }: PageProps) {
+  return <Wrapper params={params} searchParams={searchParams} />;
 }
