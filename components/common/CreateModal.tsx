@@ -26,6 +26,7 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
   const [meetingDate, setMeetingDate] = useState("");
   const [registrationEnd, setRegistrationEnd] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
   const [createdGatheringId, setCreatedGatheringId] = useState<number | null>(
     null,
   );
@@ -104,8 +105,8 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
         setCreatedGatheringId(resData.data.id);
         setShowSuccess(true);
       },
-      onError: (err) => {
-        console.error("모임 생성 실패:", err);
+      onError: () => {
+        setShowError(true);
       },
     });
   };
@@ -128,6 +129,24 @@ export default function CreateModal({ isOpen, onClose }: CreateModalProps) {
             if (createdGatheringId !== null) {
               router.push(`/list-detail/${createdGatheringId}`);
             }
+          }}
+        />
+      </ModalPortal>
+    );
+  }
+
+  if (showError) {
+    return (
+      <ModalPortal>
+        <AlertModal
+          text="모임 생성에 실패했습니다. 다시 시도해주세요."
+          isOpen
+          hasTwoButton={false}
+          onConfirm={() => {
+            setShowError(false);
+          }}
+          onClose={() => {
+            setShowError(false);
           }}
         />
       </ModalPortal>
