@@ -36,7 +36,10 @@ export default function useReviewListViewModel() {
     location: filters.location === "지역전체" ? undefined : filters.location,
     date: filters.date,
     sortBy: sortMap[filters.sort] || undefined,
-    sortOrder: filters.sort === "오래된순" ? ASC : DESC,
+    sortOrder:
+      filters.sort === "오래된순" || filters.sort === "평점 낮은순"
+        ? ASC
+        : DESC,
     limit: 10,
   };
 
