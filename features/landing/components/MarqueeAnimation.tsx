@@ -137,7 +137,10 @@ function MarqueeLeft({ leftImages }: { leftImages: string[] | undefined }) {
   );
 }
 
-export default function Marquee({ leftImages, rightImages }: MarqueeProps) {
+export default function MarqueeAnimation({
+  leftImages,
+  rightImages,
+}: MarqueeProps) {
   return (
     <div className="flex h-full w-full justify-start gap-8 overflow-hidden px-4 md:gap-12 md:px-8 lg:px-24">
       <MarqueeLeft leftImages={leftImages} />
