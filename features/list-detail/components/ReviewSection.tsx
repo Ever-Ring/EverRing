@@ -1,55 +1,71 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import ReviewList from "@components/common/ReviewList";
-import Pagination from "@features/list-detail/components/Pagination";
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import useGetReviewList from "@features/list-detail/hooks/useGetReviewList";
+import Pagination from "@features/list-detail/components/Pagination";
+import ReviewList from "@components/common/ReviewList";
+import { InitialReviewData } from "@customTypes/review";
+
+interface ReviewSectionProps {
+  gatheringId: number;
+  initialReviewData: InitialReviewData;
+  initialPage: number;
+}
 
 export default function ReviewSection({
   gatheringId,
-}: {
-  gatheringId: number;
-}) {
-  const [currentPage, setCurrentPage] = useState(1);
+  initialReviewData,
+  initialPage,
+}: ReviewSectionProps) {
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const limit = 4;
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      setCurrentPage(page);
+      router.push(`?page=${page}`);
+    },
+    [router],
+  );
+
+  useEffect(() => {
+    const pageFromUrl = searchParams.get("page");
+    if (pageFromUrl && Number(pageFromUrl) !== currentPage) {
+      setCurrentPage(Number(pageFromUrl));
+    }
+  }, [searchParams, currentPage]);
 
   const { data, isFetching, isError } = useGetReviewList({
+    gatheringId,
     offset: (currentPage - 1) * limit,
     limit,
-    gatheringId,
+    initialData: currentPage === initialPage ? initialReviewData : undefined,
   });
 
-  const {
-    reviewData: reviews,
-    totalItemCount,
-    totalPages,
-  } = data ?? {
+  const { reviewData, totalItemCount, totalPages } = data ?? {
     reviewData: [],
     totalItemCount: 0,
+    currentPage: 1,
     totalPages: 0,
   };
 
-  const computedTotalPages = (() => {
-    if (totalPages > 0) return totalPages;
-    if (totalItemCount > 0) return Math.ceil(totalItemCount / limit);
-    return 0;
-  })();
-
-  const renderContent = () => {
-    if (isError) return <p>에러가 발생했습니다.</p>;
-    if (isFetching) return <p>불러 오는 중...</p>;
-    if (computedTotalPages === 0)
-      return (
-        <p className="text-center text-sm text-gray-500">아직 리뷰가 없어요.</p>
-      );
-    return <ReviewList reviewData={reviews} />;
-  };
+  const computedTotalPages = totalPages || Math.ceil(totalItemCount / limit);
 
   useEffect(() => {
     if (computedTotalPages > 0 && currentPage > computedTotalPages) {
-      setCurrentPage(computedTotalPages);
+      handlePageChange(computedTotalPages);
     }
-  }, [computedTotalPages, currentPage]);
+  }, [computedTotalPages, currentPage, handlePageChange]);
+
+  const renderContent = () => {
+    if (isError) return <p>에러가 발생했습니다.</p>;
+    if (isFetching) return <p>불러오는 중...</p>;
+    if (!reviewData.length) return <p>아직 리뷰가 없어요.</p>;
+    return <ReviewList reviewData={reviewData} />;
+  };
 
   return (
     <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-6 border-t-2 border-gray-200 bg-white p-6">
@@ -59,12 +75,11 @@ export default function ReviewSection({
         </span>
         <div className="flex flex-col items-start gap-4">{renderContent()}</div>
       </div>
-
       {computedTotalPages > 0 && (
         <Pagination
           currentPage={currentPage}
           totalPages={computedTotalPages}
-          onPageChange={setCurrentPage}
+          onPageChange={handlePageChange}
         />
       )}
     </div>
