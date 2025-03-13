@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import Link from "next/link";
-import MainImage from "@assets/img-newlogin.svg";
 import { SIGN_UP, SIGN_IN } from "@constants/auth";
+import Image from "next/image";
 
 interface FormContainerProps {
   title: string;
@@ -50,7 +50,13 @@ function WelcomeTextWithImage() {
           건강을 위한 저속노화, 이제는 에버링과 함께 해보세요
         </span>
       </p>
-      <MainImage className="h-auto w-[18.125rem] md:w-96" />
+      <Image
+        src="/image/img-auth.svg"
+        alt="에버링 메인 이미지"
+        width={0}
+        height={0}
+        className="mb-2 h-auto w-[18.125rem] md:w-96"
+      />
     </div>
   );
 }

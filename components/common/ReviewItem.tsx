@@ -1,18 +1,12 @@
-import ReviewRating from "@components/common/ReviewRating";
 import Image from "next/image";
-import UnderLine from "@assets/underline.svg";
+import ReviewRating from "@components/common/ReviewRating";
 import { ReviewItemProps } from "@customTypes/review";
 import { formatDate } from "@utils/dateFormatter";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 
 export default function ReviewItem({ review }: ReviewItemProps) {
-  // TODO 스켈레톤 UI 표시
-  if (!review) {
-    return <div>스켈레톤</div>;
-  }
-
   return (
-    <li className="flex flex-1 flex-col items-start gap-4 text-gray-700">
+    <li className="flex w-full flex-1 flex-col items-start gap-4 text-gray-700">
       <div className="flex flex-col items-start gap-2 self-stretch">
         <div className="flex flex-col items-start gap-[0.625rem] self-stretch">
           <ReviewRating score={review?.score} />
@@ -35,8 +29,7 @@ export default function ReviewItem({ review }: ReviewItemProps) {
           </span>
         </div>
       </div>
-
-      <UnderLine className="w-full shrink-0 self-stretch fill-gray-200" />
+      <div className="inline-block w-full border-b-2 border-dashed border-gray-200" />
     </li>
   );
 }

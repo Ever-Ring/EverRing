@@ -1,16 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import Button from "@components/common/Button";
-import useUpdateUserInfo from "@features/mypage/hooks/useUpdateUserInfo";
-import { useQueryClient } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
 import InputForm from "@components/common/InputForm";
-import { FormValues } from "@customTypes/form";
-import { AxiosError } from "axios";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
-import useUserStore from "@stores/userStore";
+import useEditProfile from "@features/mypage/hooks/useEditProfile";
 
 interface EditProfileModalProps {
   isOpen: boolean;
@@ -21,77 +16,23 @@ interface EditProfileModalProps {
   };
 }
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
 export default function EditProfileModal({
   isOpen,
   onClose,
   userInfo,
 }: EditProfileModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { mutate: updateUserInfo } = useUpdateUserInfo();
-  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
     trigger,
     watch,
-  } = useForm<FormValues>();
-
-  useEffect(() => {
-    if (userInfo) {
-      setValue("companyName", userInfo.companyName ?? "");
-      setValue("image", userInfo.image ?? DEFAULT_USER_IMAGE);
-    }
-  }, [userInfo, setValue]);
+    handleFileChange,
+    onSubmit,
+  } = useEditProfile(userInfo, onClose, fileInputRef);
 
   if (!isOpen || !userInfo) return null;
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    const isFileInvalid = file && file.size > MAX_FILE_SIZE;
-
-    if (isFileInvalid) {
-      setValue("image", URL.createObjectURL(file));
-    } else {
-      alert("파일 크기는 5MB 이하이어야 합니다.");
-    }
-  };
-
-  const onSubmit = async (data: FormValues) => {
-    const file = fileInputRef.current?.files?.[0];
-    const formData = new FormData();
-    formData.append("companyName", data.companyName ?? "");
-    formData.append("image", file || (data.image ?? ""));
-
-    updateUserInfo(formData, {
-      onSuccess: () => {
-        useUserStore.getState().setUser({
-          ...useUserStore.getState(),
-          companyName: data.companyName ?? null,
-          image: data.image ?? null,
-        });
-        queryClient.invalidateQueries({ queryKey: ["userInfo"] });
-        onClose();
-      },
-      onError: (error: Error) => {
-        const axiosError = error as AxiosError;
-        let errorMessage = "에러가 발생했습니다.";
-
-        if (axiosError.isAxiosError) {
-          errorMessage =
-            (axiosError.response?.data as { message?: string })?.message ||
-            errorMessage;
-        } else {
-          errorMessage = axiosError.message;
-        }
-
-        alert(errorMessage);
-      },
-    });
-  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">

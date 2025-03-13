@@ -1,28 +1,41 @@
-// import DateFilter from "@components/common/DateFilter";
-// import LocationFilter from "@components/common/LocationFilter";
-// import SortFilter from "@components/common/SortFilter";
+import DateFilter from "@components/common/DateFilter";
+import LocationFilter from "@components/common/LocationFilter";
+import SortFilter from "@components/common/SortFilter";
+import { LOCATION_ITEMS, SORT_ITEMS } from "@constants/filter";
+import { ReviewListState } from "@customTypes/review";
 
-// interface FilterBarProps {
-//   onLocationChange?: (selectedLocation: string) => void;
-//   onDateChange?: (selectedDate: string | undefined) => void;
-//   onSortChange?: (selectedSort: string) => void;
-// }
+interface FilterBarProps {
+  filters: ReviewListState;
+  onLocationChange: (location: string | null) => void;
+  onDateChange: (date: string | null) => void;
+  onSortChange: (selected: string | null) => void;
+}
 
-// export default function FilterBar({
-//   onLocationChange,
-//   onDateChange,
-//   onSortChange,
-// }: FilterBarProps) {
-//   return (
-//     <div className="w-full border-t-2 border-gray-900 bg-white p-6">
-//       <div className="flex items-start justify-between self-stretch">
-//         <div className="flex items-start gap-2">
-//           <LocationFilter onLocationChange={onLocationChange} />
-//           <DateFilter onDateSelect={onDateChange} />
-//         </div>
-//         <SortFilter onSortChange={onSortChange} />
-//       </div>
-//       {/* // TODO 하단에 그라데이션 넣으면 좋을듯 */}
-//     </div>
-//   );
-// }
+export default function FilterBar({
+  filters,
+  onLocationChange,
+  onDateChange,
+  onSortChange,
+}: FilterBarProps) {
+  return (
+    <div className="w-full border-t-2 border-gray-900 bg-white p-6">
+      <div className="flex items-start justify-between self-stretch">
+        <div className="flex items-start gap-2">
+          {filters.tabIndex === 0 && (
+            <LocationFilter
+              selectedLocation={filters.location}
+              onLocationChange={onLocationChange}
+              locations={LOCATION_ITEMS}
+            />
+          )}
+          <DateFilter onDateSelect={onDateChange} loadDate={filters.date} />
+        </div>
+        <SortFilter
+          selectedSort={filters.sort}
+          onSortChange={onSortChange}
+          sortOptions={SORT_ITEMS.review}
+        />
+      </div>
+    </div>
+  );
+}

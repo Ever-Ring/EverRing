@@ -18,6 +18,7 @@ export default function AlertModal({
   onConfirm,
 }: AlertModalProps) {
   const alignItems = hasTwoButton ? "items-start" : "items-end";
+  const visibility = text.includes("회원가입") ? "invisible" : "";
 
   if (!isOpen) return null;
 
@@ -36,8 +37,10 @@ export default function AlertModal({
                   alt="close button"
                   width={24}
                   height={24}
+                  className={`${visibility}`}
                 />
               </button>
+
               <div className="w-[15.75rem] text-center text-base font-medium text-gray-900 md:w-[25.125rem]">
                 {text}
               </div>

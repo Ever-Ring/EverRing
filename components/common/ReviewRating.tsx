@@ -1,9 +1,11 @@
+import Image from "next/image";
 import HeartIcon from "@assets/icon-heart-default.svg";
-import HalfHeartIcon from "@assets/icon-heart-half.svg";
 
 function HeartImage({ isActive }: { isActive?: boolean }) {
   return (
-    <HeartIcon className={`${isActive ? "fill-mint-400" : "fill-gray-200"}`} />
+    <HeartIcon
+      className={`${isActive ? "fill-mint-400" : "fill-gray-200"} shrink-0`}
+    />
   );
 }
 
@@ -12,7 +14,6 @@ const getDecimalPart = (number: number) => {
 };
 
 export default function ReviewRating({ score }: { score: number }) {
-  // TODO: 소수인 경우 반쪽하트를 넣음. 추후 퍼센테이지별로 다르게 채우도록 바꿀 수도 있음.
   const decimalPart = getDecimalPart(score);
 
   return (
@@ -21,7 +22,14 @@ export default function ReviewRating({ score }: { score: number }) {
         // eslint-disable-next-line react/no-array-index-key
         <HeartImage key={`filled-${index}`} isActive />
       ))}
-      {decimalPart > 0 && <HalfHeartIcon />}
+      {decimalPart > 0 && (
+        <Image
+          src="/image/icon-heart-half.svg"
+          alt="별점"
+          width={24}
+          height={24}
+        />
+      )}
       {Array.from({ length: Math.floor(5 - score) }).map((_, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <HeartImage key={`empty-${index}`} />

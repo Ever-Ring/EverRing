@@ -1,7 +1,6 @@
+import Image from "next/image";
 import React, { forwardRef, useState } from "react";
 import { InputProps } from "@customTypes/form";
-import EyeOff from "@assets/visibility_off.svg";
-import EyeOn from "@assets/visibility_on.svg";
 
 /**
  * @param {string} id - 고유 ID, label과 연결됨
@@ -64,9 +63,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             className="absolute right-4 top-3/4 -translate-y-3/4 transform cursor-pointer"
           >
             {isPasswordVisible ? (
-              <EyeOn className="h-6 w-6" />
+              <Image
+                src="/image/visibility_on.svg"
+                alt="비밀번호 보기"
+                width={24}
+                height={24}
+              />
             ) : (
-              <EyeOff className="h-6 w-6" />
+              <Image
+                src="/image/visibility_off.svg"
+                alt="비밀번호 가리기"
+                width={24}
+                height={24}
+              />
             )}
           </button>
         )}

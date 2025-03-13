@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserStore {
   id: number | null;
@@ -43,6 +44,7 @@ export default function useClickHandlers({
   setModalConfig,
 }: UseClickHandlersProps) {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleJoinClick = useCallback(() => {
     if (userData?.id) {
@@ -59,6 +61,7 @@ export default function useClickHandlers({
               onClose: () =>
                 setModalConfig((prev) => ({ ...prev, isOpen: false })),
             });
+            queryClient.invalidateQueries({ queryKey: ["gatheringsJoined"] });
           },
         });
       }
