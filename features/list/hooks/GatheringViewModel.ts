@@ -1,17 +1,18 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { sortMap } from "@constants/filter";
 import { useQueryString } from "@hooks/useQueryString";
 import { useQueryTabIndex } from "@hooks/useQueryTabIndex";
+import { useInfiniteGetGatherings } from "./useInfiniteGetGatherings";
+import { Gathering } from "@customTypes/gathering";
 
-export function GatheringFiltersViewModel() {
+export function GatheringViewModel() {
   const [selectedTabIndex, setTabIndex] = useQueryTabIndex();
   const [typeFilter, setTypeFilter] = useQueryString("type", "DALLAEMFIT");
   const [locationFilter, setLocationFilter] = useQueryString("location", null);
   const [dateFilter, setDateFilter] = useQueryString("date", null);
   const [sortBy, setSortBy] = useQueryString("sort", null);
-
   const sortOrder = sortBy === "참여 인원순" ? "desc" : null;
 
   const subChips = useMemo(
@@ -49,6 +50,31 @@ export function GatheringFiltersViewModel() {
     ],
   );
 
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
+    useInfiniteGetGatherings(filters);
+  const gatherings: Gathering[] =
+    data?.pages?.flatMap((page) => page.data) || [];
+
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!loadMoreRef.current) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" },
+    );
+
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   return {
     selectedTabIndex,
     setTabIndex,
@@ -62,5 +88,11 @@ export function GatheringFiltersViewModel() {
     setSortBy,
     filters,
     subChips,
+    gatherings,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    error,
+    loadMoreRef,
   };
 }
