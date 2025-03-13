@@ -8,9 +8,10 @@ export const chipOptions = [
 export const sortMap: Record<string, string> = {
   오래된순: "createdAt",
   "평점 높은순": "score",
+  "평점 낮은순": "score",
   "참여 인원순": "participantCount",
 };
 
-export const DESC: "asc" | "desc" | undefined = "desc";
+export const DESC = "desc" as const;
 
-export const ASC: "asc" | "desc" | undefined = "asc";
+export const ASC = "asc" as const;
