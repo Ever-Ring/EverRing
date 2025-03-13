@@ -139,10 +139,10 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
           <p>다음 기회에 만나요 🙏</p>
           <Image
             src={IMAGES.BYE}
-            alt="BYE"
+            alt="마감된 챌린지를 삭제하려면 클릭하세요"
             width={48}
             height={48}
-            className="absolute top-[64%] sm:right-6 sm:top-6"
+            className="absolute top-[64%] cursor-pointer transition-all duration-200 hover:opacity-80 sm:right-6 sm:top-6"
             onClick={() => hideExpiredGathering(gathering.id)}
           />
         </div>
