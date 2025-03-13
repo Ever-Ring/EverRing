@@ -95,7 +95,7 @@ export default function ServiceShowcaseSection() {
               }}
               className="flex flex-col items-center lg:items-start"
             >
-              <h2 className="whitespace-pre-line text-center font-bold text-black lg:text-start lg:text-4xl">
+              <h2 className="whitespace-pre-line text-center text-3xl font-bold text-black md:text-4xl lg:text-start">
                 {serviceShowcaseData[currentSlide].title}
               </h2>
               <p className="mt-5 whitespace-pre-line text-center text-base text-gray-800 lg:text-start">
