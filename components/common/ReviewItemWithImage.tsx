@@ -1,7 +1,6 @@
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import ReviewRating from "@components/common/ReviewRating";
-import Image from "next/image";
-import UnderLine from "@assets/underline.svg";
 
 import { ReviewItemWithImageProps } from "@customTypes/review";
 import { formatDate } from "@utils/dateFormatter";
@@ -28,7 +27,7 @@ export default function ReviewItemWithImage({
     GATHERING_TYPE_MAP[review?.Gathering?.type as GatheringType] || "";
 
   return (
-    <li className="flex flex-col items-start gap-6 text-gray-700 md:flex-row">
+    <li className="flex w-full flex-col items-start gap-6 text-gray-700 md:flex-row">
       <div className="relative h-[9.75rem] w-full md:w-[17.5rem]">
         <Image
           fill
@@ -101,8 +100,7 @@ export default function ReviewItemWithImage({
             </span>
           </div>
         </div>
-
-        <UnderLine className="w-full shrink-0 self-stretch fill-gray-200" />
+        <div className="inline-block w-full border-b-2 border-dashed border-gray-200" />
       </div>
     </li>
   );
