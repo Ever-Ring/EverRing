@@ -18,7 +18,7 @@ export default function AlertModal({
   onConfirm,
 }: AlertModalProps) {
   const alignItems = hasTwoButton ? "items-start" : "items-end";
-  const visibility = text.includes("회원가입") ? "hidden" : "";
+  const visibility = text.includes("회원가입") ? "invisible" : "";
 
   if (!isOpen) return null;
 
