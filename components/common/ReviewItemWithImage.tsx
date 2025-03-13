@@ -38,9 +38,7 @@ export default function ReviewItemWithImage({
         />
       </div>
 
-      <div
-        className={`flex ${isShowFullComment ? "h-auto" : "h-[10.5rem] md:h-[9.75rem]"} flex-col items-start justify-between gap-6 self-stretch md:flex-1`}
-      >
+      <div className="flex flex-col items-start justify-between gap-8 self-stretch md:flex-1 md:gap-6">
         <div className="flex flex-col items-start gap-2 self-stretch">
           <div className="flex flex-col items-start gap-[0.625rem] self-stretch">
             <ReviewRating score={review?.score} />
