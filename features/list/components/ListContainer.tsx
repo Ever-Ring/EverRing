@@ -21,7 +21,6 @@ export default function ListContainer() {
     filters,
     gatherings,
     isFetchingNextPage,
-    error,
     loadMoreRef,
   } = GatheringViewModel();
 
@@ -36,7 +35,6 @@ export default function ListContainer() {
         />
         <CreateGatheringButton />
       </section>
-
       <section className="flex justify-start gap-2">
         <ChipFilterGroup
           subChips={subChips}
@@ -44,9 +42,7 @@ export default function ListContainer() {
           setTypeFilter={setTypeFilter}
         />
       </section>
-
       <hr className="my-4 w-full border-t-2 border-gray-200" />
-
       <section className="mb-4 flex justify-between sm:mb-6">
         <FilterOptions
           selectedTabIndex={selectedTabIndex}
@@ -56,11 +52,9 @@ export default function ListContainer() {
           setSortBy={setSortBy}
         />
       </section>
-
       <section>
         <GatheringList gatherings={gatherings} />
       </section>
-
       <div ref={loadMoreRef} className="bg-red-500 w-30 z-10 h-10 text-center">
         {isFetchingNextPage ? "로딩 중..." : ""}
       </div>
