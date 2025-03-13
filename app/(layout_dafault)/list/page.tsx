@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import ListContent from "@features/list/components/ListContent";
+import ListContainer from "@features/list/components/ListContainer";
 import { HydrationBoundary } from "@tanstack/react-query";
 import { getServerInfiniteGatheringsQuery } from "@features/list/utills/gatheringsQuery";
 import { getDehydratedQuery } from "@lib/reactQueryUtils";
@@ -20,7 +20,7 @@ export default async function List() {
             </p>
           </div>
         </section>
-        <ListContent />
+        <ListContainer />
       </Suspense>
     </HydrationBoundary>
   );
