@@ -18,13 +18,29 @@ export default function WriteReviewModal({
   isOpen,
   onClose,
 }: WriteReviewModalProps) {
-  const { register, handleSubmit, watch, setValue } = useForm<{
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<{
     score: number;
     comment: string;
-  }>();
+  }>({
+    mode: "all",
+  });
   const queryClient = useQueryClient();
   const { mutate: createReview } = useCreateReview();
   const MAX_RATING = 5;
+  const MIN_COMMENT_LENGTH = 10;
+  const MAX_COMMENT_LENGTH = 300;
+  const commentValue = watch("comment", "");
+  const scoreValue = watch("score");
+  const isButtonDisabled =
+    !scoreValue ||
+    commentValue.length < MIN_COMMENT_LENGTH ||
+    commentValue.length > MAX_COMMENT_LENGTH;
 
   const onSubmit = async (data: { score: number; comment: string }) => {
     createReview(
@@ -41,7 +57,6 @@ export default function WriteReviewModal({
           onClose();
         },
         onError: (error) => {
-          // TODO 에러 핸들링 어떻게 할 것인지
           console.error(error);
         },
       },
@@ -98,14 +113,35 @@ export default function WriteReviewModal({
             </p>
             <textarea
               id="comment"
-              placeholder="남겨주신 리뷰는 프로그램 운영 및 다른 회원 분들께 큰 도움이 됩니다."
-              className="h-24 w-full resize-none rounded-lg bg-gray-50 p-3 focus:outline-none focus:ring-2 focus:ring-mint-400"
-              {...register("comment")}
+              placeholder="남겨주신 리뷰는 모임 운영 및 다른 회원 분들께 큰 도움이 됩니다."
+              className={`h-24 w-full resize-none rounded-lg bg-gray-50 p-3 focus:outline-none ${errors.comment ? "border-2 border-red" : "focus:ring-2 focus:ring-mint-400"}`}
+              {...register("comment", {
+                required: "리뷰를 작성해주세요.",
+                minLength: {
+                  value: MIN_COMMENT_LENGTH,
+                  message: `리뷰는 최소 ${MIN_COMMENT_LENGTH}자 이상이어야 합니다.`,
+                },
+                maxLength: {
+                  value: MAX_COMMENT_LENGTH,
+                  message: `리뷰는 최대 ${MAX_COMMENT_LENGTH}자까지 작성 가능합니다.`,
+                },
+              })}
             />
+            {errors.comment && (
+              <p className="mt-2 text-sm text-red">{errors.comment.message}</p>
+            )}
+            <div className="mt-2 text-right text-sm text-gray-500">
+              {commentValue.length}/{MAX_COMMENT_LENGTH}자
+            </div>
           </div>
           <div className="flex justify-end gap-x-2">
             <Button text="취소" variant="outlined" onClick={onClose} />
-            <Button type="submit" text="저장" variant="solid" />
+            <Button
+              type="submit"
+              text="저장"
+              variant="solid"
+              disabled={isButtonDisabled}
+            />
           </div>
         </form>
       </div>
