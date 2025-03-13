@@ -64,10 +64,6 @@ export default function ListContainer() {
       <div ref={loadMoreRef} className="bg-red-500 w-30 z-10 h-10 text-center">
         {isFetchingNextPage ? "로딩 중..." : ""}
       </div>
-
-      {error && (
-        <div className="text-red-500"> API 요청 오류: {error.message}</div>
-      )}
     </div>
   );
 }
