@@ -23,7 +23,6 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
         href={`/list-detail/${gathering.id}`}
         className="z-10 flex min-h-[19.75rem] flex-col self-stretch overflow-hidden rounded-[1.5rem] border-2 border-gray-100 bg-white md:min-h-[9.75rem] md:flex-row"
       >
-        {/* 위쪽영역 */}
         <div className="relative min-h-[9.75rem] w-full md:w-[17.5rem]">
           <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
           <Image
@@ -32,8 +31,6 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
             src={gathering.image || IMAGES.DEFAULT_REVIEW}
           />
         </div>
-
-        {/* 아래쪽영역 */}
         <div className="flex flex-col justify-start p-4 md:flex-1">
           <div className="mb-7 flex h-[60px] justify-between">
             <div>
@@ -47,20 +44,16 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                     : gathering.location}
                 </span>
               </div>
-
-              {/* 마감시간으로 설정  */}
               <div className="mt-2 flex gap-2">
                 <ChipInfo info={date} />
                 <ChipInfo info={time} variant="mint" />
               </div>
             </div>
-
-            {/* ✅ 하트 버튼 (찜하기) */}
             <button
               type="button"
               onClick={(e) => {
-                e.preventDefault(); // ✅ 부모 Link 클릭 방지
-                toggleFavorite(gathering.id); // ✅ 찜하기 상태 업데이트
+                e.preventDefault();
+                toggleFavorite(gathering.id);
               }}
               className="flex items-center justify-center"
             >
@@ -75,9 +68,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
               />
             </button>
           </div>
-
           <div className="items-beween flex h-9 justify-between gap-6">
-            {/* 밑에 왼쪽 */}
             <div className="flex flex-1 flex-col">
               <div className="flex items-center gap-1">
                 <Image
@@ -90,7 +81,6 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                 <span>
                   {gathering.participantCount}/{gathering.capacity}
                 </span>
-                {/* 개설확정 추가 */}
                 {isGatheringOpen && (
                   <div className="flex items-center">
                     <Image
@@ -114,7 +104,6 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                 />
               </div>
             </div>
-            {/* 밑에 오른쪽 */}
             <div className="flex min-w-[5.5rem] items-center justify-between text-base font-semibold text-mint-600">
               {isFull ? (
                 <span className="mr-2 mt-3 flex-grow text-end">closed</span>
