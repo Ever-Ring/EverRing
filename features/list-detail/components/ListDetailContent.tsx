@@ -21,8 +21,8 @@ import { formatDateTime } from "@utils/dateFormatter";
 
 interface ListDetailContentProps {
   gatheringId: number;
-  gathering: Gathering;
-  initialReviewData: InitialReviewData;
+  gathering: Gathering; // 기존 로직 유지
+  initialReviewData: InitialReviewData; // 기존 로직 유지
   initialPage: number;
 }
 
@@ -33,8 +33,10 @@ export default function ListDetailContent({
   initialPage,
 }: ListDetailContentProps) {
   const userData = useUserStore();
-  const { data, isLoading, isError, error } =
-    useGetGatheringDetail(gatheringId);
+  const { data, isLoading, isError, error } = useGetGatheringDetail(
+    gatheringId,
+    gathering,
+  );
   const { data: participants } = useGetParticipants(gatheringId);
 
   const { modalConfig, setModalConfig } = useModalState();
@@ -63,7 +65,6 @@ export default function ListDetailContent({
   });
 
   const isRegistrationEnded = new Date(gathering.registrationEnd) < new Date();
-
   const isFull = data
     ? data.participantCount >= data.capacity || isRegistrationEnded
     : false;
@@ -113,7 +114,7 @@ export default function ListDetailContent({
 
         <ReviewSection
           gatheringId={gatheringId}
-          initialReviewData={initialReviewData}
+          initialReviewData={initialReviewData} // 기존 로직 유지
           initialPage={initialPage}
         />
 

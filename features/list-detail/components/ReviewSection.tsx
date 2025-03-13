@@ -9,7 +9,7 @@ import { InitialReviewData } from "@customTypes/review";
 
 interface ReviewSectionProps {
   gatheringId: number;
-  initialReviewData: InitialReviewData;
+  initialReviewData?: InitialReviewData;
   initialPage: number;
 }
 
