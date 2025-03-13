@@ -8,7 +8,7 @@ export const LOCATION_ITEMS = [
 
 export const SORT_ITEMS = {
   list: ["정렬", "최신순", "마감 임박", "참여 인원순"],
-  review: ["정렬", "오래된순", "평점 높은순", "참여 인원순"],
+  review: ["정렬", "오래된순", "평점 높은순", "평점 낮은순", "참여 인원순"],
 };
 
 export const sortMap: Record<string, string | undefined> = {

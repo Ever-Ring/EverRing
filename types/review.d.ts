@@ -28,6 +28,15 @@ export interface ReviewListWithImageProps {
   hasUserInfo?: boolean;
 }
 
+export interface ReviewListState {
+  tabIndex: number;
+  chipIndex: number;
+  type: GatheringType;
+  location: string;
+  date?: string;
+  sort: string;
+}
+
 export interface Scores {
   teamId: number;
   // gatheringId: 0, 얘가 무슨 역할을 하는지 아직 모르겠음..

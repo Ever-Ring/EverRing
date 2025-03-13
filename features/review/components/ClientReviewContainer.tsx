@@ -2,7 +2,7 @@
 
 import { useInView } from "react-intersection-observer";
 import RatingContainer from "@features/review/components/RatingContainer";
-// import FilterBar from "@features/review/components/FilterBar";
+import FilterBar from "@features/review/components/FilterBar";
 import ReviewListwithImage from "@components/common/ReviewListWithImage";
 import Chip from "@components/common/Chip";
 import TabMenu from "@components/common/TabMenu";
@@ -20,11 +20,11 @@ function ClientReviewContainer() {
     isError,
     isFetchingNextPage,
     fetchNextPage,
-    handleChangeTabIndex,
-    handleChangeChipIndex,
-    // handleChangeLocation,
-    // handleChangeDate,
-    // handleChangeSort,
+    updateTabIndex,
+    updateChipIndex,
+    updateLocation,
+    updateDate,
+    updateSort,
   } = useReviewListViewModel();
 
   const { ref: loadMoreRef } = useInView({
@@ -46,13 +46,13 @@ function ClientReviewContainer() {
             hasIcon
             tabs={TABS}
             selectedIndex={filters.tabIndex}
-            onSelect={handleChangeTabIndex}
+            onSelect={updateTabIndex}
           />
           <div className="flex items-start gap-2">
             <Chip
               label="전체"
               selected={filters.chipIndex === 0}
-              onClick={() => handleChangeChipIndex(0)}
+              onClick={() => updateChipIndex(0)}
             />
             {filters.tabIndex === 0 &&
               chipOptions.map((chip, index) => (
@@ -60,7 +60,7 @@ function ClientReviewContainer() {
                   key={chip.label}
                   label={chip.label}
                   selected={filters.chipIndex === index + 1}
-                  onClick={() => handleChangeChipIndex(index + 1)}
+                  onClick={() => updateChipIndex(index + 1)}
                 />
               ))}
           </div>
@@ -71,11 +71,12 @@ function ClientReviewContainer() {
 
       <div className="flex h-full w-full flex-col items-start bg-white">
         <div className="sticky top-[174px] z-10 w-full md:top-[190px] lg:top-[194px]">
-          {/* <FilterBar
-            onLocationChange={handleChangeLocation}
-            onDateChange={handleChangeDate}
-            onSortChange={handleChangeSort}
-          /> */}
+          <FilterBar
+            filters={filters}
+            onLocationChange={updateLocation}
+            onDateChange={updateDate}
+            onSortChange={updateSort}
+          />
         </div>
 
         <div className="w-full px-4 pb-6 md:px-6">

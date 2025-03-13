@@ -5,15 +5,7 @@ import { GATHERING_TYPE, GatheringType } from "@constants/gatheringType";
 import { sortMap, ASC, DESC } from "@features/review/constants/review";
 import useGetReviewData from "@features/review/hooks/useGetReviewData";
 import useGetReviewScore from "@features/review/hooks/useGetReviewScore";
-
-interface ReviewListState {
-  tabIndex: number;
-  chipIndex: number;
-  type: GatheringType;
-  location: string;
-  date?: string;
-  sort: string;
-}
+import { ReviewListState } from "@customTypes/review";
 
 export default function useReviewListViewModel() {
   const [filters, setFilters] = useState<ReviewListState>({
@@ -44,7 +36,10 @@ export default function useReviewListViewModel() {
     location: filters.location === "지역전체" ? undefined : filters.location,
     date: filters.date,
     sortBy: sortMap[filters.sort] || undefined,
-    sortOrder: filters.sort === "오래된순" ? ASC : DESC,
+    sortOrder:
+      filters.sort === "오래된순" || filters.sort === "평점 낮은순"
+        ? ASC
+        : DESC,
     limit: 10,
   };
 
@@ -58,24 +53,24 @@ export default function useReviewListViewModel() {
 
   const { data: scoreData } = useGetReviewScore({ type: filters.type });
 
-  const handleChangeTabIndex = (index: number) => {
+  const updateTabIndex = (index: number) => {
     setFilters((prev) => ({ ...prev, tabIndex: index, chipIndex: 0 }));
   };
 
-  const handleChangeChipIndex = (index: number) => {
+  const updateChipIndex = (index: number) => {
     setFilters((prev) => ({ ...prev, chipIndex: index }));
   };
 
-  const handleChangeLocation = (location: string) => {
-    setFilters((prev) => ({ ...prev, location }));
+  const updateLocation = (location: string | null) => {
+    setFilters((prev) => ({ ...prev, location: location ?? "지역전체" }));
   };
 
-  const handleChangeDate = (date?: string) => {
-    setFilters((prev) => ({ ...prev, date }));
+  const updateDate = (date?: string | null) => {
+    setFilters((prev) => ({ ...prev, date: date ?? undefined }));
   };
 
-  const handleChangeSort = (sort: string) => {
-    setFilters((prev) => ({ ...prev, sort }));
+  const updateSort = (sort: string | null) => {
+    setFilters((prev) => ({ ...prev, sort: sort ?? "정렬" }));
   };
 
   return {
@@ -87,10 +82,10 @@ export default function useReviewListViewModel() {
     isFetchingNextPage,
 
     fetchNextPage,
-    handleChangeTabIndex,
-    handleChangeChipIndex,
-    handleChangeLocation,
-    handleChangeDate,
-    handleChangeSort,
+    updateTabIndex,
+    updateChipIndex,
+    updateLocation,
+    updateDate,
+    updateSort,
   };
 }
