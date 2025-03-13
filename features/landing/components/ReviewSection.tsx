@@ -3,9 +3,9 @@ import ReviewCard from "@features/landing/components/ReviewCard";
 
 export default function ReviewSection() {
   return (
-    <section className="flex w-full flex-col items-center justify-between px-4 py-[3.75rem] md:px-6 md:py-[6.25rem] lg:px-[15%] lg:py-[7.5rem]">
+    <section className="mt-[3.75rem] flex w-full flex-col items-center justify-between px-4 py-[3.75rem] md:mt-[6.25rem] md:px-6 md:py-[6.25rem] lg:mt-[7.5rem] lg:px-[15%] lg:py-[7.5rem]">
       <div className="mb-[1.875rem] flex flex-col items-center gap-5 md:mb-10 lg:mb-32">
-        <h2 className="text-4xl font-bold text-black">
+        <h2 className="text-center text-3xl font-bold text-black md:text-4xl">
           사용자들의 생생한 리뷰를 확인해보세요.
         </h2>
         <p className="text-center text-base text-gray-800">

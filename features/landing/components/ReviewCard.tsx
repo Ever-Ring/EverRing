@@ -11,7 +11,7 @@ interface ReviewCardProps {
 export default function ReviewCard({ review }: { review: ReviewCardProps }) {
   return (
     <CardContainer>
-      <div className="flex flex-col items-center gap-[1.875rem] self-stretch">
+      <div className="flex h-full flex-col items-center gap-[1.875rem] self-stretch">
         <div className="flex flex-col items-center justify-center gap-4 self-stretch">
           <div className="size-14 overflow-hidden rounded-full">
             <Image
@@ -32,8 +32,12 @@ export default function ReviewCard({ review }: { review: ReviewCardProps }) {
             </p>
           </div>
         </div>
-        <p className="text-center text-base text-gray-900">{review.content}</p>
-        <ReviewRating score={5} />
+        <div className="flex h-full flex-col items-center justify-between">
+          <p className="text-center text-base text-gray-900">
+            {review.content}
+          </p>
+          <ReviewRating score={5} />
+        </div>
       </div>
     </CardContainer>
   );
