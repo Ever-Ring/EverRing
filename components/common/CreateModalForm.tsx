@@ -160,6 +160,8 @@ export default function CreateModalForm({ onClose }: CreateModalFormProps) {
           onChange={(e) => setName(e.target.value)}
         />
 
+        <RadioButton selectedType={type} onChange={setType} />
+
         {type === "WORKATION" ? (
           <CreateModalInput
             type="text"
@@ -184,8 +186,6 @@ export default function CreateModalForm({ onClose }: CreateModalFormProps) {
           placeholder="이미지를 첨부해주세요."
           onFileChange={(file) => setImage(file)}
         />
-
-        <RadioButton selectedType={type} onChange={setType} />
 
         <div className="flex flex-col gap-6 md:flex-row md:gap-4">
           <div className="flex-1">
