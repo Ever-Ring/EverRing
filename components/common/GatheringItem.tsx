@@ -95,15 +95,19 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                   </div>
                 )}
               </div>
-              <div className="relative mt-2 min-h-1 w-full rounded-full bg-gray-200">
+              <div className="relative mt-2 min-h-1 w-full overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="absolute left-0 top-0 h-full rounded-full bg-mint-600 transition-all"
-                  style={{
-                    width: `${(gathering.participantCount / gathering.capacity) * 100}%`,
-                  }}
+                  className="absolute left-0 top-0 h-full animate-progress rounded-full bg-mint-600"
+                  style={
+                    {
+                      width: `${(gathering.participantCount / gathering.capacity) * 100}%`,
+                      "--progress-width": `${(gathering.participantCount / gathering.capacity) * 100}%`,
+                    } as React.CSSProperties
+                  }
                 />
               </div>
             </div>
+
             <div className="flex min-w-[5.5rem] items-center justify-between text-base font-semibold text-mint-600">
               {isFull ? (
                 <span className="mr-2 mt-3 flex-grow text-end">closed</span>
