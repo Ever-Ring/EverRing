@@ -24,7 +24,7 @@ export default {
         "mint-950": "#0A2F23",
       },
       fontFamily: {
-        pretendard: ["pretendard"],
+        pretendard: ["var(--font-pretendard)"],
       },
     },
   },

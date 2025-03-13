@@ -17,3 +17,13 @@ export const sortMap: Record<string, string | undefined> = {
   "마감 임박": "registrationEnd",
   "참여 인원순": "participantCount",
 };
+
+export const INITIAL_GATHERINGS_FILTERS = {
+  date: null,
+  location: null,
+  sortBy: null,
+  sortOrder: null,
+  type: "DALLAEMFIT",
+} as const;
+
+export const LIMIT = 10;
