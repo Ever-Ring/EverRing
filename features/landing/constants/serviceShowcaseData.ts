@@ -36,22 +36,22 @@ export const serviceShowcaseData: ShowcaseSlide[] = [
     id: 0,
     type: "marquee",
     title: "저속노화,\n에버링과 함께하세요!",
-    description: "건강한 삶을 위한 첫걸음,\n에버링에서 시작하세요",
+    description: "건강한 삶을 위한 첫걸음,\n에버링에서 시작하세요.",
     leftImages: leftColumnImages,
     rightImages: rightColumnImages,
-    bgColor: "bg-green-700", // TODO 배경색 교체
+    bgColor: "bg-[#F8D57E]",
   },
   {
     id: 2,
     type: "overlap",
     title: "저속노화를 위한 \n다양한 모임을 만들고, \n참여해보세요",
     description:
-      "오프라인 모임인 나무링에서 가벼운 운동과 건강한 식습관을 배우고, \n온라인 모임인 구름링에서 관심사에 맞는 모임을 찾아 함께하세요.",
+      "오프라인 모임인 나무링에서 가벼운 운동과 건강한 식습관을 배울 수 있고, \n온라인 모임인 구름링에서는 공간의 제약 없이 어디서나 저속노화 정보를\n 공유할 수 있어요.",
     images: [
       "/image/img-landing-list-page.svg",
       "/image/img-landing-list-page-modal-mobile.svg",
     ],
-    bgColor: "bg-green-500", // TODO 배경색 교체
+    bgColor: "bg-[#F5C2B3]",
   },
   {
     id: 3,
@@ -63,6 +63,6 @@ export const serviceShowcaseData: ShowcaseSlide[] = [
       "/image/img-landing-mypage3-mobile.svg",
       "/image/img-landing-mypage1-mobile.svg",
     ],
-    bgColor: "bg-green-700", // TODO 배경색 교체
+    bgColor: "bg-[#AEE6B4]",
   },
 ];
