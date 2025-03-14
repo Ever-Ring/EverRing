@@ -5,7 +5,9 @@ import { sortMap } from "@constants/filter";
 import { useQueryString } from "@hooks/useQueryString";
 import { useQueryTabIndex } from "@hooks/useQueryTabIndex";
 import { useInfiniteGetGatherings } from "./useInfiniteGetGatherings";
+import { useGetIdGatherings } from "@features/list/hooks/useGetIdGatherings";
 import { Gathering } from "@customTypes/gathering";
+import { useFavoriteStore } from "@stores/favoriteStore";
 
 export function GatheringViewModel() {
   const [selectedTabIndex, setTabIndex] = useQueryTabIndex();
@@ -75,6 +77,9 @@ export function GatheringViewModel() {
     return () => observer.disconnect();
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
+  const { data: favoriteDate = [] } = useGetIdGatherings(filters);
+  const { clearFavorites } = useFavoriteStore();
+
   return {
     selectedTabIndex,
     setTabIndex,
@@ -94,5 +99,7 @@ export function GatheringViewModel() {
     isFetchingNextPage,
     error,
     loadMoreRef,
+    favoriteDate,
+    clearFavorites,
   };
 }
