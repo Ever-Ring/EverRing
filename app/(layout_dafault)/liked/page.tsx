@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import LikePageContent from "@features/liked/components/LikePageContent";
+import LikePageContent from "@features/liked/components/LikeContainer";
 import Image from "next/image";
 
 export default function LikedPage() {
