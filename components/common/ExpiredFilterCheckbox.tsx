@@ -10,7 +10,7 @@ export default function ExpiredFilterCheckbox({
 }: ExpiredFilterCheckboxProps) {
   return (
     <div
-      className="mt-7 flex cursor-pointer items-center gap-1"
+      className="mt-1 flex cursor-pointer items-center gap-1"
       onClick={() => setShowExpired((prev) => !prev)}
       role="button"
       tabIndex={0}
