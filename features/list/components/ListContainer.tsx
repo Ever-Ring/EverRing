@@ -17,6 +17,7 @@ export default function ListContainer() {
     setLocationFilter,
     setDateFilter,
     setSortBy,
+    sortBy,
     subChips,
     filters,
     gatherings,
@@ -43,13 +44,14 @@ export default function ListContainer() {
         />
       </section>
       <hr className="my-4 w-full border-t-2 border-gray-200" />
-      <section className="mb-4 flex justify-between sm:mb-6">
+      <section className="mb-4 sm:mb-6">
         <FilterOptions
           selectedTabIndex={selectedTabIndex}
           filters={filters}
           setLocationFilter={setLocationFilter}
           setDateFilter={setDateFilter}
           setSortBy={setSortBy}
+          sortBy={sortBy}
         />
       </section>
       <section>
