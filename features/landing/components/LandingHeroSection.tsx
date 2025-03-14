@@ -32,6 +32,7 @@ export default function LandingHero() {
             alt="에버링 시작하기 버튼"
             width={18}
             height={18}
+            style={{ width: 18, height: 18 }}
           />
         </button>
       </div>
@@ -40,6 +41,8 @@ export default function LandingHero() {
         src="/image/img-landing-hero-green.svg"
         width={450}
         height={450}
+        style={{ width: 450, height: 450 }}
+        priority
       />
     </section>
   );
