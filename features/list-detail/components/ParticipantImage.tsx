@@ -4,9 +4,13 @@ import React from "react";
 
 interface ParticipantImageProps {
   imageUrl?: string;
+  alt: string;
 }
 
-export default function ParticipantImage({ imageUrl }: ParticipantImageProps) {
+export default function ParticipantImage({
+  imageUrl,
+  alt,
+}: ParticipantImageProps) {
   return (
     <div
       role="img"
@@ -17,6 +21,7 @@ export default function ParticipantImage({ imageUrl }: ParticipantImageProps) {
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
       }}
+      aria-label={alt}
     />
   );
 }
