@@ -27,7 +27,10 @@ describe("Pagination Component", () => {
 
     const leftButton = screen.getAllByRole("button")[0];
     expect(leftButton).toBeDisabled();
-    expect(screen.getByTestId("arrow-disabled")).toBeInTheDocument();
+
+    const leftSvg = leftButton.querySelector("svg");
+    expect(leftSvg).toBeInTheDocument();
+    expect(leftSvg).not.toHaveClass("rotate-180");
   });
 
   it("should enable the left arrow and call onPageChange with currentPage - 1 when clicked", () => {
@@ -100,7 +103,10 @@ describe("Pagination Component", () => {
 
     const rightButton = buttons[buttons.length - 1];
     expect(rightButton).toBeDisabled();
-    expect(screen.getByTestId("arrow-disabled")).toHaveClass("rotate-180");
+
+    const rightSvg = rightButton.querySelector("svg");
+    expect(rightSvg).toBeInTheDocument();
+    expect(rightSvg).toHaveClass("rotate-180");
   });
 
   it("should enable the right arrow and call onPageChange with currentPage + 1 when clicked", () => {
