@@ -9,6 +9,7 @@ interface ParticipantImageProps {
 export default function ParticipantImage({ imageUrl }: ParticipantImageProps) {
   return (
     <div
+      role="img"
       className="relative h-[29px] w-[29px] rounded-full bg-gray-300"
       style={{
         backgroundImage: imageUrl ? `url("${imageUrl}")` : "none",
