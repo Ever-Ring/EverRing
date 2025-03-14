@@ -11,14 +11,14 @@ describe("Button Component", () => {
   test("applies large size classes by default", () => {
     render(<Button text="Large Button" />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/px-6/);
+    expect(button).toHaveClass("px-6");
   });
 
   test("applies small size classes when size is small", () => {
     render(<Button text="Small Button" size="small" />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/w-\[115px\]/);
-    expect(button.className).toMatch(/px-4/);
+    expect(button).toHaveClass("w-[115px]");
+    expect(button).toHaveClass("px-4");
   });
 
   test("calls onClick when clicked", () => {
@@ -38,31 +38,31 @@ describe("Button Component", () => {
   test("applies solid variant classes when enabled", () => {
     render(<Button text="Solid Button" variant="solid" />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/bg-mint-600/);
-    expect(button.className).toMatch(/text-white/);
+    expect(button).toHaveClass("bg-mint-600");
+    expect(button).toHaveClass("text-white");
   });
 
   test("applies outlined variant classes when enabled", () => {
     render(<Button text="Outlined Button" variant="outlined" />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/border-mint-600/);
-    expect(button.className).toMatch(/bg-white/);
+    expect(button).toHaveClass("border-mint-600");
+    expect(button).toHaveClass("bg-white");
   });
 
   test("applies disabled classes for solid variant", () => {
     render(<Button text="Disabled Solid" variant="solid" disabled />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/cursor-not-allowed/);
-    expect(button.className).toMatch(/bg-gray-400/);
-    expect(button.className).toMatch(/border-gray-400/);
+    expect(button).toHaveClass("cursor-not-allowed");
+    expect(button).toHaveClass("bg-gray-400");
+    expect(button).toHaveClass("border-gray-400");
   });
 
   test("applies disabled classes for outlined variant", () => {
     render(<Button text="Disabled Outlined" variant="outlined" disabled />);
     const button = screen.getByRole("button");
-    expect(button.className).toMatch(/cursor-not-allowed/);
-    expect(button.className).toMatch(/border-gray-400/);
-    expect(button.className).toMatch(/text-gray-400/);
+    expect(button).toHaveClass("cursor-not-allowed");
+    expect(button).toHaveClass("border-gray-400");
+    expect(button).toHaveClass("text-gray-400");
   });
 
   test("applies the correct type attribute", () => {
