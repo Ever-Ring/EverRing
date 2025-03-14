@@ -75,13 +75,14 @@ export default function useClickHandlers({
       });
     }
   }, [
-    userData,
+    userData?.id,
     isFull,
     joinStatus,
     joinGathering,
     gatheringId,
     setIsJoined,
     setModalConfig,
+    queryClient,
     router,
   ]);
 
@@ -140,7 +141,14 @@ export default function useClickHandlers({
 
   const handleShareClick = useCallback(() => {
     navigator.clipboard.writeText(window.location.href);
-  }, []);
+    setModalConfig({
+      isOpen: true,
+      text: "링크가 복사되었습니다!",
+      hasTwoButton: false,
+      onConfirm: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
+      onClose: () => setModalConfig((prev) => ({ ...prev, isOpen: false })),
+    });
+  }, [setModalConfig]);
 
   return {
     handleJoinClick,
