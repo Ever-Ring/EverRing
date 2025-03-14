@@ -25,7 +25,7 @@ export default function ListContainer() {
   } = GatheringViewModel();
 
   return (
-    <div className="flex w-full flex-col pt-6 md:pt-8">
+    <div className="flex w-full flex-col">
       <section className="mb-[14px] flex flex-wrap items-center justify-between">
         <TabMenu
           hasIcon
