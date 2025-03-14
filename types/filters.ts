@@ -18,3 +18,8 @@ export interface ChipFilterGroupProps {
   typeFilter: string | null;
   setTypeFilter: (value: string) => void;
 }
+
+export interface ExpiredFilterCheckboxProps {
+  showExpired: boolean;
+  setShowExpired: React.Dispatch<React.SetStateAction<boolean>>;
+}
