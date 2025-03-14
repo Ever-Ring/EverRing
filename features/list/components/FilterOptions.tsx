@@ -12,25 +12,30 @@ export default function FilterOptions({
   setLocationFilter,
   setDateFilter,
   setSortBy,
+  sortBy,
 }: FilterOptionsProps) {
   return (
-    <div className="flex gap-2">
-      {selectedTabIndex === 0 && (
-        <LocationFilter
-          selectedLocation={filters.location}
-          onLocationChange={setLocationFilter}
-          locations={LOCATION_ITEMS}
+    <div className="flex justify-between">
+      <div className="flex gap-2">
+        {selectedTabIndex === 0 && (
+          <LocationFilter
+            selectedLocation={filters.location}
+            onLocationChange={setLocationFilter}
+            locations={LOCATION_ITEMS}
+          />
+        )}
+        <DateFilter
+          onDateSelect={(date) => setDateFilter(date)}
+          loadDate={filters.date}
         />
-      )}
-      <DateFilter
-        onDateSelect={(date) => setDateFilter(date)}
-        loadDate={filters.date}
-      />
-      <SortFilter
-        selectedSort={filters.sortBy}
-        onSortChange={setSortBy}
-        sortOptions={SORT_ITEMS.list}
-      />
+      </div>
+      <div>
+        <SortFilter
+          selectedSort={sortBy}
+          onSortChange={setSortBy}
+          sortOptions={SORT_ITEMS.list}
+        />
+      </div>
     </div>
   );
 }
