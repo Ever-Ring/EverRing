@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { sortMap } from "@constants/filter";
 import { useQueryString } from "@hooks/useQueryString";
 import { useQueryTabIndex } from "@hooks/useQueryTabIndex";
@@ -10,6 +10,7 @@ import { Gathering } from "@customTypes/gathering";
 import { useFavoriteStore } from "@stores/favoriteStore";
 
 export function GatheringViewModel() {
+  const [showExpired, setShowExpired] = useState(false);
   const [selectedTabIndex, setTabIndex] = useQueryTabIndex();
   const [typeFilter, setTypeFilter] = useQueryString("type", "DALLAEMFIT");
   const [locationFilter, setLocationFilter] = useQueryString("location", null);
@@ -81,6 +82,8 @@ export function GatheringViewModel() {
   const { clearFavorites } = useFavoriteStore();
 
   return {
+    showExpired,
+    setShowExpired,
     selectedTabIndex,
     setTabIndex,
     typeFilter,
