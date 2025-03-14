@@ -19,6 +19,7 @@ export interface GatheringItemProps {
 
 export interface GatheringListProps {
   gatherings: Gathering[];
+  showExpired?: boolean;
 }
 
 export interface GatheringParams {

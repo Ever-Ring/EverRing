@@ -27,6 +27,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
           <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
           <Image
             fill
+            sizes="100%"
             alt={gathering.name || "list-default"}
             src={gathering.image || IMAGES.DEFAULT_REVIEW}
           />
@@ -119,6 +120,7 @@ export default function GatheringItem({ gathering }: GatheringItemProps) {
                     src={IMAGES.ARROW_RIGHT}
                     width={18}
                     height={18}
+                    style={{ width: "auto", height: "auto" }}
                   />
                 </div>
               )}

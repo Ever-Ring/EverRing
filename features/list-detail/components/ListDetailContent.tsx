@@ -33,8 +33,10 @@ export default function ListDetailContent({
   initialPage,
 }: ListDetailContentProps) {
   const userData = useUserStore();
-  const { data, isLoading, isError, error } =
-    useGetGatheringDetail(gatheringId);
+  const { data, isLoading, isError, error } = useGetGatheringDetail(
+    gatheringId,
+    gathering,
+  );
   const { data: participants } = useGetParticipants(gatheringId);
 
   const { modalConfig, setModalConfig } = useModalState();
@@ -63,7 +65,6 @@ export default function ListDetailContent({
   });
 
   const isRegistrationEnded = new Date(gathering.registrationEnd) < new Date();
-
   const isFull = data
     ? data.participantCount >= data.capacity || isRegistrationEnded
     : false;

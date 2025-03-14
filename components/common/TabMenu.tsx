@@ -47,7 +47,7 @@ export default function TabMenu({
         ))}
       </div>
       <div
-        className="h-[2px] rounded-md bg-black transition-all duration-300 ease-in-out"
+        className="h-[2px] rounded-md bg-black transition-transform duration-300 ease-in-out"
         style={{
           width: `${tabWidths[selectedIndex]}px`,
           transform: `translateX(${tabWidths.slice(0, selectedIndex).reduce((acc, width) => acc + width, 0) + selectedIndex * 12}px)`,

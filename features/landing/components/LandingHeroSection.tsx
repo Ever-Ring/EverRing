@@ -24,7 +24,7 @@ export default function LandingHero() {
           onClick={() => router.push("/list")}
           className="flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-3xl border bg-mint-600 px-[3.125rem] py-4 text-white transition-colors hover:bg-mint-700 active:bg-mint-800"
         >
-          <span className="text-center font-pretendard text-sm font-semibold leading-6 text-white transition-colors md:text-base">
+          <span className="text-center font-pretendard text-sm font-semibold leading-6 text-white md:text-base">
             에버링 시작하기
           </span>
           <Image
@@ -32,6 +32,7 @@ export default function LandingHero() {
             alt="에버링 시작하기 버튼"
             width={18}
             height={18}
+            style={{ width: 18, height: 18 }}
           />
         </button>
       </div>
@@ -40,6 +41,8 @@ export default function LandingHero() {
         src="/image/img-landing-hero-green.svg"
         width={450}
         height={450}
+        style={{ width: 450, height: 450 }}
+        priority
       />
     </section>
   );

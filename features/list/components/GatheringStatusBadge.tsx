@@ -14,7 +14,13 @@ export default function GatheringStatusBadge({
 
   return (
     <div className="absolute right-0 top-0 z-10 flex h-8 min-w-[100px] rounded-bl-xl bg-mint-600 p-2">
-      <Image src={IMAGES.WATCH} alt="WATCH" width={24} height={24} />
+      <Image
+        src={IMAGES.WATCH}
+        alt="WATCH"
+        width={24}
+        height={24}
+        style={{ width: "auto", height: "auto" }}
+      />
       <p className="text-xs font-medium text-white">
         {expired
           ? "마감된 모임"

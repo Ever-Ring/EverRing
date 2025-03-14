@@ -101,7 +101,7 @@ export default function MypageCard({
           {!isMadeByMe && (
             <Button
               text={
-                gatheringData.isCompleted ? "리뷰 작성하기" : "예약 취소하기"
+                gatheringData.isCompleted ? "리뷰 작성하기" : "참여 취소하기"
               }
               size="small"
               disabled={isRegistrationEnded && !gatheringData.isCompleted}
