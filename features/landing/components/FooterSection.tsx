@@ -17,7 +17,7 @@ export default function FooterSection() {
         onClick={() => router.push("/signup")}
         className="flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-3xl border bg-mint-600 px-[3.125rem] py-4 text-white transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl"
       >
-        <span className="text-center font-pretendard text-sm font-semibold leading-6 text-white transition-colors md:text-base">
+        <span className="text-center font-pretendard text-sm font-semibold leading-6 text-white md:text-base">
           에버링 가입하기
         </span>
         <Image

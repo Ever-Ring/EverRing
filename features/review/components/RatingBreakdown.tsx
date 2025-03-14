@@ -2,7 +2,7 @@ function RatingBar({ percentage }: { percentage: number }) {
   return (
     <div className="h-1 w-full rounded-sm bg-gray-200">
       <div
-        className="h-full rounded-sm bg-gray-900 transition-all duration-500"
+        className="transition-width h-full rounded-sm bg-gray-900 duration-500"
         style={{ width: `${percentage}%` }}
       />
     </div>

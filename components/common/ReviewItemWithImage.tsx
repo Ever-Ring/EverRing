@@ -41,7 +41,7 @@ export default function ReviewItemWithImage({
         <div className="flex flex-col items-start gap-2 self-stretch">
           <div className="flex flex-col items-start gap-[0.625rem] self-stretch">
             <ReviewRating score={review?.score} />
-            <div className="relative text-sm font-medium transition-all">
+            <div className="relative text-sm font-medium">
               <p>
                 {isShowFullComment ? (
                   review?.comment
