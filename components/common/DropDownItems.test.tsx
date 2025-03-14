@@ -10,7 +10,7 @@ describe("DropDownItems Component", () => {
     jest.clearAllMocks();
   });
 
-  it("renders the given item text", () => {
+  it("should render the given item text when item prop is provided", () => {
     render(
       <DropDownItems
         item={testItem}
@@ -22,7 +22,7 @@ describe("DropDownItems Component", () => {
     expect(button).toHaveTextContent(testItem);
   });
 
-  it("calls onSelect with the item when clicked", () => {
+  it("should call onSelect with the item when the button is clicked", () => {
     render(
       <DropDownItems
         item={testItem}
@@ -36,7 +36,7 @@ describe("DropDownItems Component", () => {
     expect(mockOnSelect).toHaveBeenCalledWith(testItem);
   });
 
-  it("applies 'text-base' class when textSize is large (default)", () => {
+  it("should apply 'text-base' class when textSize is large (default)", () => {
     render(
       <DropDownItems
         item={testItem}
@@ -49,7 +49,7 @@ describe("DropDownItems Component", () => {
     expect(button).not.toHaveClass("text-sm");
   });
 
-  it("applies 'text-sm' class when textSize is small", () => {
+  it("should apply 'text-sm' class when textSize is small", () => {
     render(
       <DropDownItems
         item={testItem}
@@ -63,7 +63,7 @@ describe("DropDownItems Component", () => {
     expect(button).not.toHaveClass("text-base");
   });
 
-  it("applies selected classes when isSelected is true", () => {
+  it("should apply selected classes when isSelected is true", () => {
     render(
       <DropDownItems item={testItem} isSelected onSelect={mockOnSelect} />,
     );
@@ -72,7 +72,7 @@ describe("DropDownItems Component", () => {
     expect(button).toHaveClass("bg-mint-100");
   });
 
-  it("does not apply selected classes when isSelected is false", () => {
+  it("should not apply selected classes when isSelected is false", () => {
     render(
       <DropDownItems
         item={testItem}
