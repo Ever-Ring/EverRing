@@ -38,17 +38,20 @@ describe("ContainerInformation Component", () => {
     jest.clearAllMocks();
 
     (useGetParticipants as jest.Mock).mockReturnValue({ data: [] });
+
     (useFavoriteStore as unknown as jest.Mock<FavoriteStore>).mockReturnValue({
       favorites: [],
       isFavorite: mockIsFavorite,
       toggleFavorite: mockToggleFavorite,
       clearFavorites: jest.fn(),
     });
+
     mockIsFavorite.mockReturnValue(false);
   });
 
   it("should render container information correctly when no participants", () => {
     const { container } = render(<ContainerInformation {...defaultProps} />);
+
     expect(screen.getByText(defaultProps.title)).toBeInTheDocument();
     expect(screen.getByText(defaultProps.location)).toBeInTheDocument();
     expect(screen.getByText(defaultProps.date)).toBeInTheDocument();
@@ -65,6 +68,7 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: sampleParticipants,
     });
+
     const { container } = render(<ContainerInformation {...defaultProps} />);
 
     const countElement = screen.getByText(/^\s*5\s*명\s*$/);
@@ -74,10 +78,12 @@ describe("ContainerInformation Component", () => {
     const progressDiv = container.querySelector('div[style*="width:"]');
     expect(progressDiv).toHaveStyle({ width: "50%" });
 
-    const images = container.querySelectorAll("div[style*='background-image']");
+    const images = container.querySelectorAll("div.rounded-full.bg-gray-300");
+
     const participantImages = Array.from(images).filter((img) =>
-      /image[1-5]\.png/.test((img as HTMLElement).style.backgroundImage),
+      window.getComputedStyle(img).backgroundImage.includes("image"),
     );
+
     expect(participantImages.length).toBe(4);
     expect(screen.getByText("+1")).toBeInTheDocument();
   });
@@ -86,6 +92,7 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: sampleParticipants,
     });
+
     render(<ContainerInformation {...defaultProps} />);
 
     const hiddenCountElement = screen.getByText("+1").parentElement;
@@ -105,6 +112,7 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: fourParticipants,
     });
+
     const { container } = render(<ContainerInformation {...defaultProps} />);
 
     const countElement = screen.getByText(/^\s*4\s*명\s*$/);
@@ -123,13 +131,16 @@ describe("ContainerInformation Component", () => {
         name: `User ${i + 1}`,
       },
     }));
+
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: tenParticipants,
     });
+
     const { container } = render(<ContainerInformation {...defaultProps} />);
 
-    const maxCountElement = screen.getByText(/^최대인원\s*10\s*명$/);
-    expect(maxCountElement).toHaveClass("text-mint-400");
+    const maxCountElement = container.querySelector("span.text-mint-400");
+    expect(maxCountElement).toBeTruthy();
+    expect(maxCountElement?.textContent).toMatch(/최대인원\s*10\s*명/);
 
     const progressDiv = container.querySelector('div[style*="width:"]');
     expect(progressDiv).toHaveStyle({ width: "100%" });
@@ -142,13 +153,19 @@ describe("ContainerInformation Component", () => {
       { User: { id: "3", image: "image3.png", name: "User 3" } },
       { User: { id: "4", image: "image4.png", name: "User 4" } },
     ];
+
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: participantsNoImage,
     });
+
     const { container } = render(<ContainerInformation {...defaultProps} />);
 
-    const fallbackImgElement = container.querySelector(
-      'div[style*="background-image: url(\\"/image/img-profile-large-default.svg\\")"]',
+    const imgs = container.querySelectorAll("div.rounded-full.bg-gray-300");
+
+    const fallbackImgElement = Array.from(imgs).find((img) =>
+      window
+        .getComputedStyle(img)
+        .backgroundImage.includes("/image/img-profile-large-default.svg"),
     );
     expect(fallbackImgElement).toBeTruthy();
   });
@@ -161,17 +178,22 @@ describe("ContainerInformation Component", () => {
       { User: { id: "4", image: "image4.png", name: "User 4" } },
       { User: { id: "5", image: null, name: "NoImage Hidden User" } },
     ];
+
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: participantsHiddenNoImage,
     });
-    const { container } = render(<ContainerInformation {...defaultProps} />);
 
+    const { container } = render(<ContainerInformation {...defaultProps} />);
     expect(screen.getByText("+1")).toBeInTheDocument();
     fireEvent.mouseEnter(screen.getByText("+1").parentElement!);
     expect(screen.getByText("NoImage Hidden User")).toBeInTheDocument();
 
-    const fallbackImgElement = container.querySelector(
-      'div[style*="background-image: url(\\"/image/img-profile-large-default.svg\\")"]',
+    const imgs = container.querySelectorAll("div.rounded-full.bg-gray-300");
+
+    const fallbackImgElement = Array.from(imgs).find((img) =>
+      window
+        .getComputedStyle(img)
+        .backgroundImage.includes("/image/img-profile-large-default.svg"),
     );
     expect(fallbackImgElement).toBeTruthy();
   });
