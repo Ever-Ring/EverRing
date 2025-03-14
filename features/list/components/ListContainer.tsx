@@ -7,9 +7,12 @@ import { GatheringViewModel } from "@features/list/hooks/GatheringViewModel";
 import CreateGatheringButton from "@features/list/components/CreateGatheringButton";
 import ChipFilterGroup from "@components/common/ChipFilterGroup";
 import FilterOptions from "@features/list/components/FilterOptions";
+import ExpiredFilterCheckbox from "@components/common/ExpiredFilterCheckbox";
 
 export default function ListContainer() {
   const {
+    showExpired,
+    setShowExpired,
     selectedTabIndex,
     setTabIndex,
     typeFilter,
@@ -36,14 +39,19 @@ export default function ListContainer() {
         />
         <CreateGatheringButton />
       </section>
-      <section className="flex justify-start gap-2">
+      <section className="flex justify-between">
         <ChipFilterGroup
           subChips={subChips}
           typeFilter={typeFilter}
           setTypeFilter={setTypeFilter}
         />
+        <ExpiredFilterCheckbox
+          showExpired={showExpired}
+          setShowExpired={setShowExpired}
+        />
       </section>
       <hr className="my-4 w-full border-t-2 border-gray-200" />
+
       <section className="mb-4 sm:mb-6">
         <FilterOptions
           selectedTabIndex={selectedTabIndex}
@@ -55,10 +63,10 @@ export default function ListContainer() {
         />
       </section>
       <section>
-        <GatheringList gatherings={gatherings} />
+        <GatheringList gatherings={gatherings} showExpired={showExpired} />
       </section>
       <div ref={loadMoreRef} className="bg-red-500 w-30 z-10 h-10 text-center">
-        {isFetchingNextPage ? "로딩 중..." : ""}
+        {isFetchingNextPage ? "" : ""}
       </div>
     </div>
   );

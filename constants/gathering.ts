@@ -4,6 +4,7 @@ export const IMAGES = {
   HEART_ACTIVE: "/image/icon-save-large-active.svg",
   ARROW_RIGHT: "/image/arrow_right.svg",
   CHECKBOX: "/image/icon-checkbox-active.svg",
+  DEFAULT_CHECKBOX: "/image/icon-checkbox-default.svg",
   BYE: "/image/icon-bye-circle-large-discard.svg",
   WATCH: "/image/Group 33855.svg",
   PERSON: "/image/person.svg",
