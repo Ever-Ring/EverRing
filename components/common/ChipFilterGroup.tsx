@@ -9,7 +9,7 @@ export default function ChipFilterGroup({
   setTypeFilter,
 }: ChipFilterGroupProps) {
   return (
-    <>
+    <div className="flex justify-start gap-2">
       {subChips.map((chip) => (
         <Chip
           key={chip.value}
@@ -18,6 +18,6 @@ export default function ChipFilterGroup({
           onClick={() => setTypeFilter(chip.value)}
         />
       ))}
-    </>
+    </div>
   );
 }
