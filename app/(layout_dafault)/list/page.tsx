@@ -11,7 +11,7 @@ export default async function List() {
   return (
     <HydrationBoundary state={state}>
       <Suspense fallback={<div>로딩 중...</div>}>
-        <section className="mb-6 flex items-center justify-start gap-4 sm:mb-8">
+        <section className="mb-6 flex items-center justify-start gap-4 pt-6 sm:mb-8 sm:pt-8">
           <HeartImage className="w-18 h-18" />
           <div>
             <p className="text-sm font-medium">함께 할 사람이 없나요?</p>
