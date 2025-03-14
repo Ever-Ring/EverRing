@@ -10,6 +10,7 @@ export interface FilterOptionsProps {
   setLocationFilter: (location: string | null) => void;
   setDateFilter: (date: string | null) => void;
   setSortBy: (sort: string | null) => void;
+  sortBy: string | null;
 }
 
 export interface ChipFilterGroupProps {
