@@ -23,6 +23,14 @@ export default function ReviewSection({
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // 디버그용 로그 추가
+  useEffect(() => {
+    console.log("ReviewSection debug:", {
+      currentPage,
+      offset: (currentPage - 1) * limit,
+    });
+  }, [currentPage, limit]);
+
   const handlePageChange = useCallback(
     (page: number) => {
       setCurrentPage(page);
@@ -38,11 +46,11 @@ export default function ReviewSection({
     }
   }, [searchParams, currentPage]);
 
-  const { data, isFetching, isError } = useGetReviewList({
+  const { data, isLoading, isError } = useGetReviewList({
     gatheringId,
     offset: (currentPage - 1) * limit,
     limit,
-    initialData: currentPage === initialPage ? initialReviewData : undefined,
+    initialData: currentPage === 1 ? initialReviewData : undefined,
   });
 
   const { reviewData, totalItemCount, totalPages } = data ?? {
@@ -62,8 +70,8 @@ export default function ReviewSection({
 
   const renderContent = () => {
     if (isError) return <p>에러가 발생했습니다.</p>;
-    if (isFetching) return <p>불러오는 중...</p>;
-    if (!reviewData.length) return <p>아직 리뷰가 없어요.</p>;
+    if (isLoading) return <p>불러오는 중...</p>;
+    if (!reviewData?.length) return <p>아직 리뷰가 없어요.</p>;
     return <ReviewList reviewData={reviewData} />;
   };
 

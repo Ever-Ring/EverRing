@@ -14,7 +14,6 @@ interface PageProps {
   searchParams: Promise<{ page?: string }>;
 }
 
-// 서버 컴포넌트에서 SSR + HydrationBoundary 적용
 async function Wrapper({
   params,
   searchParams,
@@ -26,7 +25,6 @@ async function Wrapper({
   const currentPage = resolvedSearchParams.page
     ? Number(resolvedSearchParams.page)
     : 1;
-
   const limit = 4;
 
   if (!gatheringId) {
@@ -41,11 +39,20 @@ async function Wrapper({
   const reviewResponse = await axiosInstance.get(`/reviews`, {
     params: { gatheringId, offset: (currentPage - 1) * limit, limit },
   });
-  const reviewData = reviewResponse.data;
+
+  let reviewData = reviewResponse.data;
+
+  if (!reviewData || !reviewData.reviewData) {
+    reviewData = {
+      reviewData: [],
+      totalItemCount: 0,
+      currentPage,
+      totalPages: 0,
+    };
+  }
 
   const { queryKey: gatheringQueryKey, queryFn: gatheringQueryFn } =
     getServerGatheringQuery(Number(gatheringId));
-
   const dehydratedGathering = await getDehydratedQuery({
     queryKey: gatheringQueryKey,
     queryFn: gatheringQueryFn,
@@ -57,7 +64,6 @@ async function Wrapper({
       offset: (currentPage - 1) * limit,
       limit,
     });
-
   const dehydratedReview = await getDehydratedQuery({
     queryKey: reviewQueryKey,
     queryFn: reviewQueryFn,

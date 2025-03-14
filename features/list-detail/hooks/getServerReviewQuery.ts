@@ -23,7 +23,13 @@ export default function getServerReviewQuery({
     const response = await axiosInstance.get(`/reviews`, {
       params: { gatheringId, offset, limit },
     });
-    return response.data;
+    const { data } = response;
+    return {
+      reviewData: data.reviewData || [],
+      totalItemCount: data.totalItemCount || 0,
+      currentPage: data.currentPage ?? 1,
+      totalPages: data.totalPages || 0,
+    };
   };
 
   return { queryKey, queryFn };

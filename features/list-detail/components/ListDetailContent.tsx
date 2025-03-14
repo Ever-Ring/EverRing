@@ -21,8 +21,8 @@ import { formatDateTime } from "@utils/dateFormatter";
 
 interface ListDetailContentProps {
   gatheringId: number;
-  gathering: Gathering; // 기존 로직 유지
-  initialReviewData: InitialReviewData; // 기존 로직 유지
+  gathering: Gathering;
+  initialReviewData: InitialReviewData;
   initialPage: number;
 }
 
@@ -114,7 +114,7 @@ export default function ListDetailContent({
 
         <ReviewSection
           gatheringId={gatheringId}
-          initialReviewData={initialReviewData} // 기존 로직 유지
+          initialReviewData={initialReviewData}
           initialPage={initialPage}
         />
 
