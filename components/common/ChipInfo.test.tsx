@@ -3,14 +3,14 @@ import { render, screen } from "@testing-library/react";
 import ChipInfo from "@components/common/ChipInfo";
 
 describe("ChipInfo Component", () => {
-  it("renders the given info text", () => {
+  it("should render the given info text when info prop is provided", () => {
     const infoText = "Sample Info";
     render(<ChipInfo info={infoText} />);
     const textElement = screen.getByText(infoText);
     expect(textElement).toBeInTheDocument();
   });
 
-  it("applies default white variant class when variant is not provided", () => {
+  it("should apply default white variant class when variant is not provided", () => {
     const infoText = "Default White";
     render(<ChipInfo info={infoText} />);
     const textElement = screen.getByText(infoText);
@@ -18,7 +18,7 @@ describe("ChipInfo Component", () => {
     expect(textElement).not.toHaveClass("text-mint-600");
   });
 
-  it("applies mint variant class when variant is set to mint", () => {
+  it("should apply mint variant class when variant is set to mint", () => {
     const infoText = "Mint Info";
     render(<ChipInfo info={infoText} variant="mint" />);
     const textElement = screen.getByText(infoText);
