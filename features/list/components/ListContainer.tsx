@@ -27,8 +27,6 @@ export default function ListContainer() {
     isFetchingNextPage,
     loadMoreRef,
   } = GatheringViewModel();
-  console.log(filters);
-  console.log(sortBy);
 
   return (
     <div className="flex w-full flex-col">
