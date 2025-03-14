@@ -1,11 +1,12 @@
 import CardContainer from "@features/landing/components/CardContainer";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface FeatureCardProps {
   title: string;
   href: string;
   description: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  imageSrc: string;
 }
 export default function FeatureCard({
   feature,
@@ -16,7 +17,12 @@ export default function FeatureCard({
   return (
     <CardContainer>
       <div className="flex flex-col items-center gap-[1.875rem] self-stretch">
-        <feature.icon className="lg:size-20" />
+        <Image
+          src={feature.imageSrc}
+          alt={feature.title}
+          width={80}
+          height={80}
+        />
         <div className="flex flex-col items-center gap-6 self-stretch">
           <span className="text-2xl font-semibold">{feature.title}</span>
           <p className="text-base font-normal">{feature.description}</p>

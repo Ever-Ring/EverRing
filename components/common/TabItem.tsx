@@ -13,16 +13,19 @@ interface TabProps {
 
 const TabItem = forwardRef<HTMLButtonElement, TabProps>(
   ({ title, label, hasIcon = false, isSelected = false, onClick }, ref) => {
+    const textColor = isSelected ? "text-gray-900" : "text-gray-400";
+    const iconColor = isSelected ? "fill-gray-900" : "fill-gray-400";
+
     return (
       <button
         onClick={onClick}
         type="button"
         ref={ref}
-        className="flex w-fit flex-col items-start gap-1 transition-colors duration-300 ease-in-out"
+        className="flex w-fit flex-col items-start gap-1"
       >
         <div className="flex flex-row items-center gap-1">
           <div
-            className={`text-lg font-semibold transition-colors duration-300 ease-in-out ${isSelected ? "text-gray-900" : "text-gray-400"}`}
+            className={`text-lg font-semibold transition-colors duration-300 ease-out ${textColor}`}
           >
             {title}
           </div>
@@ -33,9 +36,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
                 data-testid="tree-icon"
                 width={24}
                 height={24}
-                className={`transition-colors duration-300 ease-in-out ${
-                  isSelected ? "fill-gray-900" : "fill-gray-400"
-                }`}
+                className={`transition-colors duration-300 ease-out ${iconColor}`}
               />
             ) : (
               <SvgCloud
@@ -43,9 +44,7 @@ const TabItem = forwardRef<HTMLButtonElement, TabProps>(
                 data-testid="cloud-icon"
                 width={24}
                 height={24}
-                className={`transition-colors duration-300 ease-in-out ${
-                  isSelected ? "fill-gray-900" : "fill-gray-400"
-                }`}
+                className={`transition-colors duration-300 ease-out ${iconColor}`}
               />
             ))}
         </div>
