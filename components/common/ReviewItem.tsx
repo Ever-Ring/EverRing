@@ -12,20 +12,25 @@ export default function ReviewItem({ review }: ReviewItemProps) {
           <ReviewRating score={review?.score} />
           <p className="text-sm font-medium">{review?.comment}</p>
         </div>
-        <div className="flex flex-row items-center gap-3">
-          <p className="flex flex-row items-center gap-2">
-            <span className="relative size-6 overflow-hidden rounded-full">
-              <Image
-                alt="user-profile"
-                fill
-                src={review?.User?.image ?? DEFAULT_USER_IMAGE}
-              />
+        <div className="flex w-full items-center justify-between">
+          <div className="flex flex-row items-center gap-3">
+            <p className="flex flex-row items-center gap-2">
+              <span className="relative size-6 overflow-hidden rounded-full">
+                <Image
+                  alt="user-profile"
+                  fill
+                  src={review?.User?.image ?? DEFAULT_USER_IMAGE}
+                />
+              </span>
+              <span className="text-xs font-medium">{review?.User?.name}</span>
+              <span>|</span>
+            </p>
+            <span className="text-xs font-medium text-gray-500">
+              {formatDate(review?.Gathering.dateTime)}
             </span>
-            <span className="text-xs font-medium">{review?.User?.name}</span>
-            <span>|</span>
-          </p>
-          <span className="text-xs font-medium text-gray-500">
-            {formatDate(review?.createdAt)}
+          </div>
+          <span className="text-end text-xs font-medium text-gray-500">
+            작성일 {formatDate(review?.createdAt)}
           </span>
         </div>
       </div>
