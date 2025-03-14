@@ -129,7 +129,7 @@ describe("MypageCard Component", () => {
     ).not.toBeInTheDocument();
   });
 
-  test("should call openModal with cancellation message when '예약 취소하기' button is clicked", () => {
+  test("should call openModal with cancellation message when '참여 취소하기' button is clicked", () => {
     const mockOpenModal = jest.fn();
     (
       useModalStore as jest.MockedFunction<typeof useModalStore>
@@ -143,7 +143,7 @@ describe("MypageCard Component", () => {
 
     render(<MypageCard gatheringData={pendingOnlineGatheringData} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /예약 취소하기/ }));
+    fireEvent.click(screen.getByRole("button", { name: /참여 취소하기/ }));
 
     expect(mockOpenModal).toHaveBeenCalledWith({
       text: "정말 모임 참여를 취소하시겠습니까?",
@@ -176,7 +176,7 @@ describe("MypageCard Component", () => {
 
     render(<MypageCard gatheringData={pendingOnlineGatheringData} />);
 
-    fireEvent.click(screen.getByRole("button", { name: /예약 취소하기/ }));
+    fireEvent.click(screen.getByRole("button", { name: /참여 취소하기/ }));
 
     await waitFor(() =>
       expect(mockOpenModal).toHaveBeenCalledWith({
@@ -211,7 +211,7 @@ describe("MypageCard Component", () => {
 
     render(<MypageCard gatheringData={nonCancelableGatheringData} />);
 
-    const button = screen.getByRole("button", { name: "예약 취소하기" });
+    const button = screen.getByRole("button", { name: "참여 취소하기" });
 
     expect(button).toBeDisabled();
   });
