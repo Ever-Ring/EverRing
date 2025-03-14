@@ -66,7 +66,7 @@ export default function ListContainer() {
         <GatheringList gatherings={gatherings} showExpired={showExpired} />
       </section>
       <div ref={loadMoreRef} className="bg-red-500 w-30 z-10 h-10 text-center">
-        {isFetchingNextPage ? "로딩 중..." : ""}
+        {isFetchingNextPage ? "" : ""}
       </div>
     </div>
   );
