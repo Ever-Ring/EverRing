@@ -5,26 +5,18 @@ import { axiosInstance } from "@lib/axios";
 import { Gathering } from "@customTypes/gathering";
 import { getDehydratedQuery } from "@lib/reactQueryUtils";
 import getServerGatheringQuery from "@features/list-detail/hooks/getServerGatheringQuery";
-import getServerReviewQuery from "@features/list-detail/hooks/getServerReviewQuery";
 
 import ListDetailContent from "@features/list-detail/components/ListDetailContent";
 
 interface PageProps {
   params: Promise<{ gatheringId: string }>;
-  searchParams: Promise<{ page?: string }>;
 }
 
-async function Wrapper({
-  params,
-  searchParams,
-}: PageProps): Promise<ReactElement> {
+async function Wrapper({ params }: PageProps): Promise<ReactElement> {
   const resolvedParams = await Promise.resolve(params);
-  const resolvedSearchParams = await Promise.resolve(searchParams);
 
   const { gatheringId } = resolvedParams;
-  const currentPage = resolvedSearchParams.page
-    ? Number(resolvedSearchParams.page)
-    : 1;
+  const currentPage = 1;
   const limit = 4;
 
   if (!gatheringId) {
@@ -58,19 +50,8 @@ async function Wrapper({
     queryFn: gatheringQueryFn,
   });
 
-  const { queryKey: reviewQueryKey, queryFn: reviewQueryFn } =
-    getServerReviewQuery({
-      gatheringId: Number(gatheringId),
-      offset: (currentPage - 1) * limit,
-      limit,
-    });
-  const dehydratedReview = await getDehydratedQuery({
-    queryKey: reviewQueryKey,
-    queryFn: reviewQueryFn,
-  });
-
   const dehydratedState = {
-    queries: [...dehydratedGathering.queries, ...dehydratedReview.queries],
+    queries: [...dehydratedGathering.queries],
   };
 
   return (
@@ -85,6 +66,6 @@ async function Wrapper({
   );
 }
 
-export default function Page({ params, searchParams }: PageProps) {
-  return <Wrapper params={params} searchParams={searchParams} />;
+export default function Page({ params }: PageProps) {
+  return <Wrapper params={params} />;
 }

@@ -23,14 +23,6 @@ export default function ReviewSection({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // 디버그용 로그 추가
-  useEffect(() => {
-    console.log("ReviewSection debug:", {
-      currentPage,
-      offset: (currentPage - 1) * limit,
-    });
-  }, [currentPage, limit]);
-
   const handlePageChange = useCallback(
     (page: number) => {
       setCurrentPage(page);
