@@ -26,6 +26,15 @@ export default {
       fontFamily: {
         pretendard: ["var(--font-pretendard)"],
       },
+      keyframes: {
+        progressAnimation: {
+          from: { width: "0%" },
+          to: { width: "var(--progress-width, 0%)" },
+        },
+      },
+      animation: {
+        progress: "progressAnimation 1.5s ease-in-out forwards",
+      },
     },
   },
   plugins: [],
