@@ -17,6 +17,8 @@ export default function ProgressBar({
     <>
       <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-100">
         <div
+          role="progressbar"
+          aria-label={`Progress: ${progress}%`}
           className="absolute left-0 top-0 h-full bg-mint-500 transition-all duration-500"
           style={{ width: `${progress}%` }}
         />
