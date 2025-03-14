@@ -48,49 +48,38 @@ describe("ContainerInformation Component", () => {
   });
 
   it("should render container information correctly when no participants", () => {
-    render(<ContainerInformation {...defaultProps} />);
+    const { container } = render(<ContainerInformation {...defaultProps} />);
     expect(screen.getByText(defaultProps.title)).toBeInTheDocument();
     expect(screen.getByText(defaultProps.location)).toBeInTheDocument();
     expect(screen.getByText(defaultProps.date)).toBeInTheDocument();
     expect(screen.getByText(defaultProps.time)).toBeInTheDocument();
-    expect(screen.getByText(/0명/)).toBeInTheDocument();
-    const progressBar =
-      screen.getByRole("progressbar", { hidden: true }) ||
-      screen.getByText("", { selector: "div[style]" });
-    expect(progressBar).toHaveStyle({ width: "0%" });
+
+    const countElement = screen.getByText(/^\s*0\s*명\s*$/);
+    expect(countElement).toBeInTheDocument();
+
+    const progressDiv = container.querySelector('div[style*="width:"]');
+    expect(progressDiv).toHaveStyle({ width: "0%" });
   });
 
   it("should render participant images and progress when participants exist", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: sampleParticipants,
     });
-    render(<ContainerInformation {...defaultProps} />);
-    expect(screen.getByText(/5명/)).toBeInTheDocument();
+    const { container } = render(<ContainerInformation {...defaultProps} />);
+
+    const countElement = screen.getByText(/^\s*5\s*명\s*$/);
+    expect(countElement).toBeInTheDocument();
     expect(screen.getByText("개설확정")).toBeInTheDocument();
-    const progressDiv =
-      screen.getByRole("progressbar", { hidden: true }) ||
-      screen.getByText("", { selector: "div[style]" });
+
+    const progressDiv = container.querySelector('div[style*="width:"]');
     expect(progressDiv).toHaveStyle({ width: "50%" });
 
-    const images = screen.getAllByRole("img");
-    const participantImages = images.filter((img) =>
-      /image[1-5]\.png/.test(img.getAttribute("src") || ""),
+    const images = container.querySelectorAll("div[style*='background-image']");
+    const participantImages = Array.from(images).filter((img) =>
+      /image[1-5]\.png/.test((img as HTMLElement).style.backgroundImage),
     );
     expect(participantImages.length).toBe(4);
     expect(screen.getByText("+1")).toBeInTheDocument();
-  });
-
-  it("should call toggleFavorite when favorite button is clicked", () => {
-    render(<ContainerInformation {...defaultProps} />);
-    const favoriteButton = screen.getByLabelText("찜 아이콘 해제 상태");
-    fireEvent.click(favoriteButton);
-    expect(mockToggleFavorite).toHaveBeenCalledWith(defaultProps.gatheringId);
-  });
-
-  it("should render favorite icon as active when isFavorite returns true", () => {
-    mockIsFavorite.mockReturnValue(true);
-    render(<ContainerInformation {...defaultProps} />);
-    expect(screen.getByLabelText("찜 아이콘 등록 상태")).toBeInTheDocument();
   });
 
   it("should display dropdown with hidden participant details when hovered over hidden count", () => {
@@ -98,6 +87,7 @@ describe("ContainerInformation Component", () => {
       data: sampleParticipants,
     });
     render(<ContainerInformation {...defaultProps} />);
+
     const hiddenCountElement = screen.getByText("+1").parentElement;
     expect(screen.queryByText("User 5")).not.toBeInTheDocument();
     fireEvent.mouseEnter(hiddenCountElement!);
@@ -115,12 +105,13 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: fourParticipants,
     });
-    render(<ContainerInformation {...defaultProps} />);
-    expect(screen.getByText(/4명/)).toBeInTheDocument();
+    const { container } = render(<ContainerInformation {...defaultProps} />);
+
+    const countElement = screen.getByText(/^\s*4\s*명\s*$/);
+    expect(countElement).toBeInTheDocument();
     expect(screen.queryByText("개설확정")).not.toBeInTheDocument();
-    const progressDiv =
-      screen.getByRole("progressbar", { hidden: true }) ||
-      screen.getByText("", { selector: "div[style]" });
+
+    const progressDiv = container.querySelector('div[style*="width:"]');
     expect(progressDiv).toHaveStyle({ width: "40%" });
   });
 
@@ -135,14 +126,13 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: tenParticipants,
     });
-    render(<ContainerInformation {...defaultProps} />);
-    expect(screen.getByText(/10명/)).toBeInTheDocument();
-    const progressDiv =
-      screen.getByRole("progressbar", { hidden: true }) ||
-      screen.getByText("", { selector: "div[style]" });
-    expect(progressDiv).toHaveStyle({ width: "100%" });
-    const maxCountElement = screen.getByText(/최대인원 10명/);
+    const { container } = render(<ContainerInformation {...defaultProps} />);
+
+    const maxCountElement = screen.getByText(/^최대인원\s*10\s*명$/);
     expect(maxCountElement).toHaveClass("text-mint-400");
+
+    const progressDiv = container.querySelector('div[style*="width:"]');
+    expect(progressDiv).toHaveStyle({ width: "100%" });
   });
 
   it("should use DEFAULT_USER_IMAGE for a visible user when image is undefined", () => {
@@ -155,15 +145,11 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: participantsNoImage,
     });
+    const { container } = render(<ContainerInformation {...defaultProps} />);
 
-    render(<ContainerInformation {...defaultProps} />);
-    const fallbackImgElement = screen
-      .getAllByRole("img")
-      .find((img) =>
-        (img as HTMLImageElement).src.includes(
-          "/image/img-profile-large-default.svg",
-        ),
-      );
+    const fallbackImgElement = container.querySelector(
+      'div[style*="background-image: url(\\"/image/img-profile-large-default.svg\\")"]',
+    );
     expect(fallbackImgElement).toBeTruthy();
   });
 
@@ -178,21 +164,29 @@ describe("ContainerInformation Component", () => {
     (useGetParticipants as jest.Mock).mockReturnValue({
       data: participantsHiddenNoImage,
     });
+    const { container } = render(<ContainerInformation {...defaultProps} />);
 
-    render(<ContainerInformation {...defaultProps} />);
     expect(screen.getByText("+1")).toBeInTheDocument();
-
     fireEvent.mouseEnter(screen.getByText("+1").parentElement!);
-
     expect(screen.getByText("NoImage Hidden User")).toBeInTheDocument();
 
-    const fallbackImgElement = screen
-      .getAllByRole("img")
-      .find((img) =>
-        (img as HTMLImageElement).src.includes(
-          "/image/img-profile-large-default.svg",
-        ),
-      );
+    const fallbackImgElement = container.querySelector(
+      'div[style*="background-image: url(\\"/image/img-profile-large-default.svg\\")"]',
+    );
     expect(fallbackImgElement).toBeTruthy();
+  });
+
+  it("should call toggleFavorite when favorite button is clicked", () => {
+    render(<ContainerInformation {...defaultProps} />);
+
+    const favoriteButton = screen.getByLabelText("찜 아이콘 해제 상태");
+    fireEvent.click(favoriteButton);
+    expect(mockToggleFavorite).toHaveBeenCalledWith(defaultProps.gatheringId);
+  });
+
+  it("should render favorite icon as active when isFavorite returns true", () => {
+    mockIsFavorite.mockReturnValue(true);
+    render(<ContainerInformation {...defaultProps} />);
+    expect(screen.getByLabelText("찜 아이콘 등록 상태")).toBeInTheDocument();
   });
 });
