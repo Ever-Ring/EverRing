@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
-import { useFavoriteStore } from "@stores/favoriteStore";
 import ChipInfo from "@components/common/ChipInfo";
 import ParticipantImage from "@features/list-detail/components/ParticipantImage";
+import useGetParticipants from "@features/list-detail/hooks/useGetParticipants";
+import { useFavoriteStore } from "@stores/favoriteStore";
 import { DEFAULT_USER_IMAGE } from "@constants/user";
 import HeartIconActive from "@assets/icon-save-large-active.svg";
 import HeartIconInActive from "@assets/icon-save-large-inactive.svg";
@@ -99,14 +99,14 @@ export default function ContainerInformation({
                   </span>
                 </div>
                 <div className="flex items-center -space-x-[10px]">
-                  {visibleUsers.map((participant, index) => {
+                  {visibleUsers.map((participant) => {
                     const userNestedId = participant.User?.id;
                     const imageUrl =
                       participant.User?.image || DEFAULT_USER_IMAGE;
 
                     return (
                       <ParticipantImage
-                        key={userNestedId || index}
+                        key={userNestedId}
                         imageUrl={imageUrl}
                       />
                     );
