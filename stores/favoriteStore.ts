@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-interface FavoriteStore {
+export interface FavoriteStore {
   favorites: number[];
   toggleFavorite: (id: number) => void;
   isFavorite: (id: number) => boolean;

@@ -28,12 +28,16 @@ export default function ParticipantList({
         </span>
       </div>
       <div className="flex items-center -space-x-[10px]">
-        {visibleUsers.map((participant, index) => {
+        {visibleUsers.map((participant) => {
           const userNestedId = participant.User?.id;
           const imageUrl = participant.User?.image || DEFAULT_USER_IMAGE;
 
           return (
-            <ParticipantImage key={userNestedId || index} imageUrl={imageUrl} />
+            <ParticipantImage
+              key={userNestedId}
+              imageUrl={imageUrl}
+              alt={`Participant ${participant.User?.name}`}
+            />
           );
         })}
 
@@ -66,7 +70,10 @@ export default function ParticipantList({
                         key={user.User?.id}
                         className="flex items-center gap-2"
                       >
-                        <ParticipantImage imageUrl={imageUrl} />
+                        <ParticipantImage
+                          imageUrl={imageUrl}
+                          alt={`Participant ${user.User?.name}`}
+                        />
                         <span className="text-xs font-medium text-gray-700">
                           {user.User?.name}
                         </span>
