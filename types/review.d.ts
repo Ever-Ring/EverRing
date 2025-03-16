@@ -6,6 +6,7 @@ export interface ReviewItemProps {
 
 export interface ReviewItemWithImageProps extends ReviewItemProps {
   hasUserInfo?: boolean;
+  priority: boolean;
 }
 
 export interface Review {
