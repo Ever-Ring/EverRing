@@ -13,6 +13,7 @@ import { truncateText } from "@utils/truncateText";
 export default function ReviewItemWithImage({
   review,
   hasUserInfo,
+  priority,
 }: ReviewItemWithImageProps) {
   const [isMoreView, setIsMoreView] = useState(false);
   const [isShowFullComment, setIsShowText] = useState(false);
@@ -35,6 +36,7 @@ export default function ReviewItemWithImage({
           src={review?.Gathering?.image}
           className="shrink-0 rounded-3xl object-cover"
           sizes="(max-width: 768px) 100vw, 17.5rem"
+          priority={priority}
         />
       </div>
 
