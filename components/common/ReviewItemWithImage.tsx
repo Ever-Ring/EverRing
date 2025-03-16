@@ -34,6 +34,7 @@ export default function ReviewItemWithImage({
           alt="gathering-image"
           src={review?.Gathering?.image}
           className="shrink-0 rounded-3xl object-cover"
+          sizes="(max-width: 768px) 100vw, 17.5rem"
         />
       </div>
 
@@ -81,6 +82,7 @@ export default function ReviewItemWithImage({
                     <Image
                       alt="user-profile"
                       fill
+                      sizes="24px"
                       src={review?.User?.image ?? DEFAULT_USER_IMAGE}
                     />
                   </span>
