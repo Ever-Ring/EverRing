@@ -56,6 +56,7 @@ function WelcomeTextWithImage() {
         width={0}
         height={0}
         className="mb-2 h-auto w-[18.125rem] md:w-96"
+        priority
       />
     </div>
   );
