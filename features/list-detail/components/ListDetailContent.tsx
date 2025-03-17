@@ -84,6 +84,10 @@ export default function ListDetailContent({
     return null;
   }
 
+  const meetingTime = new Date(data.dateTime);
+  const now = new Date();
+  const isPastMeetingTime = now > meetingTime;
+
   const isCreator = userData.id === gathering.createdBy;
   const formattedDateTime = formatDateTime(data.dateTime);
   const { date: dateString, time: timeString } = formattedDateTime;
@@ -132,6 +136,7 @@ export default function ListDetailContent({
           isJoining={joinStatus === "pending"}
           isCancelling={cancelStatus === "pending"}
           onShare={handleShareClick}
+          isCancelDisabled={isCreator && isPastMeetingTime}
         />
       </div>
 

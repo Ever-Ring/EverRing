@@ -10,6 +10,7 @@ interface FloatingBarProps {
   onDeleteJoined: () => void;
   isJoining: boolean;
   isCancelling: boolean;
+  isCancelDisabled?: boolean;
   onShare: () => void;
 }
 
@@ -22,6 +23,7 @@ export default function FloatingBar({
   onDeleteJoined,
   isJoining,
   isCancelling,
+  isCancelDisabled = false,
   onShare,
 }: FloatingBarProps) {
   let buttonElement = null;
@@ -88,6 +90,7 @@ export default function FloatingBar({
                   size="large"
                   variant="outlined"
                   onClick={onCancel}
+                  disabled={isCancelDisabled}
                 />
                 <Button
                   text="공유하기"
