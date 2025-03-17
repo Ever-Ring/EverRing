@@ -45,7 +45,7 @@ function DatePickerModal({
   return (
     <div
       ref={modalRef}
-      className="absolute left-0 z-50 mt-1 w-[340px] rounded-md border bg-white p-6 shadow-md"
+      className="w-[320px]rounded-md absolute left-0 z-50 mt-1 border bg-white p-6 shadow-md sm:w-[340px]"
     >
       <div className="flex flex-col items-center">
         <DatePicker
