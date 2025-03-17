@@ -70,7 +70,7 @@ function ClientReviewContainer() {
       <RatingContainer scoreData={scoreData} />
 
       <div className="flex h-full w-full flex-col items-start bg-white">
-        <div className="sticky top-[174px] z-10 w-full md:top-[190px] lg:top-[194px]">
+        <div className="sticky top-[174px] z-10 w-full md:top-[187px] lg:top-[191px]">
           <FilterBar
             filters={filters}
             onLocationChange={updateLocation}
