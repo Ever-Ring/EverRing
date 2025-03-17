@@ -10,16 +10,13 @@ import FooterSection from "@features/landing/components/FooterSection";
 export default function Landing() {
   return (
     <div className="relative w-full bg-gray-50">
-      <AnimatedSection>
-        <LandingHero />
-      </AnimatedSection>
+      <LandingHero />
 
       <AnimatedSection>
         <FeatureSection />
       </AnimatedSection>
-      {/* <AnimatedSection> relative top-[60px] flex-1 */}
 
-      <div className="">
+      <div>
         <ServiceShowcaseSection />
       </div>
 
