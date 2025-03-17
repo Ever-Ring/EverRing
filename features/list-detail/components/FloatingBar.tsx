@@ -28,9 +28,7 @@ export default function FloatingBar({
 }: FloatingBarProps) {
   let buttonElement = null;
 
-  if (isFull) {
-    buttonElement = <Button text="참여하기" size="small" disabled />;
-  } else if (isJoined) {
+  if (isJoined) {
     buttonElement = isCancelling ? (
       <Button text="취소 중..." size="small" disabled />
     ) : (
@@ -41,6 +39,8 @@ export default function FloatingBar({
         variant="outlined"
       />
     );
+  } else if (isFull) {
+    buttonElement = <Button text="참여하기" size="small" disabled />;
   } else {
     buttonElement = isJoining ? (
       <Button text="참여 중..." size="small" disabled />
