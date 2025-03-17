@@ -11,6 +11,8 @@ export function useInfiniteGetGatherings(filters: GatheringParams) {
     queryKey: getGatheringsQueryKey(filters),
     queryFn: ({ pageParam = 0 }) => getGatherings(filters, pageParam),
     initialPageParam: 0,
+    staleTime: 0,
+    refetchOnMount: true,
     getNextPageParam: (lastPage) => {
       if (
         !lastPage ||
