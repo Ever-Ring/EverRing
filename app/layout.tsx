@@ -28,7 +28,7 @@ export default function RootLayout({
         className={`flex h-screen flex-col bg-white ${pretendard.variable} font-pretendard antialiased`}
       >
         <ReactQueryProvider>
-          <div className="fixed left-0 top-0 z-20 w-full">
+          <div className="fixed left-0 top-0 z-50 w-full">
             <Gnb />
           </div>
           <div className="flex w-full flex-1 pt-[54px] md:pt-[60px]">
