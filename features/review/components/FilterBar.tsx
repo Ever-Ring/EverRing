@@ -21,6 +21,7 @@ export default function FilterBar({
     <div className="w-full border-t-2 border-gray-900 bg-white p-6">
       <div className="flex items-start justify-between self-stretch">
         <div className="flex items-start gap-2">
+          <DateFilter onDateSelect={onDateChange} loadDate={filters.date} />
           {filters.tabIndex === 0 && (
             <LocationFilter
               selectedLocation={filters.location}
@@ -28,7 +29,6 @@ export default function FilterBar({
               locations={LOCATION_ITEMS}
             />
           )}
-          <DateFilter onDateSelect={onDateChange} loadDate={filters.date} />
         </div>
         <SortFilter
           selectedSort={filters.sort}

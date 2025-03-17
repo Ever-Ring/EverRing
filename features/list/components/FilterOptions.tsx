@@ -17,6 +17,10 @@ export default function FilterOptions({
   return (
     <div className="flex justify-between">
       <div className="flex gap-2">
+        <DateFilter
+          onDateSelect={(date) => setDateFilter(date)}
+          loadDate={filters.date}
+        />
         {selectedTabIndex === 0 && (
           <LocationFilter
             selectedLocation={filters.location}
@@ -24,10 +28,6 @@ export default function FilterOptions({
             locations={LOCATION_ITEMS}
           />
         )}
-        <DateFilter
-          onDateSelect={(date) => setDateFilter(date)}
-          loadDate={filters.date}
-        />
       </div>
       <div>
         <SortFilter
