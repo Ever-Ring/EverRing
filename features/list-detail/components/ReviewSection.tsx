@@ -68,19 +68,21 @@ export default function ReviewSection({
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center gap-6 border-t-2 border-gray-200 bg-white p-6">
-      <div className="flex flex-col items-start gap-4">
+    <div className="mx-auto flex w-full max-w-screen-lg flex-col gap-6 border-t-2 border-gray-200 bg-white p-6">
+      <div className="flex w-full flex-col items-start gap-4">
         <span className="text-lg font-semibold text-gray-900">
           이용자들은 이 프로그램을 이렇게 느꼈어요!
         </span>
-        <div className="flex flex-col items-start gap-4">{renderContent()}</div>
+        <div className="w-full">{renderContent()}</div>
       </div>
       {computedTotalPages > 0 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={computedTotalPages}
-          onPageChange={handlePageChange}
-        />
+        <div className="flex w-full justify-center">
+          <Pagination
+            currentPage={currentPage}
+            totalPages={computedTotalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
       )}
     </div>
   );
