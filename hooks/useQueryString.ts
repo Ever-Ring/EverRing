@@ -1,13 +1,17 @@
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export const useQueryString = (
   key: string,
   defaultValue: string | null = null,
 ): [string | null, (value: string | null) => void] => {
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState<string | null>(
-    searchParams.get(key) ?? defaultValue,
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const search = useMemo(
+    () => searchParams.get(key) ?? defaultValue,
+    [searchParams, key],
   );
 
   const setValue = (value: string | null) => {
@@ -19,8 +23,9 @@ export const useQueryString = (
       newParams.set(key, value);
     }
 
-    setSearch(value ?? null);
-    window.history.replaceState(null, "", `?${newParams.toString()}`);
+    const newUrl = `${pathname}?${newParams.toString()}`;
+
+    router.replace(newUrl);
   };
 
   return [search, setValue];

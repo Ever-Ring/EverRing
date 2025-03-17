@@ -30,11 +30,6 @@ export function GatheringViewModel() {
     [selectedTabIndex],
   );
 
-  useEffect(() => {
-    const newType = selectedTabIndex === 0 ? "DALLAEMFIT" : "WORKATION";
-    setTypeFilter(newType);
-  }, [selectedTabIndex]);
-
   const filters = useMemo(
     () => ({
       type: typeFilter,
@@ -43,14 +38,7 @@ export function GatheringViewModel() {
       sortBy: sortBy ? (sortMap[sortBy] ?? null) : null,
       sortOrder,
     }),
-    [
-      selectedTabIndex,
-      typeFilter,
-      locationFilter,
-      dateFilter,
-      sortBy,
-      sortOrder,
-    ],
+    [typeFilter, locationFilter, dateFilter, sortBy, sortOrder],
   );
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, error } =
