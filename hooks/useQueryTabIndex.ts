@@ -1,18 +1,15 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export const useQueryTabIndex = (): [number, (index: number) => void] => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [tabIndex, setTabIndexState] = useState(
-    Number(searchParams.get("tab") || 0),
-  );
+
+  const tabIndex = Number(searchParams.get("tab") || 0);
 
   const setTabIndex = useCallback(
     (index: number) => {
-      setTabIndexState(index);
-
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.set("tab", String(index));
       newParams.set("type", index === 1 ? "WORKATION" : "DALLAEMFIT");
