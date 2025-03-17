@@ -92,15 +92,19 @@ export default function ListDetailContent({
     <>
       <div className="mx-auto flex max-w-screen-lg flex-col gap-8 pb-20">
         <div className="mt-6 flex flex-col items-center justify-center gap-8 md:flex-row lg:mt-10">
-          <div className="relative">
-            <GatheringStatusBadge registrationEnd={gathering.registrationEnd} />
+          <div className="relative h-[180px] w-[343px] overflow-hidden rounded-[24px] border-2 border-gray-200 md:h-[270px] lg:w-[468px]">
             <Image
               src={gathering.image}
               alt="모임 장소 이미지"
-              className="h-[180px] w-[343px] rounded-[24px] border-2 border-gray-200 object-cover md:h-[270px] lg:w-[468px]"
+              className="h-full w-full object-cover"
               width={468}
               height={270}
             />
+            <div className="absolute right-0 top-0">
+              <GatheringStatusBadge
+                registrationEnd={gathering.registrationEnd}
+              />
+            </div>
           </div>
           <ContainerInformation
             maxCount={gathering.capacity}
