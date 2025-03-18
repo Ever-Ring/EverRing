@@ -7,7 +7,7 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: "solid" | "outlined";
   type?: "button" | "submit";
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 export default function Button({
