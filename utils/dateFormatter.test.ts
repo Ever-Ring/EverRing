@@ -1,4 +1,9 @@
-import { formatDate, formatDateTime } from "@utils/dateFormatter";
+import {
+  formatDate,
+  formatDateTime,
+  isExpired,
+  getRemainingHours,
+} from "@utils/dateFormatter";
 
 describe("formatDate", () => {
   it("should format a date correctly", () => {
@@ -55,5 +60,46 @@ describe("formatDateTime Test", () => {
     const { date, time } = formatDateTime(dateTime);
     expect(date).toBe("5월 10일");
     expect(time).toBe("23:30");
+  });
+});
+
+describe("isExpired Test", () => {
+  test("should return false if dateString is undefined", () => {
+    expect(isExpired(undefined)).toBe(false);
+  });
+
+  test("should return true if dateString is in the past", () => {
+    const pastDate = new Date();
+    pastDate.setHours(pastDate.getHours() - 2);
+    expect(isExpired(pastDate.toISOString())).toBe(true);
+  });
+
+  test("should return false if dateString is in the future", () => {
+    const futureDate = new Date();
+    futureDate.setHours(futureDate.getHours() + 2);
+    expect(isExpired(futureDate.toISOString())).toBe(false);
+  });
+});
+
+describe("getRemainingHours Test", () => {
+  test("should return 0 if dateString is undefined", () => {
+    expect(getRemainingHours(undefined as unknown as string)).toBe(0);
+  });
+
+  test("should return positive hours if dateString is in the future", () => {
+    const futureDate = new Date();
+    futureDate.setHours(futureDate.getHours() + 5);
+    expect(getRemainingHours(futureDate.toISOString())).toBe(5);
+  });
+
+  test("should return negative hours if dateString is in the past", () => {
+    const pastDate = new Date();
+    pastDate.setHours(pastDate.getHours() - 3);
+    expect(getRemainingHours(pastDate.toISOString())).toBe(-3);
+  });
+
+  test("should return 0 if dateString is now", () => {
+    const now = new Date();
+    expect(getRemainingHours(now.toISOString())).toBe(0);
   });
 });
