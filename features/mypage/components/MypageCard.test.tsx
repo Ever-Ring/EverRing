@@ -191,6 +191,7 @@ describe("MypageCard Component", () => {
 
     expect(mockDeleteGatheringJoined).toHaveBeenCalledWith(
       pendingOnlineGatheringData.id,
+      expect.objectContaining({ onSuccess: expect.any(Function) }),
     );
   });
 
