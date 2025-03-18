@@ -37,7 +37,6 @@ export default function MypageCard({
   const buttonText = gatheringData.isCompleted
     ? "리뷰 작성하기"
     : "참여 취소하기";
-
   const buttonVariant = gatheringData.isCompleted ? "solid" : "outlined";
   const isButtonDisabled = isRegistrationEnded && !gatheringData.isCompleted;
 
@@ -86,7 +85,7 @@ export default function MypageCard({
               />
             )}
             <div className="flex flex-col gap-y-1">
-              <div className="flex flex-row gap-x-2">
+              <div className="flex flex-row items-center gap-x-2">
                 <p className="text-lg font-semibold">{gatheringData.name}</p>
                 <p className="text-lg font-semibold">|</p>
                 <p>
