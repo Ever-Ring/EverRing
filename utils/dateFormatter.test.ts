@@ -93,9 +93,17 @@ describe("getRemainingHours Test", () => {
   });
 
   test("should return negative hours if dateString is in the past", () => {
-    const pastDate = new Date();
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+
+    const pastDate = new Date(now);
     pastDate.setHours(pastDate.getHours() - 3);
+
+    jest.useFakeTimers().setSystemTime(now);
+
     expect(getRemainingHours(pastDate.toISOString())).toBe(-3);
+
+    jest.useRealTimers();
   });
 
   test("should return 0 if dateString is now", () => {
